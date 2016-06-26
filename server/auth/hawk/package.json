@@ -1,0 +1,9 @@
+{
+  "name": "hawk-auth",
+  "version": "0.1.0",
+  "description": "",
+  "main": "hawkAuth.js",
+  "author": "Jerome A. C. Ngo <jeromengo@gmail.com>",
+  "description": "Implementation of Hawk authentication strategy and scheme",
+  "license": "MIT"
+}

@@ -1,0 +1,5 @@
+*.md
+*.log
+*.json
+views
+node_modules/*

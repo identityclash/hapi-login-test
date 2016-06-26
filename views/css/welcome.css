@@ -1,0 +1,33 @@
+/* Taken from view-source:https://getbootstrap.com/examples/signin/ */
+body {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    background-color: #eee;
+
+    position: relative;
+    height: auto;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.profile-heading {
+    font-weight: normal;
+}
+
+.profile-welcome .profile-message {
+    position: relative;
+    height: auto;
+    font-size: 16px;
+}
+
+.profile-info {
+    visibility: hidden;
+}
+
+.profile-logout {
+    font-weight: normal;
+    font-size: small;
+}

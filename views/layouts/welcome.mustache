@@ -1,0 +1,95 @@
+{{> header}}
+
+<!-- Custom styles for this template -->
+<link rel="stylesheet" href="/css/welcome.css">
+
+<script>
+    function getUserInfo() {
+        const hawkSessionTokenCookie = MyUtils.getCookie('Hawk-Session-Token');
+
+        console.log(hawkSessionTokenCookie);
+
+        const decodedHawkSessionTokenCookie =  window.atob(hawkSessionTokenCookie);
+
+        console.log(decodedHawkSessionTokenCookie);
+
+        const tokenCredentials = JSON.parse(decodedHawkSessionTokenCookie);
+
+        const ikm = tokenCredentials.hawkSessionToken;
+        const info = location.host + '/hawkSessionToken';
+        const salt = '';
+        const length = 2 * 32;
+
+        console.log(ikm + ' ' + info + ' ' + salt + ' ' + length);
+
+        retrieveFromToken(ikm, info, salt, length, function (id, key) {
+
+            const algorithm = tokenCredentials.algorithm;
+            const userId = tokenCredentials.userId;
+
+            console.log(tokenCredentials);
+
+            const hawkCredentials = {
+                id: id,
+                key: key,
+                algorithm: algorithm
+            };
+
+            console.log(hawkCredentials);
+
+            const url = 'http://' + location.host + '/user/' + userId + '/profile';
+
+            const header = HawkBrowser.client.header(url,
+                    'GET',
+                    {credentials: hawkCredentials, ext: 'some-app-data'});
+
+            console.log(header.field);
+
+            $.ajax({
+                type: 'GET',
+                url: url,
+                data: {},
+                crossDomain: true,
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('Authorization', header.field);
+                },
+                success: function (data, textStatus, jQxhr) {
+                    console.log('success: ' + textStatus);
+
+                    $('.profile-info').css("visibility", "visible");
+
+                    $('#profile-firstname').text(data.firstname);
+                    $('#profile-surname').text(data.surname);
+                    $('#profile-birthdate').text(data.birthdate);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log('error: ' + textStatus + ' ' + errorThrown);
+                }
+            });
+        });
+    }
+</script>
+<body>
+<div class="container-fluid">
+    <h2 class="profile-heading">Hapi Login Test Demo</h2>
+    <h3 class="profile-welcome">Welcome, {{username}}!</h3>
+    <button type="button" class="btn btn-primary" onclick="getUserInfo()">View User Details</button>
+    <div class="profile-info">
+        <table class="table">
+            <tr class="info">
+                <td>First Name:</td><td id="profile-firstname"></td>
+            </tr>
+            <tr class="info">
+                <td>Last Name:</td><td id="profile-surname"></td>
+            </tr>
+            <tr class="info">
+                <td>Birth Date:</td><td id="profile-birthdate"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <a href="/user/{{userId}}/logout" class="profile-logout">Click here to logout</a>
+</div>
+</body>
+
+{{> footer}}

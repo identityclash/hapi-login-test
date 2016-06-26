@@ -1,0 +1,57 @@
+{
+  "name": "hapi-login-test",
+  "version": "0.1.0",
+  "author": "Jerome A. C. Ngo <jeromengo@gmail.com>",
+  "description": "Demo for login using Hapi.js using basic and hawk authentication schemes",
+  "private": true,
+  "license": "MIT",
+  "repository": "",
+  "bugs": "",
+  "main": "index.js",
+  "engines": {
+    "node": ">=4.0.0"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "test": "lab -v -L -a code -c",
+    "test-cover": "lab --coverage-exclude static -v -L -a code -c -r html -o ./coverage.html -L && open ./coverage.html"
+  },
+  "dependencies": {
+    "acquaint": "1.x",
+    "async": "2.0.0-rc.6",
+    "bcryptjs": "2.x",
+    "blankie": "1.2.x",
+    "boom": "3.2.x",
+    "confidence": "3.0.x",
+    "crumb": "6.0.x",
+    "cryptiles": "3.x",
+    "disinfect": "0.1.x",
+    "eslint": "^2.11.1",
+    "glue": "3.2.x",
+    "good": "7.0.x",
+    "good-console": "6.1.x",
+    "good-squeeze": "3.0.x",
+    "handlebars": "4.0.x",
+    "hapi": "13.x",
+    "hapi-auth-basic": "4.x",
+    "hapi-auth-hawk": "3.x",
+    "hapi-ioredis": "2.2.x",
+    "hkdf": "0.0.2",
+    "hoek": "4.0.x",
+    "inert": "4.0.x",
+    "iron": "4.0.x",
+    "joi": "8.4.x",
+    "json-stringify-safe": "5.0.x",
+    "lodash": "4.13.x",
+    "request": "2.x",
+    "scooter": "3.0.x",
+    "uuid": "^2.0.2",
+    "vision": "4.1.x",
+    "visionary": "6.0.x",
+    "yar": "^7.0.2"
+  },
+  "devDependencies": {
+    "code": "3.0.x",
+    "lab": "10.7.x"
+  }
+}

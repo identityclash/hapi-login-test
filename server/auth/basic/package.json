@@ -1,0 +1,9 @@
+{
+  "name": "basic-auth",
+  "version": "0.1.0",
+  "description": "",
+  "main": "basicLoginAuth.js",
+  "author": "Jerome A. C. Ngo <jeromengo@gmail.com>",
+  "description": "Implementation of basic authentication strategy and scheme",
+  "license": "MIT"
+}

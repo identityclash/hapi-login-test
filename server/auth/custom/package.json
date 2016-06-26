@@ -1,0 +1,9 @@
+{
+  "name": "custom-root-auth",
+  "version": "0.1.0",
+  "description": "",
+  "main": "customRootAuth.js",
+  "author": "Jerome A. C. Ngo <jeromengo@gmail.com>",
+  "description": "Sample creation of a custom authentication strategy and scheme",
+  "license": "MIT"
+}
