@@ -3,23 +3,15 @@
 <!-- Custom styles for this template -->
 <link rel="stylesheet" href="/css/signin.css">
 
-<script>
-    function get_action(form) {
-
-        // TODO: Supposedly needs sanitation using ESAPI.encoder().encodeForJavascript() or some other sanitation
-        // mechanism on inputUsername and inputPassword
-        const username = $('#inputUsername').val();
-        const password = $('#inputPassword').val();
-
-        // Not the best way to send the username and password, but it will suffice for demo purposes for now.
-        form.action = 'http://' + username + ':' + password + '@' + location.host + '/user/welcome';
-    }
-</script>
-
 <body>
 <div class="container-fluid">
-    <form class="form-signin" method="POST" onsubmit="get_action(this);">
+    <form class="form-signin" id="formLogin">
         <h2 class="form-signin-heading">Please sign in</h2>
+
+        <div id="formAlert" class="alert alert-danger hide">
+            <a class="close">×</a>
+            <strong>Unauthorized</strong> Bad username or password
+        </div>
 
         <label for="inputUsername" class="sr-only">Email address</label>
         <input type="text" id="inputUsername" class="form-control" placeholder="Username / Email Address" required
@@ -36,12 +28,13 @@
         </div>
         -->
 
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        <button type="button" class="btn btn-lg btn-primary btn-block" onclick="submitForm()">Sign in</button>
 
         <br><br>
+
         <a id="link-register" href="/registration">Not registered? Click here.</a>
     </form>
 </div>
 </body>
 
-{{> footer}}
+{{> footer-login}}

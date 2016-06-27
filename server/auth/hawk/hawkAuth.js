@@ -15,16 +15,24 @@ exports.register = (server, options, next) => {
             const dao = methods.dao;
             const userCredentialDao = dao.userCredentialDao;
 
-            userCredentialDao.readUserCredential(redis, sessionId, (err, credentials) => {
+            userCredentialDao.readUserCredential(redis, sessionId, (err, dbCredentials) => {
                 if (err) {
                     server.log(err);
 
                     return callback(Boom.serverUnavailable(err));
                 }
 
-                if (!Object.keys(credentials).length) {
+                if (!Object.keys(dbCredentials).length) {
                     return callback(Boom.forbidden());
                 }
+
+                const credentials = {
+                    hawkSessionToken: dbCredentials.hawkSessionToken,
+                    algorithm: dbCredentials.algorithm,
+                    userId: dbCredentials.userId,
+                    key: dbCredentials.key,
+                    id: dbCredentials.id
+                };
 
                 return callback(null, credentials);
             });

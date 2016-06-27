@@ -3,8 +3,6 @@
  */
 'use strict';
 
-const Boom = require('boom');
-const Util = require('util');
 const retrieveFromToken = require(process.cwd() + '/server/helpers/hkdfTokenGenerator').retrieveFromToken;
 
 module.exports = () => {

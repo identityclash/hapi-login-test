@@ -4,7 +4,6 @@
 'use strict';
 
 const Boom = require('boom');
-const Util = require('util');
 
 module.exports = () => {
 
@@ -14,10 +13,14 @@ module.exports = () => {
         const redis = request.redis;
         const dao = server.methods.dao;
         const userDao = dao.userDao;
-        const credentials = request.auth.credentials;
-        const userId = credentials.userId;
+        const authCredentials = request.auth.credentials;
+        const userId = authCredentials.userId;
 
-        server.log(Util.inspect(credentials, {showHidden: false, depth: null}));
+        const credentials = {
+            hawkSessionToken: authCredentials.hawkSessionToken,
+            algorithm: authCredentials.algorithm,
+            userId: userId
+        };
 
         let strCredential = '';
 
@@ -28,8 +31,6 @@ module.exports = () => {
         }
 
         strCredential = strCredential.slice(0, -1);
-
-        server.log('credentials: ' + JSON.stringify(credentials));
 
         userDao.readUsername(redis, userId, (err, username) => {
             if (err) {
@@ -45,6 +46,7 @@ module.exports = () => {
 
             return reply
                 .view('welcome', details)
+                .unstate('Hawk-Session-Token')
                 .state('Hawk-Session-Token', credentials)
                 .header('Hawk-Session-Token', strCredential)
                 .header('Access-Control-Expose-Headers', 'Hawk-Session-Token');

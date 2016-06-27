@@ -15,6 +15,7 @@ module.exports = [
     //             strategies: ['basic-login-auth-strategy']
     //         },
     //         handler: {
+    //             // should be apiLogin instead
     //             loginUserHandler: {
     //                 type: 'login'
     //             }
@@ -27,6 +28,7 @@ module.exports = [
     //     config: {
     //         auth: 'custom-login-auth-strategy',
     //         handler: {
+    //             // should be apiLogin instead
     //             loginUserHandler: {
     //                 type: 'login'
     //             }

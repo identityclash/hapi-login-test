@@ -102,14 +102,10 @@ internals.generateCredentials = (request, userId, cb) => {
     const userCredentialDao = methods.dao.userCredentialDao;
 
     generateToken(request.info.host + '/hawkSessionToken', null, (sessionId, authKey, token) => {
-        const credentials = {
-            hawkSessionToken: token,
-            algorithm: 'sha256'
-        };
 
         userCredentialDao.createUserCredential(redis, sessionId, {
             hawkSessionToken: token,
-            user: userId,
+            userId: userId,
             id: sessionId,
             key: authKey,
             algorithm: 'sha256'
@@ -118,6 +114,12 @@ internals.generateCredentials = (request, userId, cb) => {
             if (err) {
                 return cb(err);
             }
+
+            const credentials = {
+                hawkSessionToken: token,
+                algorithm: 'sha256',
+                id: sessionId
+            };
 
             return cb(null, credentials);
         });

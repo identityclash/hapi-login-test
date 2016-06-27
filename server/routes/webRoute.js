@@ -3,7 +3,9 @@
  */
 'use strict';
 
+const Hawk = require('hawk');
 const Joi = require('joi');
+const retrieveFromToken = require(process.cwd() + '/server/helpers/hkdfTokenGenerator').retrieveFromToken;
 
 module.exports = [
     {
@@ -11,10 +13,6 @@ module.exports = [
         path: '/',
         method: '*',
         config: {
-            auth: {
-                mode: 'try',
-                strategies: ['hawk-login-auth-strategy']
-            },
             handler: {
                 webHandler: {
                     type: 'index'
@@ -27,10 +25,6 @@ module.exports = [
         path: '/login',
         method: '*',
         config: {
-            auth: {
-                mode: 'try',
-                strategies: ['hawk-login-auth-strategy']
-            },
             handler: {
                 webHandler: {
                     type: 'index'
@@ -49,13 +43,63 @@ module.exports = [
         }
     },
     {
-        // Web welcome page
-        path: '/user/welcome',
-        method: 'POST',
+        // Web welcome page via hawk
+        path: '/user/welcomeh',
+        method: 'GET',
         config: {
             auth: {
                 mode: 'required',
-                strategies: ['basic-login-auth-strategy']
+                strategies: ['hawk-login-auth-strategy']
+            },
+            cache: false,
+            ext: {
+                onPreAuth: {
+                    method: (request, reply) => {
+
+                        const clientToken = request.state['Hawk-Session-Token'];
+
+                        if (!(clientToken && clientToken.hawkSessionToken)) {
+                            return reply.continue();
+                        }
+
+                        const server = request.server;
+
+                        const ikm = clientToken.hawkSessionToken;
+                        const info = request.info.host + '/hawkSessionToken';
+                        const salt = '';
+                        const length = 2 * 32;
+
+                        server.log(ikm + ' ' + info + ' ' + salt + ' ' + length);
+
+                        retrieveFromToken(ikm, info, salt, length, (id, key) => {
+                            if (!(id && key)) {
+                                return reply.continue();
+                            }
+
+                            const algorithm = clientToken.algorithm;
+
+                            const hawkCredentials = {
+                                id: id,
+                                key: key,
+                                algorithm: algorithm
+                            };
+
+                            const url = request.connection.info.protocol
+                                + '://'
+                                + request.info.host + '/user/welcomeh';
+
+                            request.raw.req.url = url;
+
+                            const header = Hawk.client.header(url,
+                                'GET',
+                                {credentials: hawkCredentials, ext: 'some-app-data'});
+
+                            request.raw.req.headers.authorization = header.field;
+
+                            return reply.continue();
+                        });
+                    }
+                }
             },
             handler: {
                 loginUserHandler: {
@@ -65,7 +109,24 @@ module.exports = [
         }
     },
     {
-        path: '/user/{userId}/logout',
+        // Web welcome page via basic
+        path: '/user/welcomeb',
+        method: 'GET',
+        config: {
+            auth: {
+                mode: 'required',
+                strategies: ['basic-login-auth-strategy']
+            },
+            cache: false,
+            handler: {
+                loginUserHandler: {
+                    type: 'login'
+                }
+            }
+        }
+    },
+    {
+        path: '/user/logout',
         method: 'GET',
         config: {
             handler: {

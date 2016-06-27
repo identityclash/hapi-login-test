@@ -15,17 +15,10 @@ module.exports = () => {
         const userProfileDao = dao.userProfileDao;
         const userCredentialDao = dao.userCredentialDao;
         const credentials = request.auth.credentials;
-        const userId = credentials.user;
+        const userId = credentials.userId;
         const oldSessionId = credentials.id;
 
         generateToken(request.info.host + '/hawkSessionToken', null, (newSessionId, newAuthKey, newToken) => {
-
-            const newCredentials = {
-                hawkSessionToken: newToken,
-                algorithm: 'sha256'
-            };
-
-            newCredentials.userId = userId;
 
             userCredentialDao.deleteUserCredential(redis, oldSessionId, (err) => {
                 if (err) {
@@ -34,7 +27,8 @@ module.exports = () => {
             });
 
             userCredentialDao.updateUserCredential(redis, newSessionId, {
-                user: userId,
+                hawkSessionToken: newToken,
+                userId: userId,
                 id: newSessionId,
                 key: newAuthKey,
                 algorithm: 'sha256'
@@ -42,6 +36,12 @@ module.exports = () => {
                 if (err) {
                     return reply(err);
                 }
+
+                const newCredentials = {
+                    hawkSessionToken: newToken,
+                    algorithm: 'sha256',
+                    userId: userId
+                };
 
                 let strCredential = '';
 
@@ -52,8 +52,6 @@ module.exports = () => {
                 }
 
                 strCredential = strCredential.slice(0, -1);
-
-                server.log('credentials: ' + JSON.stringify(newCredentials));
 
                 userProfileDao.readUserProfile(redis, userId, (err, userProfile) => {
                     if (err) {
