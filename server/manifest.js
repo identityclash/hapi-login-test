@@ -1,3 +1,6 @@
+/**
+ * Created by Omnius on 18/07/2016.
+ */
 'use strict';
 
 const Confidence = require('confidence');
@@ -22,7 +25,9 @@ const manifest = {
     connections: [
         {
             host: 'localhost',
+            // $lab:coverage:off$
             port: process.env.PORT || 8088,
+            // $lab:coverage:on$
             labels: ['web']
         }
     ],
@@ -70,18 +75,6 @@ const manifest = {
         //     }
         // },
         {plugin: 'scooter'},
-        // {
-        //     plugin: {
-        //         register: 'yar',
-        //         options: {
-        //             name: 'yar-session',
-        //             cookieOptions: {
-        //                 password: 'the-password-must-be-at-least-32-characters-long',
-        //                 isSecure: false
-        //             }
-        //         }
-        //     }
-        // },
 
         // Routes, handlers, methods auto-injection-related
         {
@@ -89,7 +82,10 @@ const manifest = {
                 register: 'acquaint',
                 options: {
                     routes: [
-                        {includes: ['server/routes/**/*.js']}
+                        {
+                            includes: ['server/routes/**/*.js'],
+                            ignores: ['server/routes/preauth/*.js', 'server/routes/schemas/*.js']
+                        }
                     ],
                     handlers: [
                         {includes: ['server/handlers/**/*.js']}
@@ -158,14 +154,7 @@ const manifest = {
 
 const store = new Confidence.Store(manifest);
 
-
 exports.get = (key, criteria) => {
 
     return store.get(key, criteria || defaultCriteria);
-};
-
-
-exports.meta = (key, criteria) => {
-
-    return store.meta(key, criteria || defaultCriteria);
 };
