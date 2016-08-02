@@ -20,3 +20,6 @@ coverage.html
 packages-notes
 client.js
 error.html
+
+# redis db
+*.rdb
