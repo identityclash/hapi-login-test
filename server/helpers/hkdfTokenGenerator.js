@@ -1,5 +1,9 @@
 /**
  * Created by Omnius on 6/23/16.
+ *
+ * This file is based on Mozilla's implementation of the Hawk middleware factory for Express in the following
+ * repository:
+ * https://github.com/mozilla-services/express-hawkauth
  */
 'use strict';
 
@@ -8,6 +12,12 @@ const Hkdf = require('hkdf');
 
 const internals = {};
 
+/**
+ *
+ * @param namespace
+ * @param salt
+ * @param callback
+ */
 exports.generateToken = (namespace, salt, callback) => {
 
     const token = Crypto.randomBytes(32).toString('hex');
@@ -17,6 +27,14 @@ exports.generateToken = (namespace, salt, callback) => {
     });
 };
 
+/**
+ *
+ * @param token
+ * @param namespace
+ * @param salt
+ * @param length
+ * @param cb
+ */
 exports.retrieveFromToken = (token, namespace, salt, length, cb) => {
 
     const data = new Buffer(token, 'hex');
