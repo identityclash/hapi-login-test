@@ -5,7 +5,7 @@
   "description": "Demo for login using Hapi.js using basic and hawk authentication schemes",
   "private": true,
   "license": "MIT",
-  "repository": "",
+  "repository": "https://github.com/identityclash/hapi-login-test",
   "bugs": "",
   "main": "index.js",
   "engines": {
@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "acquaint": "1.x",
-    "async": "2.0.0-rc.6",
+    "async": "2.0.x",
     "bcryptjs": "2.x",
     "blankie": "1.2.x",
     "boom": "3.2.x",
@@ -27,10 +27,11 @@
     "cryptiles": "3.x",
     "disinfect": "0.1.x",
     "eslint": "^2.11.1",
-    "glue": "3.2.x",
+    "fakeredis": "^1.x",
+    "glue": "3.x",
     "good": "7.0.x",
     "good-console": "6.1.x",
-    "good-squeeze": "3.0.x",
+    "good-squeeze": "4.x",
     "handlebars": "4.0.x",
     "hapi": "13.x",
     "hapi-auth-basic": "4.x",
@@ -52,6 +53,7 @@
   },
   "devDependencies": {
     "code": "3.0.x",
-    "lab": "10.7.x"
+    "lab": "10.x",
+    "sinon": "1.x"
   }
 }
