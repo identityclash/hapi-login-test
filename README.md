@@ -1,2 +1,2 @@
 # hapi-login-test
-Demo for login using Hapi.js using basic and hawk authentication schemes
+Demo login using Hapi.js using basic and Hawk authentication schemes
