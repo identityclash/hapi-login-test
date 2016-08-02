@@ -19,7 +19,9 @@ composer((err, server) => {
         clearInvalid: true
     });
 
-    cleanUp(server, () => {});
+    cleanUp(server.app.redis, (err) => {
+        server.log(['error', 'database', 'delete'], err);
+    });
 
     server.start((err) => {
 

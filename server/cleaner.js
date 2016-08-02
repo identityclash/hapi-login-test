@@ -5,29 +5,23 @@
 
 const Async = require('async');
 
-module.exports.cleanUp = function (server, callback) {
+module.exports.cleanUp = (db, callback) => {
 
-    server.app.redis.keys('userCredential:*', (err, keys) => {
+    db.keys('userCredential:*', (err, keys) => {
+
         if (err) {
-            server.log(err);
-
-            return callback();
+            return callback(err);
         }
 
         Async.each(keys, (key, next) => {
-            server.app.redis.del(key, (err) => {
-                if (err) {
-                    return next(err);
-                }
 
-                return next();
+            db.del(key, (err) => {
+
+                return next(err);
             });
         }, (err) => {
-            if (err) {
-                server.log(err);
-            }
 
-            return callback();
+            return callback(err);
         });
     });
 };
