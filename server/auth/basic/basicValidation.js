@@ -19,6 +19,7 @@ exports.validate = (request, usernameOrEmail, password, callback) => {
 
     Async.autoInject({
         readUserId: (cb) => {
+
             userDao.readUserId(redis, usernameOrEmail, (err, userId) => {
                 if (err || !userId) {
                     return cb(err || 'invalid');
@@ -44,6 +45,7 @@ exports.validate = (request, usernameOrEmail, password, callback) => {
             const userId = compareHashAndRealm;
 
             internals.generateCredentials(request, userId, (err, credentials) => {
+
                 if (err) {
                     return cb(err);
                 }
@@ -57,10 +59,10 @@ exports.validate = (request, usernameOrEmail, password, callback) => {
         if (err) {
             server.log(err);
 
-            return callback(err === 'invalid' ? null : Boom.serverUnavailable(err), false);
+            return callback(err === 'invalid' ? null : Boom.internal(err), false, null);
         }
 
-        return callback(err, true, results.generateCredentials);
+        return callback(null, true, results.generateCredentials);
     });
 };
 
@@ -72,6 +74,7 @@ internals.compareHashAndRealm = (request, userId, password, cb) => {
     const userDao = methods.dao.userDao;
 
     userDao.readUserHashAndRealm(redis, userId, (err, dbHashAndRealm) => {
+
         if (err || !dbHashAndRealm) {
             return cb(err, false);
         }
@@ -85,11 +88,8 @@ internals.compareHashAndRealm = (request, userId, password, cb) => {
         }
 
         Bcrypt.compare(password, dbHashedPw, (err, isSame) => {
-            if (err) {
-                return cb(err, false);
-            }
 
-            return cb(null, isSame);
+            return cb(err, isSame);
         });
     });
 };
