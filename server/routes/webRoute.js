@@ -3,9 +3,8 @@
  */
 'use strict';
 
-const Hawk = require('hawk');
-const Joi = require('joi');
-const retrieveFromToken = require(process.cwd() + '/server/helpers/hkdfTokenGenerator').retrieveFromToken;
+const hawkPreAuth = require('./preauth/hawkPreAuth');
+const schema = require('./schemas/schema');
 
 module.exports = [
     {
@@ -54,51 +53,7 @@ module.exports = [
             cache: false,
             ext: {
                 onPreAuth: {
-                    method: (request, reply) => {
-
-                        const clientToken = request.state['Hawk-Session-Token'];
-
-                        if (!(clientToken && clientToken.hawkSessionToken)) {
-                            return reply.continue();
-                        }
-
-                        const server = request.server;
-
-                        const ikm = clientToken.hawkSessionToken;
-                        const info = request.info.host + '/hawkSessionToken';
-                        const salt = '';
-                        const length = 2 * 32;
-
-                        server.log(ikm + ' ' + info + ' ' + salt + ' ' + length);
-
-                        retrieveFromToken(ikm, info, salt, length, (id, key) => {
-                            if (!(id && key)) {
-                                return reply.continue();
-                            }
-
-                            const algorithm = clientToken.algorithm;
-
-                            const hawkCredentials = {
-                                id: id,
-                                key: key,
-                                algorithm: algorithm
-                            };
-
-                            const url = request.connection.info.protocol
-                                + '://'
-                                + request.info.host + '/user/welcomeh';
-
-                            request.raw.req.url = url;
-
-                            const header = Hawk.client.header(url,
-                                'GET',
-                                {credentials: hawkCredentials, ext: 'some-app-data'});
-
-                            request.raw.req.headers.authorization = header.field;
-
-                            return reply.continue();
-                        });
-                    }
+                    method: hawkPreAuth
                 }
             },
             handler: {
@@ -147,13 +102,13 @@ module.exports = [
             },
             validate: {
                 payload: {
-                    username: Joi.string().required().min(3).max(20).regex(/^[a-zA-Z0-9]/),
-                    email: Joi.string().required().email(),
-                    password: Joi.string().required().min(8).max(20).regex(/^([a-zA-Z0-9@*#]{8,15})$/),
-                    firstname: Joi.string().required().min(2).max(20).regex(/^[a-zA-Z0-9]/),
-                    surname: Joi.string().required().min(2).max(20).regex(/^[a-zA-Z0-9]/),
-                    birthdate: Joi.date().required().iso().format('YYYY-MM-DD').min('1900-01-01').max('2013-12-31'),
-                    realm: Joi.string().regex(/^([a-zA-Z0-9@*#\s]{0,15})$/)
+                    username: schema.username,
+                    email: schema.email,
+                    password: schema.password,
+                    firstname: schema.firstname,
+                    surname: schema.surname,
+                    birthdate: schema.birthdate,
+                    realm: schema.realm
                 }
             }
         }
