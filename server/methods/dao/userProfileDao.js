@@ -3,26 +3,26 @@
  */
 'use strict';
 
-module.exports.createUserProfile = (db, userId, userProfile, next) => {
+module.exports.createUserProfile = (db, userId, userProfile, cb) => {
 
     db.hmset('userProfile:' + userId, userProfile, (err, result) => {
 
         if (err) {
-            return next(err);
+            return cb(err);
         }
 
-        return next(null, result);
+        return cb(null, result);
     });
 };
 
-module.exports.readUserProfile = (db, userId, next) => {
+module.exports.readUserProfile = (db, userId, cb) => {
 
     db.hgetall('userProfile:' + userId, (err, userProfile) => {
 
         if (err) {
-            return next(err);
+            return cb(err);
         }
 
-        return next(null, userProfile);
+        return cb(null, userProfile);
     });
 };

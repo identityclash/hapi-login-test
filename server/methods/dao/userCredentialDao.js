@@ -3,41 +3,41 @@
  */
 'use strict';
 
-module.exports.createUserCredential = (db, tokenId, credentials, next) => {
+module.exports.createUserCredential = (db, tokenId, credentials, cb) => {
 
     db.hmset('userCredential:' + tokenId, credentials, (err, results) => {
 
         if (err) {
-            return next(err);
+            return cb(err);
         }
 
-        return next(null, results);
+        return cb(null, results);
     });
 };
 
-module.exports.readUserCredential = (db, tokenId, next) => {
+module.exports.readUserCredential = (db, tokenId, cb) => {
 
     db.hgetall('userCredential:' + tokenId, (err, credentials) => {
 
         if (err) {
-            return next(err);
+            return cb(err);
         }
 
-        return next(null, credentials);
+        return cb(null, credentials);
     });
 };
 
 module.exports.updateUserCredential = module.exports.createUserCredential;
 
-module.exports.deleteUserCredential = (db, tokenId, next) => {
+module.exports.deleteUserCredential = (db, tokenId, cb) => {
 
     db.del('userCredential:' + tokenId, (err, results) => {
 
         if (err) {
-            return next(err);
+            return cb(err);
         }
 
-        return next(null, results);
+        return cb(null, results);
     });
 };
 
