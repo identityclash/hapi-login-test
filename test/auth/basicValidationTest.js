@@ -3,6 +3,7 @@
  */
 'use strict';
 
+const Bcrypt = require('bcryptjs');
 const Boom = require('boom');
 const Code = require('code');
 const Lab = require('lab');
@@ -15,6 +16,7 @@ const UserCredentialDao = require(process.cwd() + '/server/methods/dao/userCrede
 
 const expect = Code.expect;
 const lab = exports.lab = Lab.script();
+const before = lab.before;
 const after = lab.after;
 const describe = lab.describe;
 const it = lab.it;
@@ -27,8 +29,6 @@ internals.header = function (username, password) {
 };
 
 const testServer = new TestServer();
-const USER_DAO_KEY = 'dao.userDao.';
-const USER_CREDENTIAL_DAO_KEY = 'dao.userCredentialDao.';
 
 testServer.auth.strategy('basic-login-auth-strategy', 'basic', 'required', {
     validateFunc: BasicValidation.validate
@@ -48,287 +48,427 @@ testServer.route({
     }
 });
 
-testServer.method(USER_DAO_KEY + 'readUserId', UserDao.readUserId);
-testServer.method(USER_DAO_KEY + 'readUserHashAndRealm', UserDao.readUserHashAndRealm);
-testServer.method(USER_CREDENTIAL_DAO_KEY + 'createUserCredential', UserCredentialDao.createUserCredential);
+testServer.method('dao.userDao.readUserId', UserDao.readUserId);
+testServer.method('dao.userDao.readUserHashAndRealm', UserDao.readUserHashAndRealm);
+testServer.method('dao.userCredentialDao.createUserCredential', UserCredentialDao.createUserCredential);
 
 const testPersons = [
-    // happy path
     {
         username: 'johndoe',
         userId: 'af7fa48f-acf5-4af7-ace5-12c78804b650',
         hashedPw: '$2a$10$9Z5Ow7Q3XE8K6foPUEk/AOjXULHsvLNiF0j9fsMEHJRhJd.fj7bo6',
         realm: 'My Realm'
-    },
-    // Behave as DB failure during retrieval of user
-    {
-        username: 'jackydoe',
-        failUserDb: true
-    },
-    // Behave as hash/pw does not match
-    {
-        username: 'jennydoe',
-        userId: '89109fc9-30ec-47e2-89b6-0b6d586f7ab5',
-        hashedPw: 'fakeHashedPw',
-        realm: 'My Realm'
-    },
-    // Behave as DB failure during hashed password retrieval
-    {
-        username: 'janedoe',
-        userId: '116b6d33-bfb4-4c28-9981-ba01e945fe4f',
-        hashedPw: '$2a$10$AqsPaLai1OmiieNLc3zT0.l.BTEIZhISnilqMMWDf3mKu25lkCdsW',
-        realm: 'My Realm',
-        failHashDb: true
-    },
-    // Behave as DB failure during generation of Hawk session token
-    {
-        username: 'jerrydoe',
-        userId: 'c27e6784-5aa6-452c-b3aa-b7f577671820',
-        hashedPw: '$2a$10$lPTzVC1mob5nwyO5aPf2jehD12/AinEodmMLI7cdQvMSYPMncLeI.',
-        realm: 'My Realm',
-        failSessionDb: true
     }
 ];
 
-const readUserIdStub = Sinon.stub(testServer.methods.dao.userDao, 'readUserId', (db, username, cb) => {
-
-    for (const idx in testPersons) {
-        if (testPersons[idx].username === username) {
-            if (testPersons[idx].failUserDb) {
-                return cb('readuserid_db_failure');
-            }
-
-            return cb(null, testPersons[idx].userId);
-        }
-    }
-
-    return cb();
-});
-
-const readUserHashAndRealmStub = Sinon.stub(testServer.methods.dao.userDao, 'readUserHashAndRealm',
-    (db, userId, cb) => {
-
-        for (const idx in testPersons) {
-            if (testPersons[idx].userId === userId) {
-                if (testPersons[idx].failHashDb) {
-                    return cb('readuserhashandrealm_db_failure');
-                }
-
-                return cb(null, [
-                    testPersons[idx].hashedPw,
-                    testPersons[idx].realm
-                ]);
-            }
-        }
-
-        return cb();
-    });
-
-const createUserCredentialStub = Sinon.stub(testServer.methods.dao.userCredentialDao, 'createUserCredential',
-    (db, sessionId, userCredentials, cb) => {
-
-        if (userCredentials.userId === 'c27e6784-5aa6-452c-b3aa-b7f577671820') {
-            return cb('createusercredential_db_failure');
-        }
-        if (sessionId) {
-            return cb(null, {credentials: 'good credentials'});
-        }
-
-        return cb('bad credentials');
-    });
+let readUserIdStub;
+let readUserHashAndRealmStub;
+let createUserCredentialStub;
+let bcryptStub;
 
 describe('server/routes/basicValidation', () => {
 
-    after((done) => {
+    describe('functional database', () => {
 
-        readUserIdStub.restore();
-        readUserHashAndRealmStub.restore();
-        createUserCredentialStub.restore();
+        before((done) => {
 
-        return done();
-    });
+            readUserIdStub = Sinon.stub(testServer.methods.dao.userDao, 'readUserId', (db, username, cb) => {
 
-    it('authorizes with valid credentials', (done) => {
+                for (let i = 0; i < testPersons.length; i++) {
+                    if (testPersons[i].username === username) {
+                        return cb(null, testPersons[i].userId);
+                    }
+                }
 
-        testServer.inject({
-            method: 'POST',
-            url: '/basic',
-            headers: {
-                authorization: internals.header('johndoe', 'password')
-            }
-        }, (res) => {
+                // source code must throw invalid
+                return cb();
+            });
 
-            expect(res.headers['content-type']).to.include('application/json');
-            expect(res.statusCode).to.equal(200);
-            expect(res.result).to.be.an.object();
-            expect(res.result.hawkSessionToken).to.exist();
-            expect(res.result.algorithm).to.equal('sha256');
-            expect(res.result.id).to.exist();
-            expect(res.result.userId).to.exist();
+            readUserHashAndRealmStub = Sinon.stub(testServer.methods.dao.userDao, 'readUserHashAndRealm',
+                (db, userId, cb) => {
 
-            return done();
-        });
-    });
+                    for (let i = 0; i < testPersons.length; i++) {
+                        if (testPersons[i].userId === userId) {
 
-    it('denies authorization without basic authentication header', (done) => {
+                            return cb(null, [
+                                testPersons[i].hashedPw,
+                                testPersons[i].realm
+                            ]);
+                        }
+                    }
 
-        testServer.inject({
-            method: 'POST',
-            url: '/basic'
-        }, (res) => {
+                    // source code must throw invalid
+                    return cb();
+                });
 
-            expect(res.headers['content-type']).to.include('application/json');
-            expect(res.statusCode).to.equal(401);
-            expect(res.result.error).to.equal(Boom.unauthorized().message);
+            createUserCredentialStub = Sinon.stub(testServer.methods.dao.userCredentialDao, 'createUserCredential',
+                (db, sessionId, userCredentials, cb) => {
 
-            return done();
-        });
-    });
+                    if (sessionId) {
+                        return cb(null, {credentials: 'good credentials'});
+                    }
 
-    it('denies authorization to empty username', (done) => {
-
-        testServer.inject({
-            method: 'POST',
-            url: '/basic',
-            headers: {
-                authorization: internals.header('', 'password')
-            }
-        }, (res) => {
-
-            expect(res.headers['content-type']).to.include('application/json');
-            expect(res.statusCode).to.equal(401);
-            expect(res.result.error).to.equal(Boom.unauthorized().message);
+                    return cb('bad credentials');
+                });
 
             return done();
         });
-    });
 
-    it('denies authorization to unknown username', (done) => {
+        after((done) => {
 
-        testServer.inject({
-            method: 'POST',
-            url: '/basic',
-            headers: {
-                authorization: internals.header('unknown', 'password')
-            }
-        }, (res) => {
-
-            expect(res.headers['content-type']).to.include('application/json');
-            expect(res.statusCode).to.equal(401);
-            expect(res.result.error).to.equal(Boom.unauthorized().message);
+            readUserIdStub.restore();
+            readUserHashAndRealmStub.restore();
+            createUserCredentialStub.restore();
 
             return done();
         });
-    });
 
+        it('authorizes with valid credentials', (done) => {
 
-    it('denies authorization to password and hash mismatch', (done) => {
+            testServer.inject({
+                method: 'POST',
+                url: '/basic',
+                headers: {
+                    authorization: internals.header('johndoe', 'password')
+                }
+            }, (res) => {
 
-        testServer.inject({
-            method: 'POST',
-            url: '/basic',
-            headers: {
-                authorization: internals.header('jennydoe', 'password')
-            }
-        }, (res) => {
+                expect(res.headers['content-type']).to.include('application/json');
+                expect(res.statusCode).to.equal(200);
+                expect(res.result).to.be.an.object();
+                expect(res.result.hawkSessionToken).to.exist();
+                expect(res.result.algorithm).to.equal('sha256');
+                expect(res.result.id).to.exist();
+                expect(res.result.userId).to.exist();
 
-            expect(res.headers['content-type']).to.include('application/json');
-            expect(res.statusCode).to.equal(401);
-            expect(res.result.error).to.equal(Boom.unauthorized().message);
+                return done();
+            });
+        });
 
-            return done();
+        it('denies authorization without basic authentication header', (done) => {
+
+            testServer.inject({
+                method: 'POST',
+                url: '/basic'
+            }, (res) => {
+
+                expect(res.headers['content-type']).to.include('application/json');
+                expect(res.statusCode).to.equal(401);
+                expect(res.result.error).to.equal(Boom.unauthorized().message);
+
+                return done();
+            });
+        });
+
+        it('denies authorization to empty username', (done) => {
+
+            testServer.inject({
+                method: 'POST',
+                url: '/basic',
+                headers: {
+                    authorization: internals.header('', 'password')
+                }
+            }, (res) => {
+
+                expect(res.headers['content-type']).to.include('application/json');
+                expect(res.statusCode).to.equal(401);
+                expect(res.result.error).to.equal(Boom.unauthorized().message);
+
+                return done();
+            });
+        });
+
+        it('denies authorization to unknown username', (done) => {
+
+            testServer.inject({
+                method: 'POST',
+                url: '/basic',
+                headers: {
+                    authorization: internals.header('jimmydoe', 'password')
+                }
+            }, (res) => {
+
+                expect(res.headers['content-type']).to.include('application/json');
+                expect(res.statusCode).to.equal(401);
+                expect(res.result.error).to.equal(Boom.unauthorized().message);
+
+                return done();
+            });
+        });
+
+        it('denies authorization to password and hash mismatch', (done) => {
+
+            testServer.inject({
+                method: 'POST',
+                url: '/basic',
+                headers: {
+                    authorization: internals.header('johndoe', 'wrongpassword')
+                }
+            }, (res) => {
+
+                expect(res.headers['content-type']).to.include('application/json');
+                expect(res.statusCode).to.equal(401);
+                expect(res.result.error).to.equal(Boom.unauthorized().message);
+
+                return done();
+            });
+        });
+
+        it('denies authorization if the username and password are correct but does not match entry into the authorized '
+            + 'realm', (done) => {
+
+            testServer.inject({
+                method: 'POST',
+                url: '/basic',
+                headers: {
+                    authorization: internals.header('johndoe', 'password'),
+                    realm: 'Different Realm'
+                }
+            }, (res) => {
+
+                expect(res.headers['content-type']).to.include('application/json');
+                expect(res.statusCode).to.equal(401);
+                expect(res.result.error).to.equal(Boom.unauthorized().message);
+
+                return done();
+            });
         });
     });
 
-    it('denies authorization having incomplete basic authentication header', (done) => {
+    describe('database error', () => {
 
-        testServer.inject({
-            method: 'POST',
-            url: '/basic',
-            headers: {
-                authorization: internals.header('johndoe', 'wrongpassword')
-            }
-        }, (res) => {
+        describe('database error during retrieval of user ID', () => {
 
-            expect(res.headers['content-type']).to.include('application/json');
-            expect(res.statusCode).to.equal(401);
-            expect(res.result.error).to.equal(Boom.unauthorized().message);
+            before((done) => {
 
-            return done();
+                readUserIdStub = Sinon.stub(testServer.methods.dao.userDao, 'readUserId', (db, username, cb) => {
+
+                    return cb('db_failure');
+                });
+
+                return done();
+            });
+
+            after((done) => {
+
+                readUserIdStub.restore();
+                return done();
+            });
+
+            it('returns server error when DB fails during retrieval of user ID', (done) => {
+
+                testServer.inject({
+                    method: 'POST',
+                    url: '/basic',
+                    headers: {
+                        authorization: internals.header('johndoe', 'password')
+                    }
+                }, (res) => {
+
+                    expect(res.headers['content-type']).to.include('application/json');
+                    expect(res.statusCode).to.equal(500);
+                    expect(res.result.error).to.equal(Boom.internal().message);
+
+                    return done();
+                });
+            });
+        });
+
+        describe('database error during retrieval of user\'s hashed password', () => {
+
+            before((done) => {
+
+                readUserIdStub = Sinon.stub(testServer.methods.dao.userDao, 'readUserId', (db, username, cb) => {
+
+                    for (let i = 0; i < testPersons.length; i++) {
+                        if (testPersons[i].username === username) {
+                            return cb(null, testPersons[i].userId);
+                        }
+                    }
+
+                    return cb('invalid');
+                });
+
+                readUserHashAndRealmStub = Sinon.stub(testServer.methods.dao.userDao, 'readUserHashAndRealm',
+                    (db, userId, cb) => {
+
+                        return cb('db_failure');
+                    });
+
+                return done();
+            });
+
+            after((done) => {
+
+                readUserIdStub.restore();
+                readUserHashAndRealmStub.restore();
+
+                return done();
+            });
+
+            it('returns server error when DB fails during retrieval of user\'s hashed password', (done) => {
+
+                testServer.inject({
+                    method: 'POST',
+                    url: '/basic',
+                    headers: {
+                        authorization: internals.header('johndoe', 'password')
+                    }
+                }, (res) => {
+
+                    expect(res.headers['content-type']).to.include('application/json');
+                    expect(res.statusCode).to.equal(500);
+                    expect(res.result.error).to.equal(Boom.internal().message);
+
+                    return done();
+                });
+            });
+        });
+
+        describe('database error during generation of Hawk session token', () => {
+
+            before((done) => {
+
+                readUserIdStub = Sinon.stub(testServer.methods.dao.userDao, 'readUserId', (db, username, cb) => {
+
+                    for (let i = 0; i < testPersons.length; i++) {
+                        if (testPersons[i].username === username) {
+                            return cb(null, testPersons[i].userId);
+                        }
+                    }
+
+                    return cb('invalid');
+                });
+
+                readUserHashAndRealmStub = Sinon.stub(testServer.methods.dao.userDao, 'readUserHashAndRealm',
+                    (db, userId, cb) => {
+
+                        for (let i = 0; i < testPersons.length; i++) {
+                            if (testPersons[i].userId === userId) {
+
+                                return cb(null, [
+                                    testPersons[i].hashedPw,
+                                    testPersons[i].realm
+                                ]);
+                            }
+                        }
+
+                        return cb('invalid');
+                    });
+
+                createUserCredentialStub = Sinon.stub(testServer.methods.dao.userCredentialDao, 'createUserCredential',
+                    (db, sessionId, userCredentials, cb) => {
+
+                        return cb('db_failure');
+                    });
+
+                return done();
+            });
+
+            after((done) => {
+
+                readUserIdStub.restore();
+                readUserHashAndRealmStub.restore();
+                createUserCredentialStub.restore();
+
+                return done();
+            });
+
+            it('returns server error when DB fails during generation of Hawk session token', (done) => {
+
+                testServer.inject({
+                    method: 'POST',
+                    url: '/basic',
+                    headers: {
+                        authorization: internals.header('johndoe', 'password')
+                    }
+                }, (res) => {
+
+                    expect(res.headers['content-type']).to.include('application/json');
+                    expect(res.statusCode).to.equal(500);
+                    expect(res.result.error).to.equal(Boom.internal().message);
+
+                    return done();
+                });
+            });
         });
     });
 
-    it('returns server error when DB fails during retrieval of user ID', (done) => {
+    describe('Bcrypt library error', () => {
 
-        testServer.inject({
-            method: 'POST',
-            url: '/basic',
-            headers: {
-                authorization: internals.header('jackydoe', 'password')
-            }
-        }, (res) => {
+        before((done) => {
 
-            expect(res.headers['content-type']).to.include('application/json');
-            expect(res.statusCode).to.equal(500);
-            expect(res.result.error).to.equal(Boom.internal().message);
+            readUserIdStub = Sinon.stub(testServer.methods.dao.userDao, 'readUserId', (db, username, cb) => {
 
-            return done();
-        });
-    });
+                for (let i = 0; i < testPersons.length; i++) {
+                    if (testPersons[i].username === username) {
+                        return cb(null, testPersons[i].userId);
+                    }
+                }
 
-    it('returns server error when DB fails during retrieval of user\'s hashed password', (done) => {
+                return cb();
+            });
 
-        testServer.inject({
-            method: 'POST',
-            url: '/basic',
-            headers: {
-                authorization: internals.header('janedoe', 'password')
-            }
-        }, (res) => {
+            readUserHashAndRealmStub = Sinon.stub(testServer.methods.dao.userDao, 'readUserHashAndRealm',
+                (db, userId, cb) => {
 
-            expect(res.headers['content-type']).to.include('application/json');
-            expect(res.statusCode).to.equal(500);
-            expect(res.result.error).to.equal(Boom.internal().message);
+                    for (let i = 0; i < testPersons.length; i++) {
+                        if (testPersons[i].userId === userId) {
 
-            return done();
-        });
-    });
+                            return cb(null, [
+                                testPersons[i].hashedPw,
+                                testPersons[i].realm
+                            ]);
+                        }
+                    }
 
-    it('returns server error when DB fails during generation of Hawk session token', (done) => {
+                    return cb();
+                });
 
-        testServer.inject({
-            method: 'POST',
-            url: '/basic',
-            headers: {
-                authorization: internals.header('jerrydoe', 'password')
-            }
-        }, (res) => {
+            createUserCredentialStub = Sinon.stub(testServer.methods.dao.userCredentialDao, 'createUserCredential',
+                (db, sessionId, userCredentials, cb) => {
 
-            expect(res.headers['content-type']).to.include('application/json');
-            expect(res.statusCode).to.equal(500);
-            expect(res.result.error).to.equal(Boom.internal().message);
+                    if (sessionId) {
+                        return cb(null, {credentials: 'good credentials'});
+                    }
+
+                    return cb('bad credentials');
+                });
+
+            bcryptStub = Sinon.stub(Bcrypt, 'compare', (s, hash, callback) => {
+
+                return callback('library_failure');
+            });
 
             return done();
         });
-    });
 
-    it('denies authorization if the username and password are correct but does not match entry into the authorized '
-        + 'realm', (done) => {
+        after((done) => {
 
-        testServer.inject({
-            method: 'POST',
-            url: '/basic',
-            headers: {
-                authorization: internals.header('johndoe', 'password'),
-                realm: 'Different Realm'
-            }
-        }, (res) => {
-
-            expect(res.headers['content-type']).to.include('application/json');
-            expect(res.statusCode).to.equal(401);
-            expect(res.result.error).to.equal(Boom.unauthorized().message);
+            readUserIdStub.restore();
+            readUserHashAndRealmStub.restore();
+            createUserCredentialStub.restore();
+            bcryptStub.restore();
 
             return done();
+        });
+
+        it('denies authorization if Bcrypt fails for whatever reason', (done) => {
+
+            testServer.inject({
+                method: 'POST',
+                url: '/basic',
+                headers: {
+                    authorization: internals.header('johndoe', 'password')
+                }
+            }, (res) => {
+
+                expect(res.headers['content-type']).to.include('application/json');
+                expect(res.statusCode).to.equal(500);
+                expect(res.result.error).to.equal(Boom.internal().message);
+
+                return done();
+            });
         });
     });
 });
