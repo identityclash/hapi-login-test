@@ -23,13 +23,13 @@
         <label for="surname" class="sr-only">First Name</label>
         <input type="text" name="surname" id="surname" class="form-control" placeholder="Surname" required>
 
-        <!-- TODO: change to Bootstrap date picker -->
         <label for="birthDate" class="sr-only">Birth Date</label>
-        <input type="text" name="birthdate" id="birthDate" class="form-control" placeholder="Birth Date (Ex: 1900-12-31)" required>
+        <input type="text" name="birthdate" id="birthDate" class="form-control span2"
+               placeholder="Birth Date (Ex: 1900-12-31)" data-date-format="yyyy-mm-dd" required readonly>
 
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
     </form>
 </div>
 </body>
 
-{{> footer-register}}
+{{> footer-registration}}
