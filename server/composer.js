@@ -1,3 +1,6 @@
+/**
+ * Created by Omnius on 18/07/2016.
+ */
 'use strict';
 
 const Glue = require('glue');
