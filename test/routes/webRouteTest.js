@@ -15,7 +15,7 @@ const afterEach = lab.afterEach;
 const describe = lab.describe;
 const it = lab.it;
 
-const HANDLER_NAMES = ['webHandler', 'loginUserHandler', 'logoutUserHandler', 'registerUserHandler'];
+const HANDLER_NAMES = ['webHandler', 'registerUserHandler', 'welcomeUserHandler', 'logoutUserHandler'];
 const PASSED_THRU = 'Test passed through handler ';
 
 let testHandlerNameContainer = [];
@@ -68,86 +68,43 @@ describe('server/routes/webRoute', () => {
         return done();
     });
 
-    it('has GET, POST, PUT, and DELETE path /', (done) => {
-
-        const methodNames = ['GET', 'POST', 'PUT', 'DELETE'];
-
-        Async.each(methodNames, (name, next) => {
-
-            testServer.inject({
-                method: name,
-                url: '/'
-            }, (res) => {
-
-                expect(testHandlerNameContainer).to.include(PASSED_THRU + 'webHandler');
-                expect(res.headers['content-type']).to.include('application/json');
-                expect(res.statusCode).to.equal(200);
-                expect(res.result).to.be.true();
-
-                return next();
-            });
-        }, () => {
-
-            return done();
-        });
-    });
-
-    it('has GET, POST, PUT, and DELETE path /login', (done) => {
-
-        const methodNames = ['GET', 'POST', 'PUT', 'DELETE'];
-
-        Async.each(methodNames, (name, next) => {
-
-            testServer.inject({
-                method: name,
-                url: '/login'
-            }, (res) => {
-
-                expect(testHandlerNameContainer).to.include(PASSED_THRU + 'webHandler');
-                expect(res.headers['content-type']).to.include('application/json');
-                expect(res.statusCode).to.equal(200);
-                expect(res.result).to.be.true();
-
-                return next();
-            });
-        }, () => {
-
-            return done();
-        });
-    });
-
-    it('has GET, POST, PUT, and DELETE path /registration', (done) => {
-
-        const methodNames = ['GET', 'POST', 'PUT', 'DELETE'];
-
-        Async.each(methodNames, (name, next) => {
-
-            testServer.inject({
-                method: name,
-                url: '/registration'
-            }, (res) => {
-
-                expect(testHandlerNameContainer).to.include(PASSED_THRU + 'webHandler');
-                expect(res.headers['content-type']).to.include('application/json');
-                expect(res.statusCode).to.equal(200);
-                expect(res.result).to.be.true();
-
-                return next();
-            });
-        }, () => {
-
-            return done();
-        });
-    });
-
-    it('has GET path /user/welcomeb', (done) => {
+    it('has GET path /css/register.css', (done) => {
 
         testServer.inject({
             method: 'GET',
-            url: '/user/welcomeb'
+            url: '/css/register.css'
         }, (res) => {
 
-            expect(testHandlerNameContainer).to.include(PASSED_THRU + 'loginUserHandler');
+            expect(res.statusCode).to.equal(200);
+            expect(res.result).to.contain('body');
+
+            return done();
+        });
+    });
+
+    it('has GET path /js/std/jquery.min.js', (done) => {
+
+        testServer.inject({
+            method: 'GET',
+            url: '/js/std/jquery.min.js'
+        }, (res) => {
+
+            expect(res.statusCode).to.equal(200);
+            expect(res.headers['content-type']).to.include('application/javascript');
+            expect(res.result).to.contain('function');
+
+            return done();
+        });
+    });
+
+    it('has GET path /login', (done) => {
+
+        testServer.inject({
+            method: 'GET',
+            url: '/login'
+        }, (res) => {
+
+            expect(testHandlerNameContainer).to.include(PASSED_THRU + 'webHandler');
             expect(res.headers['content-type']).to.include('application/json');
             expect(res.statusCode).to.equal(200);
             expect(res.result).to.be.true();
@@ -156,30 +113,14 @@ describe('server/routes/webRoute', () => {
         });
     });
 
-    it('has GET path /user/welcomeh', (done) => {
+    it('has GET path /registration', (done) => {
 
         testServer.inject({
             method: 'GET',
-            url: '/user/welcomeh'
+            url: '/registration'
         }, (res) => {
 
-            expect(testHandlerNameContainer).to.include(PASSED_THRU + 'loginUserHandler');
-            expect(res.headers['content-type']).to.include('application/json');
-            expect(res.statusCode).to.equal(200);
-            expect(res.result).to.be.true();
-
-            return done();
-        });
-    });
-
-    it('has GET path /user/logout', (done) => {
-
-        testServer.inject({
-            method: 'GET',
-            url: '/user/logout'
-        }, (res) => {
-
-            expect(testHandlerNameContainer).to.include(PASSED_THRU + 'logoutUserHandler');
+            expect(testHandlerNameContainer).to.include(PASSED_THRU + 'webHandler');
             expect(res.headers['content-type']).to.include('application/json');
             expect(res.statusCode).to.equal(200);
             expect(res.result).to.be.true();
@@ -351,6 +292,38 @@ describe('server/routes/webRoute', () => {
             expect(res.headers['content-type']).to.include('application/json');
             expect(res.statusCode).to.equal(400);
             expect(res.result.error).to.equal(Boom.badRequest().message);
+
+            return done();
+        });
+    });
+
+    it('has GET path /user/welcome', (done) => {
+
+        testServer.inject({
+            method: 'GET',
+            url: '/user/welcome'
+        }, (res) => {
+
+            expect(testHandlerNameContainer).to.include(PASSED_THRU + 'welcomeUserHandler');
+            expect(res.headers['content-type']).to.include('application/json');
+            expect(res.statusCode).to.equal(200);
+            expect(res.result).to.be.true();
+
+            return done();
+        });
+    });
+
+    it('has GET path /user/logout', (done) => {
+
+        testServer.inject({
+            method: 'GET',
+            url: '/user/logout'
+        }, (res) => {
+
+            expect(testHandlerNameContainer).to.include(PASSED_THRU + 'logoutUserHandler');
+            expect(res.headers['content-type']).to.include('application/json');
+            expect(res.statusCode).to.equal(200);
+            expect(res.result).to.be.true();
 
             return done();
         });

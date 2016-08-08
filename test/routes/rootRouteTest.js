@@ -22,6 +22,9 @@ testServer.handler('rootHandler', (route, options) => {
 
     return (request, reply) => {
 
+        if (options.type === 'index') {
+            return reply.redirect('/login');
+        }
         if (options.type === 'notfound') {
             return reply(Boom.notFound());
         }
@@ -30,35 +33,33 @@ testServer.handler('rootHandler', (route, options) => {
     };
 });
 
+testServer.handler('loginHandler', () => {
+
+    return (request, reply) => {
+
+        return reply(true);
+    };
+});
+
 testServer.route(RootRoute);
+testServer.route({
+    path: '/login',
+    method: 'GET',
+    handler: {
+        loginHandler: {}
+    }
+});
 
 describe('server/routes/rootRoute', () => {
 
-    it('has GET on path /css/register.css', (done) => {
+    it('has GET path /', (done) => {
 
         testServer.inject({
             method: 'GET',
-            url: '/css/register.css'
+            url: '/'
         }, (res) => {
 
-            expect(res.statusCode).to.equal(200);
-            expect(res.result).to.contain('body');
-
-            return done();
-        });
-    });
-
-    it('has GET on path /js/std/jquery.min.js', (done) => {
-
-        testServer.inject({
-            method: 'GET',
-            url: '/js/std/jquery.min.js'
-        }, (res) => {
-
-            expect(res.statusCode).to.equal(200);
-            expect(res.headers['content-type']).to.include('application/javascript');
-            expect(res.result).to.contain('function');
-
+            expect(res.statusCode).to.equal(302);
             return done();
         });
     });
