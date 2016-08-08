@@ -9,13 +9,14 @@ exports.register = (server, options, next) => {
 
     server.auth.strategy('basic-login-auth-strategy', 'basic', {
         validateFunc: validate,
+        wwwAuth: 'X-Basic',
         unauthorizedAttributes: {
             realm: 'My Realm',
             charset: 'UTF-8'
         }
     });
 
-    next();
+    return next();
 };
 
 exports.register.attributes = {
