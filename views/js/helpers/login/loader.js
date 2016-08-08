@@ -4,11 +4,20 @@
 $(document).ready(function() {
     const hawkSessionTokenCookie = MyUtils.getCookie('Hawk-Session-Token');
 
-    console.log(hawkSessionTokenCookie);
+    $('#closeUnauthorized').click(function () {
+        $('#formUnauthorized').addClass('hidden');
+    });
+
+    const query = document.URL.split('?');
+    if (query.length === 2) {
+        if (query[1].indexOf('registered') > -1) {
+            $('#myModal').modal();
+        }
+    }
 
     if (hawkSessionTokenCookie) {
-        window.location = 'http://' + location.host + '/user/welcomeh';
+        window.location = 'http://' + location.host + '/user/welcome';
     } else {
-        $('body').css('visibility', 'visible');
+        $('body').show();
     }
 });
