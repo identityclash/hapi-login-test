@@ -3,26 +3,33 @@
  */
 'use strict';
 
-const hawkPreAuth = require('./preauth/hawkPreAuth');
-const schema = require('./schemas/schema');
+const HawkPreAuth = require('./preauth/hawkPreAuth');
+const Schema = require('./schemas/schema');
 
 module.exports = [
+    // Static files
     {
-        // Web login
-        path: '/',
+        path: '/css/{path*}',
         method: '*',
-        config: {
-            handler: {
-                webHandler: {
-                    type: 'index'
-                }
+        handler: {
+            directory: {
+                path: process.cwd() + '/views/css'
             }
         }
     },
     {
-        // Web login
+        path: '/js/{path*}',
+        method: '*',
+        handler: {
+            directory: {
+                path: process.cwd() + '/views/js'
+            }
+        }
+    },
+    // Web pages
+    {
         path: '/login',
-        method: '*',
+        method: 'GET',
         config: {
             handler: {
                 webHandler: {
@@ -32,62 +39,11 @@ module.exports = [
         }
     },
     {
-        // Web registration
         path: '/registration',
-        method: '*',
+        method: 'GET',
         handler: {
             webHandler: {
                 type: 'registration'
-            }
-        }
-    },
-    {
-        // Web welcome page via hawk
-        path: '/user/welcomeh',
-        method: 'GET',
-        config: {
-            auth: {
-                mode: 'required',
-                strategies: ['hawk-login-auth-strategy']
-            },
-            cache: false,
-            ext: {
-                onPreAuth: {
-                    method: hawkPreAuth
-                }
-            },
-            handler: {
-                loginUserHandler: {
-                    type: 'login'
-                }
-            }
-        }
-    },
-    {
-        // Web welcome page via basic
-        path: '/user/welcomeb',
-        method: 'GET',
-        config: {
-            auth: {
-                mode: 'required',
-                strategies: ['basic-login-auth-strategy']
-            },
-            cache: false,
-            handler: {
-                loginUserHandler: {
-                    type: 'login'
-                }
-            }
-        }
-    },
-    {
-        path: '/user/logout',
-        method: 'GET',
-        config: {
-            handler: {
-                logoutUserHandler: {
-                    type: 'logout'
-                }
             }
         }
     },
@@ -102,13 +58,47 @@ module.exports = [
             },
             validate: {
                 payload: {
-                    username: schema.username,
-                    email: schema.email,
-                    password: schema.password,
-                    firstname: schema.firstname,
-                    surname: schema.surname,
-                    birthdate: schema.birthdate,
-                    realm: schema.realm
+                    username: Schema.username,
+                    email: Schema.email,
+                    password: Schema.password,
+                    firstname: Schema.firstname,
+                    surname: Schema.surname,
+                    birthdate: Schema.birthdate,
+                    realm: Schema.realm
+                }
+            }
+        }
+    },
+    {
+        path: '/user/welcome',
+        method: 'GET',
+        config: {
+            auth: {
+                mode: 'required',
+                strategies: ['hawk-login-auth-strategy']
+            },
+            cache: {
+                expiresIn: 0
+            },
+            ext: {
+                onPreAuth: {
+                    method: HawkPreAuth
+                }
+            },
+            handler: {
+                welcomeUserHandler: {
+                    type: 'profile'
+                }
+            }
+        }
+    },
+    {
+        path: '/user/logout',
+        method: 'GET',
+        config: {
+            handler: {
+                logoutUserHandler: {
+                    type: 'logout'
                 }
             }
         }

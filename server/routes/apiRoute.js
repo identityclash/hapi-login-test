@@ -3,38 +3,7 @@
  */
 'use strict';
 
-const Joi = require('Joi');
-
 module.exports = [
-    // {
-    //     path: '/user/login/basic',
-    //     method: 'POST',
-    //     config: {
-    //         auth: {
-    //             mode: 'required',
-    //             strategies: ['basic-login-auth-strategy']
-    //         },
-    //         handler: {
-    //             // should be apiLogin instead
-    //             loginUserHandler: {
-    //                 type: 'login'
-    //             }
-    //         }
-    //     }
-    // },
-    // {
-    //     path: '/user/login/custom',
-    //     method: 'POST',
-    //     config: {
-    //         auth: 'custom-login-auth-strategy',
-    //         handler: {
-    //             // should be apiLogin instead
-    //             loginUserHandler: {
-    //                 type: 'login'
-    //             }
-    //         }
-    //     }
-    // },
     {
         path: '/user/{userId}/profile',
         method: 'GET',
@@ -43,6 +12,25 @@ module.exports = [
             handler: {
                 retrieveUserProfileHandler: {
                     type: 'profile'
+                }
+            }
+        }
+    },
+    {
+        path: '/auth/basic',
+        method: 'GET',
+        config: {
+            auth: {
+                mode: 'required',
+                strategies: ['basic-login-auth-strategy']
+            },
+            cache: {
+                privacy: 'private',
+                expiresIn: 0
+            },
+            handler: {
+                loginUserHandler: {
+                    type: 'login'
                 }
             }
         }

@@ -4,26 +4,18 @@
 'use strict';
 
 module.exports = [
-    // Static files
     {
-        path: '/css/{path*}',
-        method: '*',
-        handler: {
-            directory: {
-                path: process.cwd() + '/views/css'
+        // Web login
+        path: '/',
+        method: 'GET',
+        config: {
+            handler: {
+                rootHandler: {
+                    type: 'index'
+                }
             }
         }
     },
-    {
-        path: '/js/{path*}',
-        method: '*',
-        handler: {
-            directory: {
-                path: process.cwd() + '/views/js'
-            }
-        }
-    },
-
     // Invalid paths
     {
         path: '/{path*}',
