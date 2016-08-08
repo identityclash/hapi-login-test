@@ -13,7 +13,7 @@ const lab = exports.lab = Lab.script();
 const describe = lab.describe;
 const it = lab.it;
 
-describe('server/routes/hkdfTokenGenerator', () => {
+describe('server/helpers/hkdfTokenGenerator', () => {
 
     it('generates a token', (done) => {
 

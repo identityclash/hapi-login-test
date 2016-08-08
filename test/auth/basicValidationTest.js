@@ -66,7 +66,7 @@ let readUserHashAndRealmStub;
 let createUserCredentialStub;
 let bcryptStub;
 
-describe('server/routes/basicValidation', () => {
+describe('server/auth/basic/basicValidation', () => {
 
     describe('functional database', () => {
 
