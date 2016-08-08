@@ -37,7 +37,7 @@ const retrieveUserInfo = function () {
                 xhr.setRequestHeader('Authorization', header.field);
             },
             success: function (data, textStatus, jQxhr) {
-                console.log('success: ' + textStatus);
+                console.log('status: ' + textStatus);
 
                 $('.profile-info').css('visibility', 'visible');
 
