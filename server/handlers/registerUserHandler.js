@@ -98,7 +98,7 @@ module.exports = () => {
                 return reply(err);
             }
 
-            return reply('registered');
+            return reply.redirect('/login?registered=true');
         });
     };
 };

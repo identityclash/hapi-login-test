@@ -29,16 +29,12 @@ module.exports = () => {
                 if (err) {
                     server.log(err);
 
-                    return reply
-                        .redirect('http://' + request.info.host)
-                        .unstate('Hawk-Session-Token')
-                        .header('Hawk-Session-Token', '');
+                    return reply.redirect('/')
+                        .unstate('Hawk-Session-Token');
                 }
 
-                return reply
-                    .redirect('http://' + request.info.host)
-                    .unstate('Hawk-Session-Token')
-                    .header('Hawk-Session-Token', '');
+                return reply.redirect('/')
+                    .unstate('Hawk-Session-Token');
             });
         });
     };
