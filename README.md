@@ -34,7 +34,7 @@ Demo login using Hapi.js, basic and Hawk authentication schemes. Interface was t
 <li><a href="https://github.com/benadida/node-hkdf">HKDF</a> - HKDF key-derivation function implementation based on <a href="https://tools.ietf.org/html/rfc5869">RFC 5869</a> for NodeJS</li>
 <li><a href="https://github.com/hueniverse/hawk">Hawk</a> - HTTP Holder-Of-Key Authentication Scheme</li>
 <li><a href="https://github.com/hueniverse/iron">Iron</a> - cryptographic utility for sealing a JSON object using symmetric key encryption with message integrity verification</li>
-<li><a href="https://github.com/isaacs/json-stringify-safe">JSON-Stringify-Safe</a> - JSON.stringify but protects against circular references</li>
+<li><a href="https://github.com/isaacs/json-stringify-safe">JSON-Stringify-Safe</a> - JSON.stringify but silently protects against circular references</li>
 <li><a href="https://github.com/lodash/lodash">Lodash</a> - Utility library for JavaScript working with iterating arrays, objects, & strings; manipulating & testing values; and creating composite functions</li>
 <li><a href="https://github.com/request/request">Request</a> - Simplified HTTP request client</li>
 <li><a href="https://github.com/defunctzombie/node-uuid">UUID</a> - Generate RFC-compliant UUIDs in JavaScript; a forked implementation from <a href="https://github.com/broofa/node-uuid">Node UUID</a></li>
