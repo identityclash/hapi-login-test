@@ -20,7 +20,8 @@ $(document).ready(function() {
     });
 
     if (hawkSessionTokenCookie) {
-        window.location = 'http://' + location.host + '/user/welcome';
+        const protocol = location.protocol + '//';
+        window.location = protocol + location.host + '/user/welcome';
     } else {
         $('body').show();
     }

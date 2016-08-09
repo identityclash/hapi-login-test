@@ -22,7 +22,8 @@ const retrieveUserInfo = function () {
             algorithm: algorithm
         };
 
-        const url = 'http://' + location.host + '/user/' + userId + '/profile';
+        const protocol = location.protocol + '//';
+        const url = protocol + location.host + '/user/' + userId + '/profile';
 
         const header = HawkBrowser.client.header(url,
             'GET',
