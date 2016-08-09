@@ -49,7 +49,7 @@
     "scooter": "3.0.x",
     "uuid": "^2.0.2",
     "vision": "4.1.x",
-    "visionary": "6.0.x",
+    "visionary": "6.0.x"
   },
   "devDependencies": {
     "code": "3.0.x",
