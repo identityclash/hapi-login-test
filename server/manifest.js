@@ -53,27 +53,34 @@ const manifest = {
         // customLoginAuth.js for showing custom plugin demo only
         {plugin: './auth/custom/customLoginAuth.js'},
         {plugin: './auth/hawk/hawkAuth.js'},
-        // {
-        //     plugin: {
-        //         register: 'blankie',
-        //         options: {
-        //             defaultSrc: 'self'
-        //         }
-        //     }
-        // },
-        // {
-        //     plugin: {
-        //         register: 'crumb',
-        //         options: {
-        //             key: 'crumb',
-        //             size: 43,
-        //             restful: false,
-        //             autoGenerate: true,
-        //             addToViewContext: true,
-        //             cookieOptions: {clearInvalid: true}
-        //         }
-        //     }
-        // },
+        {
+            plugin: {
+                register: 'blankie',
+                options: {
+                    defaultSrc: 'self'
+                }
+            }
+        },
+        {
+            plugin: {
+                register: 'crumb',
+                options: {
+                    key: 'crumbz',
+                    size: 43,
+                    autoGenerate: true,
+                    addToViewContext: true,
+                    restful: false,
+                    cookieOptions: {
+                        ttl: 1000,
+                        isSecure: false,
+                        isHttpOnly: true,
+                        clearInvalid: true,
+                        domain: '127.0.0.1',
+                        encoding: 'none'
+                    }
+                }
+            }
+        },
         {plugin: 'scooter'},
 
         // Routes, handlers, methods auto-injection-related
