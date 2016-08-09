@@ -25,6 +25,8 @@ const retrieveUserInfo = function () {
         const protocol = location.protocol + '//';
         const url = protocol + location.host + '/user/' + userId + '/profile';
 
+        console.log('url: ' + url);
+
         const header = HawkBrowser.client.header(url,
             'GET',
             {credentials: hawkCredentials, ext: 'some-app-data'});
