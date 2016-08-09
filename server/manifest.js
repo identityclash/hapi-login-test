@@ -69,11 +69,11 @@ const manifest = {
         //             addToViewContext: true,
         //             restful: false,
         //             cookieOptions: {
-        //                 ttl: 1000,
+        //                 ttl: 24 * 60 * 60 * 1000,
         //                 isSecure: false,
         //                 isHttpOnly: true,
         //                 clearInvalid: true,
-        //                 encoding: 'none'
+        //                 encoding: 'base64json'
         //             }
         //         }
         //     }
