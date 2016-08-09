@@ -21,7 +21,7 @@ const submitForm = () => {
         },
         error: function (xhr, textStatus, errorThrown) {
             if (xhr.status === 401) {
-                $('#formUnauthorized').removeClass('hidden');
+                $('#alertUnauthorized').removeClass('hidden');
             }
         }
     });
