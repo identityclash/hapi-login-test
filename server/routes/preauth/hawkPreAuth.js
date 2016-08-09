@@ -43,9 +43,13 @@ module.exports = (request, reply) => {
             algorithm: algorithm
         };
 
-        const url = request.connection.info.protocol
+        const protocol = request.connection.info.protocol;
+
+        const url = protocol
             + '://'
-            + request.info.host + '/user/profile';
+            + request.info.host + (protocol === 'https' ? '443' : '') + '/user/profile';
+
+        request.server.log('hawkPreAuth url: ' + url);
 
         request.raw.req.url = url;
 
