@@ -36,6 +36,9 @@ exports.register = (server, options, next) => {
 
                 return callback(null, credentials);
             });
+        },
+        hawk: {
+            port: 443
         }
     });
 
