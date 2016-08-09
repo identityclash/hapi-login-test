@@ -1,8 +1,8 @@
 # hapi-login-test
 Demo login using Hapi.js, basic and Hawk authentication schemes. Interface was taken from <a href="https://getbootstrap.com/examples/signin/">Bootstrap</a>'s sign-in sample form.
 
-## Technologies (in Alphabetical Order)
-### <a href="https://github.com/hapijs/hapi">Hapi</a>-Specific Tools
+## Tools (in Alphabetical Order)
+### <a href="https://github.com/hapijs/hapi">Hapi</a>-Specific
 <ul>
 <li><a href="https://github.com/genediazjr/acquaint">Acquaint</a> - Routes, handlers, and methods auto-loader</li>
 <li><a href="https://github.com/nlf/blankie">Blankie</a> - Plugin for customization of Content Security Policies (CSP)</li>
@@ -26,7 +26,7 @@ Demo login using Hapi.js, basic and Hawk authentication schemes. Interface was t
 <li><a href="https://github.com/hapijs/visionary">Visionary</a> - Views loader plugin</li>
 </ul>
 
-### General JavaScript Tools
+### General JavaScript
 <ul>
 <li><a href="https://github.com/caolan/async">Async</a> - Utilities on asynchronous functions in JavaScript</li>
 <li><a href="https://github.com/dcodeIO/bcrypt.js">BcryptJS</a> - Utilities for hashing in JavaScript</li>
