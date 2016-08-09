@@ -122,9 +122,9 @@ const manifest = {
             plugin: {
                 register: 'hapi-ioredis',
                 options: {
-                    // url: 'redis://h:pe5gtidosq0dgsbh7ljshfokjuv@ec2-46-137-186-21.eu-west-1.compute.amazonaws.com:16879',
-                    // password: 'pe5gtidosq0dgsbh7ljshfokjuv'
-                    url: 'redis://127.0.0.1:6379'
+                    url: 'redis://h:pe5gtidosq0dgsbh7ljshfokjuv@ec2-46-137-186-21.eu-west-1.compute.amazonaws.com:16879',
+                    password: 'pe5gtidosq0dgsbh7ljshfokjuv'
+                    // url: 'redis://127.0.0.1:6379'
                 }
             }
         },
