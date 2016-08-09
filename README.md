@@ -8,7 +8,7 @@ Demo login using Hapi.js, basic and Hawk authentication schemes. Interface was t
 <li><a href="https://github.com/nlf/blankie">Blankie</a> - Plugin for customization of Content Security Policies (CSP)</li>
 <li><a href="https://github.com/hapijs/boom">Boom</a> - HTTP-friendly error objects</li>
 <li><a href="https://github.com/hapijs/confidence">Confidence</a> - JSON-based configuration document format and API</li>
-<li><a href="https://github.com/hapijs/crumb">Crumb</a> - Plugin for cross-site request forgery (CSRF) protection using random unique token (crumb)</li>
+<!--<li><a href="https://github.com/hapijs/crumb">Crumb</a> - Plugin for cross-site request forgery (CSRF) protection using random unique token (crumb)</li>-->
 <li><a href="https://github.com/hapijs/cryptiles">Cryptiles</a> - General utilities for cryptography</li>
 <li><a href="https://github.com/genediazjr/Disinfect">disinfect</a> - Plugin for sanitizing request params, query, and payload</li>
 <li><a href="https://github.com/hapijs/glue">Glue</a> - Configuration based composition of the server</li>
