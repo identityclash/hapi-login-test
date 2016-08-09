@@ -49,8 +49,6 @@ const manifest = {
         {plugin: 'hapi-auth-basic'},
         {plugin: 'hapi-auth-hawk'},
         {plugin: './auth/basic/basicLoginAuth.js'},
-        // customLoginAuth.js for showing custom plugin demo only
-        {plugin: './auth/custom/customLoginAuth.js'},
         {plugin: './auth/hawk/hawkAuth.js'},
         {
             plugin: {
