@@ -8,7 +8,7 @@ module.exports = (route, options) => {
     return (request, reply) => {
 
         if (options.type === 'registration') {
-            return reply.view('register');
+            return reply.view('registration');
         }
 
         if (options.type === 'index') {
