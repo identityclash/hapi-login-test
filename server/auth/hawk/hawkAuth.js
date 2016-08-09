@@ -38,7 +38,7 @@ exports.register = (server, options, next) => {
             });
         },
         hawk: {
-            port: 443
+            port: ''
         }
     });
 
