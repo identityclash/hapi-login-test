@@ -38,7 +38,7 @@ exports.register = (server, options, next) => {
             });
         },
         hawk: {
-            port: process.env.PORT || 8088
+            port: 80
         }
     });
 
