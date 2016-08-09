@@ -5,7 +5,7 @@ $(document).ready(function() {
     const hawkSessionTokenCookie = MyUtils.getCookie('Hawk-Session-Token');
 
     $('#closeUnauthorized').click(function () {
-        $('#formUnauthorized').addClass('hidden');
+        $('#alertUnauthorized').addClass('hidden');
     });
 
     const query = document.URL.split('?');
@@ -14,6 +14,10 @@ $(document).ready(function() {
             $('#myModal').modal();
         }
     }
+
+    $('#btnSubmit').click(function () {
+        submitForm();
+    });
 
     if (hawkSessionTokenCookie) {
         window.location = 'http://' + location.host + '/user/welcome';
