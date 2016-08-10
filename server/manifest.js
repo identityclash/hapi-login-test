@@ -55,7 +55,6 @@ const manifest = {
                 register: 'blankie',
                 options: {
                     childSrc: 'self',
-                    connectSrc: 'unsafe-inline',
                     fontSrc: 'self',
                     imgSrc: 'self',
                     manifestSrc: 'self',
