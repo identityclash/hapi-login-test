@@ -54,7 +54,15 @@ const manifest = {
             plugin: {
                 register: 'blankie',
                 options: {
-                    defaultSrc: 'self',
+                    childSrc: 'self',
+                    connectSrc: 'unsafe-inline',
+                    fontSrc: 'self',
+                    imgSrc: 'self',
+                    manifestSrc: 'self',
+                    mediaSrc: 'self',
+                    objectSrc: 'self',
+                    scriptSrc: 'self',
+                    styleSrc: 'self',
                     reflectedXss: 'block'
                 }
             }
