@@ -5,6 +5,7 @@
 
 const Async = require('async');
 const Bcrypt = require('bcryptjs');
+const Boom = require('boom');
 const Uuid = require('uuid');
 
 module.exports = () => {
@@ -32,7 +33,26 @@ module.exports = () => {
         const userProfileDao = dao.userProfileDao;
 
         Async.autoInject({
+            readUserId: (cb) => {
+
+                userDao.readUserId(redis, username, (err, userId) => {
+
+                    if (err || userId) {
+                        return cb(err || Boom.badRequest('user_already_exists'));
+                    }
+
+                    userDao.readUserId(redis, email, (err, userId) => {
+
+                        if (err || userId) {
+                            return cb(err || Boom.badRequest('user_already_exists'));
+                        }
+
+                        return cb();
+                    });
+                });
+            },
             addSalt: (cb) => {
+
                 Bcrypt.genSalt(10, (err, salt) => {
                     if (err) {
                         return cb(err);
