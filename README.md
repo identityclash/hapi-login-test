@@ -1,5 +1,5 @@
 # hapi-login-test
-Demo login using Hapi.js, basic and Hawk authentication schemes. Interface was taken from <a href="https://getbootstrap.com/examples/signin/">Bootstrap</a>'s sign-in sample form.
+<a href="https://hapi-login-test.herokuapp.com">Demo</a> login functionality using <a href="http://hapijs.com">Hapi</a>, basic and Hawk authentication schemes. Interface was taken from <a href="https://getbootstrap.com/examples/signin/">Bootstrap</a>'s sign-in sample form.
 
 ## Tools (in Alphabetical Order)
 ### <a href="https://github.com/hapijs/hapi">Hapi</a>-Specific
