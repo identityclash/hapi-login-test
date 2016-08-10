@@ -35,7 +35,7 @@ const retrieveUserInfo = function () {
         const requestProtocol = location.protocol + '//';
         const requestUrl = requestProtocol + location.host + '/user/' + userId + '/profile';
 
-        console.log('requestUrl: ' + hawkServerUrl);
+        console.log('requestUrl: ' + requestUrl);
 
         $.ajax({
             type: 'GET',
