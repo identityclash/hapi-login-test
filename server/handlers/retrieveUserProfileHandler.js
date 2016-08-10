@@ -51,8 +51,6 @@ module.exports = () => {
                     }
                 }
 
-                strCredential = strCredential.slice(0, -1);
-
                 userProfileDao.readUserProfile(redis, userId, (err, userProfile) => {
                     if (err) {
                         return reply(err);
