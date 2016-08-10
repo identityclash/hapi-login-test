@@ -14,7 +14,7 @@ const retrieveUserInfo = function () {
     const salt = '';
     const length = 2 * 32;
 
-    const protocol = location.protocol + '//';
+    const protocol = 'http://' // location.protocol + '//';
     const url = protocol + location.host + '/user/' + userId + '/profile';
 
     console.log('url: ' + url);
