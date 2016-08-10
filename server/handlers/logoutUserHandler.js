@@ -26,11 +26,9 @@ module.exports = () => {
         retrieveFromToken(ikm, info, salt, length, (sessionId) => {
 
             userCredentialDao.deleteUserCredential(redis, sessionId, (err) => {
+
                 if (err) {
                     server.log(err);
-
-                    return reply.redirect('/')
-                        .unstate('Hawk-Session-Token');
                 }
 
                 return reply.redirect('/')
