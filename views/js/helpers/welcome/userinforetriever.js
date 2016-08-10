@@ -14,6 +14,11 @@ const retrieveUserInfo = function () {
     const salt = '';
     const length = 2 * 32;
 
+    const protocol = location.protocol + '//';
+    const url = protocol + location.host + '/user/' + userId + '/profile';
+
+    console.log('url: ' + url);
+
     retrieveFromToken(ikm, info, salt, length, function (id, key) {
 
         const hawkCredentials = {
@@ -21,11 +26,6 @@ const retrieveUserInfo = function () {
             key: key,
             algorithm: algorithm
         };
-
-        const protocol = location.protocol + '//';
-        const url = protocol + location.host + '/user/' + userId + '/profile';
-
-        console.log('url: ' + url);
 
         const header = HawkBrowser.client.header(url,
             'GET',
