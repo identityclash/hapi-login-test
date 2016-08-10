@@ -17,6 +17,8 @@ module.exports = () => {
         };
 
         return reply('successful login')
-            .state('Hawk-Session-Token', credentials);
+            .state('Hawk-Session-Token', credentials)
+            .header('Pragma', 'no-cache')
+            .header('X-Permitted-Cross-Domain-Policies', 'master-only');
     };
 };

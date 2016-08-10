@@ -12,7 +12,8 @@ module.exports = (route, options) => {
     return (request, reply) => {
 
         if (options.type === 'index') {
-            return reply.redirect('/login');
+            return reply.redirect('/login')
+                .header('X-Permitted-Cross-Domain-Policies', 'master-only');
         }
         if (options.type === 'notfound') {
             return reply(Boom.notFound('Page Not Found'));

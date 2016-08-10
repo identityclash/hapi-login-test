@@ -32,7 +32,9 @@ module.exports = () => {
                 }
 
                 return reply.redirect('/')
-                    .unstate('Hawk-Session-Token');
+                    .unstate('Hawk-Session-Token')
+                    .header('Pragma', 'no-cache')
+                    .header('X-Permitted-Cross-Domain-Policies', 'master-only');
             });
         });
     };

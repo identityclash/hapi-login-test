@@ -119,7 +119,9 @@ module.exports = () => {
                     return reply(Boom.internal());
                 }
 
-                return reply.redirect('/login?registered=true');
+                return reply.redirect('/login?registered=true')
+                    .header('Pragma', 'no-cache')
+                    .header('X-Permitted-Cross-Domain-Policies', 'master-only');
             });
         });
     };

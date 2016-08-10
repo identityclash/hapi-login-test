@@ -57,7 +57,8 @@ module.exports = () => {
                     }
 
                     return reply(userProfile)
-                        .state('Hawk-Session-Token', newCredentials);
+                        .state('Hawk-Session-Token', newCredentials)
+                        .header('X-Permitted-Cross-Domain-Policies', 'master-only');
                 });
             });
         });

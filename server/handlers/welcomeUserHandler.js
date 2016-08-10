@@ -36,7 +36,8 @@ module.exports = () => {
 
             return reply.view('welcome', details)
                 .state('Hawk-Session-Token', credentials)
-                .header('Cache-Control', 'no-cache, no-store, must-revalidate');
+                .header('Cache-Control', 'no-cache, no-store, must-revalidate')
+                .header('X-Permitted-Cross-Domain-Policies', 'master-only');
         });
     };
 };

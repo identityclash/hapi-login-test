@@ -8,11 +8,13 @@ module.exports = (route, options) => {
     return (request, reply) => {
 
         if (options.type === 'registration') {
-            return reply.view('registration');
+            return reply.view('registration')
+                .header('X-Permitted-Cross-Domain-Policies', 'master-only');
         }
 
         if (options.type === 'index') {
-            return reply.view('login');
+            return reply.view('login')
+                .header('X-Permitted-Cross-Domain-Policies', 'master-only');
         }
     };
 };
