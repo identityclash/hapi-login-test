@@ -45,7 +45,7 @@ module.exports = (request, reply) => {
 
         const protocol = request.connection.info.protocol;
 
-        const url = protocol
+        const url = protocol + 's'
             + '://'
             + request.info.host + '/user/profile';
 
