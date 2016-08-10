@@ -14,11 +14,6 @@ const retrieveUserInfo = function () {
     const salt = '';
     const length = 2 * 32;
 
-    const protocol = 'http://' // location.protocol + '//';
-    const url = protocol + location.host + '/user/' + userId + '/profile';
-
-    console.log('url: ' + url);
-
     retrieveFromToken(ikm, info, salt, length, function (id, key) {
 
         const hawkCredentials = {
@@ -27,13 +22,24 @@ const retrieveUserInfo = function () {
             algorithm: algorithm
         };
 
-        const header = HawkBrowser.client.header(url,
+        // workaround
+        const httpProtocol = 'http://';
+        const hawkUrl = httpProtocol + location.host + '/user/' + userId + '/profile';
+
+        console.log('hawkUrl: ' + hawkUrl);
+
+        const header = HawkBrowser.client.header(hawkUrl,
             'GET',
             {credentials: hawkCredentials, ext: 'some-app-data'});
 
+        const requestProtocol = location.protocol + '//';
+        const requestUrl = requestProtocol + location.host + '/user/' + userId + '/profile';
+
+        console.log('requestUrl: ' + hawkServerUrl);
+
         $.ajax({
             type: 'GET',
-            url: url,
+            url: requestUrl,
             data: {},
             crossDomain: true,
             beforeSend: function (xhr) {
