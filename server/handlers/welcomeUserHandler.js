@@ -23,10 +23,10 @@ module.exports = () => {
         };
 
         userDao.readUsername(redis, userId, (err, username) => {
+
             if (err) {
                 server.log(err);
-
-                return reply(Boom.internal(err));
+                return reply(Boom.internal());
             }
 
             const details = {
