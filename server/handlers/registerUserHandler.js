@@ -32,93 +32,95 @@ module.exports = () => {
         const userDao = dao.userDao;
         const userProfileDao = dao.userProfileDao;
 
-        Async.autoInject({
-            readUserId: (cb) => {
+        Async.mapSeries([username, email], (item, cb) => {
 
-                userDao.readUserId(redis, username, (err, userId) => {
+            userDao.readUserId(redis, item, (err, userId) => {
 
-                    if (err || userId) {
-                        return cb(err || Boom.badRequest('user_already_exists'));
-                    }
+                if (err || userId) {
+                    return cb(err || 'user_already_exists');
+                }
 
-                    userDao.readUserId(redis, email, (err, userId) => {
+                return cb();
+            });
+        }, (err) => {
 
-                        if (err || userId) {
-                            return cb(err || Boom.badRequest('user_already_exists'));
+            if (err) {
+                server.log(err);
+                return reply(err === 'user_already_exists' ? Boom.badRequest(err) : Boom.internal());
+            }
+
+            Async.autoInject({
+                addSalt: (cb) => {
+
+                    Bcrypt.genSalt(10, (err, salt) => {
+                        if (err) {
+                            return cb(err);
+                        }
+
+                        return cb(null, salt);
+                    });
+                },
+                computeHash: (addSalt, cb) => {
+
+                    const salt = addSalt;
+
+                    Bcrypt.hash(password, salt, (err, hashedPw) => {
+                        if (err) {
+                            return cb(err);
+                        }
+
+                        return cb(null, hashedPw);
+                    });
+                },
+                createUser: (addSalt, computeHash, cb) => {
+
+                    const salt = addSalt;
+                    const hashedPw = computeHash;
+
+                    const user = {
+                        id: Uuid.v4(),
+                        username: username,
+                        email: email,
+                        salt: salt,
+                        hashedPw: hashedPw,
+                        realm: (realm || 'My Realm')
+                    };
+
+                    userDao.createUser(redis, user, (err) => {
+                        if (err) {
+                            return cb(err);
+                        }
+
+                        return cb(null, user.id);
+                    });
+                },
+                createUserProfile: (createUser, cb) => {
+
+                    const userId = createUser;
+
+                    const profile = {
+                        firstname: firstname,
+                        surname: surname,
+                        birthdate: fmtBirthDate
+                    };
+
+                    userProfileDao.createUserProfile(redis, userId, profile, (err) => {
+                        if (err) {
+                            return cb(err);
                         }
 
                         return cb();
                     });
-                });
-            },
-            addSalt: (cb) => {
+                }
+            }, (err) => {
 
-                Bcrypt.genSalt(10, (err, salt) => {
-                    if (err) {
-                        return cb(err);
-                    }
+                if (err) {
+                    server.log(err);
+                    return reply(Boom.internal());
+                }
 
-                    return cb(null, salt);
-                });
-            },
-            computeHash: (addSalt, cb) => {
-
-                const salt = addSalt;
-
-                Bcrypt.hash(password, salt, (err, hashedPw) => {
-                    if (err) {
-                        return cb(err);
-                    }
-
-                    return cb(null, hashedPw);
-                });
-            },
-            createUser: (addSalt, computeHash, cb) => {
-
-                const salt = addSalt;
-                const hashedPw = computeHash;
-
-                const user = {
-                    id: Uuid.v4(),
-                    username: username,
-                    email: email,
-                    salt: salt,
-                    hashedPw: hashedPw,
-                    realm: (realm || 'My Realm')
-                };
-
-                userDao.createUser(redis, user, (err) => {
-                    if (err) {
-                        return cb(err);
-                    }
-
-                    return cb(null, user.id);
-                });
-            },
-            createUserProfile: (createUser, cb) => {
-
-                const userId = createUser;
-
-                const profile = {
-                    firstname: firstname,
-                    surname: surname,
-                    birthdate: fmtBirthDate
-                };
-
-                userProfileDao.createUserProfile(redis, userId, profile, (err) => {
-                    if (err) {
-                        return cb(err);
-                    }
-
-                    return cb();
-                });
-            }
-        }, (err) => {
-            if (err) {
-                return reply(err);
-            }
-
-            return reply.redirect('/login?registered=true');
+                return reply.redirect('/login?registered=true');
+            });
         });
     };
 };
