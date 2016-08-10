@@ -3,6 +3,17 @@
  */
 'use strict';
 
+const security = {
+    xframe: {
+        rule: 'sameorigin'
+    },
+    hsts: {
+        maxAge: '31536000',
+        includeSubdomains: true
+    },
+    xss: true
+};
+
 module.exports = [
     {
         path: '/user/{userId}/profile',
@@ -13,7 +24,8 @@ module.exports = [
                 retrieveUserProfileHandler: {
                     type: 'profile'
                 }
-            }
+            },
+            security
         }
     },
     {
@@ -32,7 +44,8 @@ module.exports = [
                 loginUserHandler: {
                     type: 'login'
                 }
-            }
+            },
+            security
         }
     }
 ];

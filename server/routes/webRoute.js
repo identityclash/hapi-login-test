@@ -6,6 +6,17 @@
 const HawkPreAuth = require('./preauth/hawkPreAuth');
 const Schema = require('./schemas/schema');
 
+const security = {
+    xframe: {
+        rule: 'sameorigin'
+    },
+    hsts: {
+        maxAge: '31536000',
+        includeSubdomains: true
+    },
+    xss: true
+};
+
 module.exports = [
     // Static files
     {
@@ -15,6 +26,9 @@ module.exports = [
             directory: {
                 path: process.cwd() + '/views/css'
             }
+        },
+        config: {
+            security
         }
     },
     {
@@ -24,6 +38,9 @@ module.exports = [
             directory: {
                 path: process.cwd() + '/views/js'
             }
+        },
+        config: {
+            security
         }
     },
     // Web pages
@@ -35,7 +52,8 @@ module.exports = [
                 webHandler: {
                     type: 'index'
                 }
-            }
+            },
+            security
         }
     },
     {
@@ -45,6 +63,9 @@ module.exports = [
             webHandler: {
                 type: 'registration'
             }
+        },
+        config: {
+            security
         }
     },
     {
@@ -66,7 +87,8 @@ module.exports = [
                     birthdate: Schema.birthdate,
                     realm: Schema.realm
                 }
-            }
+            },
+            security
         }
     },
     {
@@ -89,7 +111,8 @@ module.exports = [
                 welcomeUserHandler: {
                     type: 'profile'
                 }
-            }
+            },
+            security
         }
     },
     {
@@ -100,7 +123,8 @@ module.exports = [
                 logoutUserHandler: {
                     type: 'logout'
                 }
-            }
+            },
+            security
         }
     }
 ];

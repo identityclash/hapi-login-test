@@ -3,6 +3,17 @@
  */
 'use strict';
 
+const security = {
+    xframe: {
+        rule: 'sameorigin'
+    },
+    hsts: {
+        maxAge: '31536000',
+        includeSubdomains: true
+    },
+    xss: true
+};
+
 module.exports = [
     {
         // Web login
@@ -13,17 +24,21 @@ module.exports = [
                 rootHandler: {
                     type: 'index'
                 }
-            }
+            },
+            security
         }
     },
     // Invalid paths
     {
         path: '/{path*}',
         method: '*',
-        handler: {
-            rootHandler: {
-                type: 'notfound'
-            }
+        config: {
+            handler: {
+                rootHandler: {
+                    type: 'notfound'
+                }
+            },
+            security
         }
     }
 ];
