@@ -54,15 +54,7 @@ const manifest = {
             plugin: {
                 register: 'blankie',
                 options: {
-                    childSrc: 'self',
-                    connectSrc: '\'self\' http://hapi-login-test.herokuapp.com https://hapi-login-test.herokuapp.com',
-                    fontSrc: 'self',
-                    imgSrc: 'self',
-                    manifestSrc: 'self',
-                    mediaSrc: 'self',
-                    objectSrc: 'self',
-                    scriptSrc: 'self',
-                    styleSrc: 'self',
+                    defaultSrc: 'self',
                     reflectedXss: 'block'
                 }
             }
