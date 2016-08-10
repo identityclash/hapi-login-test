@@ -22,24 +22,32 @@ module.exports = [
     {
         path: '/css/{path*}',
         method: '*',
-        handler: {
-            directory: {
-                path: process.cwd() + '/views/css'
-            }
-        },
         config: {
+            handler: {
+                directory: {
+                    path: process.cwd() + '/views/css'
+                }
+            },
+            cache: {
+                expiresIn: 30 * 1000,
+                privacy: 'public'
+            },
             security
         }
     },
     {
         path: '/js/{path*}',
         method: '*',
-        handler: {
-            directory: {
-                path: process.cwd() + '/views/js'
-            }
-        },
         config: {
+            handler: {
+                directory: {
+                    path: process.cwd() + '/views/js'
+                }
+            },
+            cache: {
+                expiresIn: 30 * 1000,
+                privacy: 'public'
+            },
             security
         }
     },
@@ -53,18 +61,26 @@ module.exports = [
                     type: 'index'
                 }
             },
+            cache: {
+                expiresIn: 30 * 1000,
+                privacy: 'public'
+            },
             security
         }
     },
     {
         path: '/registration',
         method: 'GET',
-        handler: {
-            webHandler: {
-                type: 'registration'
-            }
-        },
         config: {
+            handler: {
+                webHandler: {
+                    type: 'registration'
+                }
+            },
+            cache: {
+                expiresIn: 30 * 1000,
+                privacy: 'public'
+            },
             security
         }
     },
@@ -76,6 +92,10 @@ module.exports = [
                 registerUserHandler: {
                     type: 'register'
                 }
+            },
+            cache: {
+                expiresIn: 0,
+                privacy: 'private'
             },
             validate: {
                 payload: {
@@ -100,7 +120,8 @@ module.exports = [
                 strategies: ['hawk-login-auth-strategy']
             },
             cache: {
-                expiresIn: 0
+                expiresIn: 0,
+                privacy: 'private'
             },
             ext: {
                 onPreAuth: {
@@ -123,6 +144,10 @@ module.exports = [
                 logoutUserHandler: {
                     type: 'logout'
                 }
+            },
+            cache: {
+                expiresIn: 0,
+                privacy: 'private'
             },
             security
         }

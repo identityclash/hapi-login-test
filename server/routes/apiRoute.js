@@ -25,6 +25,10 @@ module.exports = [
                     type: 'profile'
                 }
             },
+            cache: {
+                expiresIn: 1 * 1000,
+                privacy: 'private'
+            },
             security
         }
     },
@@ -37,8 +41,8 @@ module.exports = [
                 strategies: ['basic-login-auth-strategy']
             },
             cache: {
-                privacy: 'private',
-                expiresIn: 0
+                expiresIn: 0,
+                privacy: 'private'
             },
             handler: {
                 loginUserHandler: {

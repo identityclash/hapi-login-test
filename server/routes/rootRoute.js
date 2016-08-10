@@ -25,6 +25,9 @@ module.exports = [
                     type: 'index'
                 }
             },
+            cache: {
+                privacy: 'public'
+            },
             security
         }
     },
@@ -37,6 +40,9 @@ module.exports = [
                 rootHandler: {
                     type: 'notfound'
                 }
+            },
+            cache: {
+                privacy: 'public'
             },
             security
         }
