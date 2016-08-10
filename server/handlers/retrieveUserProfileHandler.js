@@ -59,9 +59,7 @@ module.exports = () => {
                     }
 
                     return reply(userProfile)
-                        .state('Hawk-Session-Token', newCredentials)
-                        .header('Hawk-Session-Token', strCredential)
-                        .header('Access-Control-Expose-Headers', 'Hawk-Session-Token');
+                        .state('Hawk-Session-Token', newCredentials);
                 });
             });
         });
