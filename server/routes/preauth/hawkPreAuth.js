@@ -49,7 +49,7 @@ module.exports = (request, reply) => {
             + '://'
             + request.info.host + '/user/profile';
 
-        request.server.log('hawkPreAuth url: ' + url);
+        server.log('hawkPreAuth url: ' + url);
 
         request.raw.req.url = url;
 
