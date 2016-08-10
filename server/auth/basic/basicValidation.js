@@ -56,10 +56,10 @@ exports.validate = (request, usernameOrEmail, password, callback) => {
             });
         }
     }, (err, results) => {
+
         if (err) {
             server.log(err);
-
-            return callback(err === 'invalid' ? null : Boom.internal(err), false, null);
+            return callback(err === 'invalid' ? null : Boom.internal(), false, null);
         }
 
         return callback(null, true, results.generateCredentials);
