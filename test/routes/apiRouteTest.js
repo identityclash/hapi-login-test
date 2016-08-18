@@ -4,6 +4,7 @@
 'use strict';
 
 const Async = require('async');
+const Boom = require('boom');
 const Code = require('code');
 const Lab = require('lab');
 
@@ -16,7 +17,7 @@ const afterEach = lab.afterEach;
 const describe = lab.describe;
 const it = lab.it;
 
-const HANDLER_NAMES = ['loginUserHandler'];
+const HANDLER_NAMES = ['loginUserHandler', 'registerUserHandler'];
 const PASSED_THRU = 'Test passed through handler ';
 
 let testHandlerNameContainer = [];
@@ -59,7 +60,8 @@ testServer.handler('retrieveUserProfileHandler', () => {
 
     return (request, reply) => {
 
-        if (HANDLER_NAMES.indexOf('retrieveUserProfileHandler') >= 0 && testHandlerNameContainer.indexOf('retrieveUserProfileHandler') < 0) {
+        if (HANDLER_NAMES.indexOf('retrieveUserProfileHandler') >= 0
+            && testHandlerNameContainer.indexOf('retrieveUserProfileHandler') < 0) {
             testHandlerNameContainer.push(PASSED_THRU + 'retrieveUserProfileHandler');
         }
 
@@ -77,6 +79,174 @@ describe('server/routes/apiRoute', () => {
 
         testHandlerNameContainer = [];
         return done();
+    });
+
+    it('has POST path /user/registration', (done) => {
+
+        testServer.inject({
+            method: 'POST',
+            url: '/user/registration',
+            payload: {
+                username: 'johndoe',
+                email: 'johndoe@gmail.com',
+                password: 'password1234',
+                firstname: 'john',
+                surname: 'doe',
+                birthdate: '1980-12-12'
+            }
+        }, (res) => {
+
+            expect(testHandlerNameContainer).to.include(PASSED_THRU + 'registerUserHandler');
+            expect(res.headers['content-type']).to.include('application/json');
+            expect(res.statusCode).to.equal(200);
+            expect(res.result).to.be.true();
+
+            return done();
+        });
+    });
+
+    it('should reject invalid payload (username) on POST path /user/registration', (done) => {
+
+        testServer.inject({
+            method: 'POST',
+            url: '/user/registration',
+            payload: {
+                username: 'johndoe$$$',
+                email: 'johndoe@gmail.com',
+                password: 'password1234',
+                firstname: 'john',
+                surname: 'doe',
+                birthdate: '1980-12-12'
+            }
+        }, (res) => {
+
+            expect(testHandlerNameContainer).to.not.include(PASSED_THRU + 'registerUserHandler');
+            expect(res.headers['content-type']).to.include('application/json');
+            expect(res.statusCode).to.equal(400);
+            expect(res.result.error).to.equal(Boom.badRequest().message);
+
+            return done();
+        });
+    });
+
+    it('should reject invalid payload (email) on POST path /user/registration', (done) => {
+
+        testServer.inject({
+            method: 'POST',
+            url: '/user/registration',
+            payload: {
+                username: 'johndoe',
+                email: 'johndoegmail.com',
+                password: 'password1234',
+                firstname: 'john',
+                surname: 'doe',
+                birthdate: '1980-12-12'
+            }
+        }, (res) => {
+
+            expect(testHandlerNameContainer).to.not.include(PASSED_THRU + 'registerUserHandler');
+            expect(res.headers['content-type']).to.include('application/json');
+            expect(res.statusCode).to.equal(400);
+            expect(res.result.error).to.equal(Boom.badRequest().message);
+
+            return done();
+        });
+    });
+
+    it('should reject invalid payload (password) on POST path /user/registration', (done) => {
+
+        testServer.inject({
+            method: 'POST',
+            url: '/user/registration',
+            payload: {
+                username: 'johndoe',
+                email: 'johndoe@gmail.com',
+                password: 'password1234`~',
+                firstname: 'john',
+                surname: 'doe',
+                birthdate: '1980-12-12'
+            }
+        }, (res) => {
+
+            expect(testHandlerNameContainer).to.not.include(PASSED_THRU + 'registerUserHandler');
+            expect(res.headers['content-type']).to.include('application/json');
+            expect(res.statusCode).to.equal(400);
+            expect(res.result.error).to.equal(Boom.badRequest().message);
+
+            return done();
+        });
+    });
+
+    it('should reject invalid payload (first name) on POST path /user/registration', (done) => {
+
+        testServer.inject({
+            method: 'POST',
+            url: '/user/registration',
+            payload: {
+                username: 'johndoe',
+                email: 'johndoegmail.com',
+                password: 'password1234',
+                firstname: 'j0hn$',
+                surname: 'doe',
+                birthdate: '1980-12-12'
+            }
+        }, (res) => {
+
+            expect(testHandlerNameContainer).to.not.include(PASSED_THRU + 'registerUserHandler');
+            expect(res.headers['content-type']).to.include('application/json');
+            expect(res.statusCode).to.equal(400);
+            expect(res.result.error).to.equal(Boom.badRequest().message);
+
+            return done();
+        });
+    });
+
+    it('should reject invalid payload (surname) on POST path /user/registration', (done) => {
+
+        testServer.inject({
+            method: 'POST',
+            url: '/user/registration',
+            payload: {
+                username: 'johndoe',
+                email: 'johndoegmail.com',
+                password: 'password1234',
+                firstname: 'john',
+                surname: 'doe$',
+                birthdate: '1980-12-12'
+            }
+        }, (res) => {
+
+            expect(testHandlerNameContainer).to.not.include(PASSED_THRU + 'registerUserHandler');
+            expect(res.headers['content-type']).to.include('application/json');
+            expect(res.statusCode).to.equal(400);
+            expect(res.result.error).to.equal(Boom.badRequest().message);
+
+            return done();
+        });
+    });
+
+    it('should reject invalid payload (birth date) on POST path /user/registration', (done) => {
+
+        testServer.inject({
+            method: 'POST',
+            url: '/user/registration',
+            payload: {
+                username: 'johndoe',
+                email: 'johndoegmail.com',
+                password: 'password1234',
+                firstname: 'john',
+                surname: 'doe$',
+                birthdate: '1980-13-12'
+            }
+        }, (res) => {
+
+            expect(testHandlerNameContainer).to.not.include(PASSED_THRU + 'registerUserHandler');
+            expect(res.headers['content-type']).to.include('application/json');
+            expect(res.statusCode).to.equal(400);
+            expect(res.result.error).to.equal(Boom.badRequest().message);
+
+            return done();
+        });
     });
 
     it('has GET path /user/1657c7fa-20b3-475e-b1ea-7bc77ac93ad3/profile', (done) => {
