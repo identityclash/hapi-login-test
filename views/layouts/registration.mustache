@@ -5,30 +5,56 @@
 
 <body>
 <div class="container-fluid">
-    <form class="form-signin" method="POST" action="/user/registration">
+    <form id="formRegistration" class="form-signin" method="POST" action="/user/registration">
         <h2 class="form-signin-heading">Please sign up</h2>
 
+        <div id="alertInvalid" class="alert alert-danger hidden">
+            <a id="closeInvalid" class="close" aria-label="invalid-username-close">&times;</a>
+            <div id="alertInvalidUsername" class="hidden">
+                <strong>Error</strong> Username must contain only alphanumeric characters
+            </div>
+            <div id="alertInvalidEmail" class="hidden">
+                <strong>Error</strong> Email must be valid and must contain alphanumeric characters and
+                the '@' and '.' characters only
+            </div>
+            <div id="alertInvalidPassword" class="hidden">
+                <strong>Error</strong> Password must contain only alphanumeric or the following characters: !@#$%^&*()
+            </div>
+            <div id="alertInvalidFirstName" class="hidden">
+                <strong>Error</strong> First name must contain alphanumeric characters only
+            </div>
+            <div id="alertInvalidSurname" class="hidden">
+                <strong>Error</strong> Surname must contain alphanumeric characters only
+            </div>
+            <div id="alertInvalidBirthDate" class="hidden">
+                <strong>Error</strong> Birth date must be a valid date and must follow the format YYYY-MM-DD
+            </div>
+            <div id="alertUserExists" class="hidden">
+                <strong>Error</strong> Username or email already exists
+            </div>
+        </div>
+
         <label for="username" class="sr-only">Username</label>
-        <input type="text" name="username" id="username" class="form-control" placeholder="Username" required autofocus>
+        <input type="text" name="username" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
 
         <label for="email" class="sr-only">E-mail Address</label>
-        <input type="email" name="email" id="email" class="form-control" placeholder="E-mail Address" required>
+        <input type="email" name="email" id="inputEmail" class="form-control" placeholder="E-mail Address" required>
 
         <label for="password" class="sr-only">Password</label>
-        <input type="password" name="password" id="password" class="form-control" placeholder="Password"
+        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password"
                autocomplete="nope" required>
 
         <label for="firstname" class="sr-only">First Name</label>
-        <input type="text" name="firstname" id="firstname" class="form-control" placeholder="First Name" required>
+        <input type="text" name="firstname" id="inputFirstName" class="form-control" placeholder="First Name" required>
 
         <label for="surname" class="sr-only">First Name</label>
-        <input type="text" name="surname" id="surname" class="form-control" placeholder="Surname" required>
+        <input type="text" name="surname" id="inputSurname" class="form-control" placeholder="Surname" required>
 
         <label for="birthDate" class="sr-only">Birth Date</label>
-        <input type="text" name="birthdate" id="birthDate" class="form-control span2"
+        <input type="text" name="birthdate" id="inputBirthDate" class="form-control span2"
                placeholder="Birth Date (Ex: 1900-12-31)" data-date-format="yyyy-mm-dd" required readonly>
 
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
+        <button type="button" id="btnSubmit" class="btn btn-lg btn-primary btn-block">Sign up</button>
     </form>
 </div>
 </body>

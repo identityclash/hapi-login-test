@@ -3,6 +3,8 @@
  */
 'use strict';
 
+const Schema = require('./schemas/schema');
+
 const security = {
     xframe: {
         rule: 'sameorigin'
@@ -15,6 +17,33 @@ const security = {
 };
 
 module.exports = [
+    {
+        path: '/user/registration',
+        method: 'POST',
+        config: {
+            handler: {
+                registerUserHandler: {
+                    type: 'register'
+                }
+            },
+            cache: {
+                expiresIn: 0,
+                privacy: 'private'
+            },
+            validate: {
+                payload: {
+                    username: Schema.username,
+                    email: Schema.email,
+                    password: Schema.password,
+                    firstname: Schema.firstname,
+                    surname: Schema.surname,
+                    birthdate: Schema.birthdate,
+                    realm: Schema.realm
+                }
+            },
+            security
+        }
+    },
     {
         path: '/user/{userId}/profile',
         method: 'GET',

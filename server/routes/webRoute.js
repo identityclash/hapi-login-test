@@ -4,7 +4,6 @@
 'use strict';
 
 const HawkPreAuth = require('./preauth/hawkPreAuth');
-const Schema = require('./schemas/schema');
 
 const security = {
     xframe: {
@@ -19,6 +18,21 @@ const security = {
 
 module.exports = [
     // Static files
+    {
+        path: '/html/{path*}',
+        method: '*',
+        config: {
+            handler: {
+                directory: {
+                    path: process.cwd() + '/views/html'
+                }
+            },
+            cache: {
+                privacy: 'public'
+            },
+            security
+        }
+    },
     {
         path: '/css/{path*}',
         method: '*',
@@ -80,33 +94,6 @@ module.exports = [
             cache: {
                 expiresIn: 30 * 1000,
                 privacy: 'public'
-            },
-            security
-        }
-    },
-    {
-        path: '/user/registration',
-        method: 'POST',
-        config: {
-            handler: {
-                registerUserHandler: {
-                    type: 'register'
-                }
-            },
-            cache: {
-                expiresIn: 0,
-                privacy: 'private'
-            },
-            validate: {
-                payload: {
-                    username: Schema.username,
-                    email: Schema.email,
-                    password: Schema.password,
-                    firstname: Schema.firstname,
-                    surname: Schema.surname,
-                    birthdate: Schema.birthdate,
-                    realm: Schema.realm
-                }
             },
             security
         }
