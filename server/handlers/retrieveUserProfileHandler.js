@@ -43,14 +43,6 @@ module.exports = () => {
                     userId: userId
                 };
 
-                let strCredential = '';
-
-                for (const credential in newCredentials) {
-                    if (newCredentials.hasOwnProperty(credential)) {
-                        strCredential += (credential + '=' + newCredentials[credential] + ';');
-                    }
-                }
-
                 userProfileDao.readUserProfile(redis, userId, (err, userProfile) => {
                     if (err) {
                         return reply(err);
