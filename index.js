@@ -14,7 +14,7 @@ composer((err, server) => {
         ttl: 24 * 60 * 60 * 1000,
         path: '/',
         isSecure: true,
-        isHttpOnly: true,
+        isHttpOnly: false,
         encoding: 'base64json',
         clearInvalid: true
     });
