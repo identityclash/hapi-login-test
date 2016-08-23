@@ -10,7 +10,9 @@
  */
 'use strict';
 
+
 const Hawk = require('hawk');
+const isHexString = require(process.cwd() + '/server/helpers/util').isHexString;
 const retrieveFromToken = require(process.cwd() + '/server/helpers/hkdfTokenGenerator').retrieveFromToken;
 
 module.exports = (request, reply) => {
@@ -30,10 +32,11 @@ module.exports = (request, reply) => {
 
     server.log(ikm + ' ' + info + ' ' + salt + ' ' + length);
 
+    if (!isHexString(ikm)) {
+        return reply.continue();
+    }
+
     retrieveFromToken(ikm, info, salt, length, (id, key) => {
-        if (!(id && key)) {
-            return reply.continue();
-        }
 
         const algorithm = clientToken.algorithm;
 
