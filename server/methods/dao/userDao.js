@@ -5,6 +5,10 @@
 
 module.exports.createUser = (db, user, cb) => {
 
+    if (!(user && (typeof user === 'object') && user.id && user.email && user.username)) {
+        return cb('invalid or incomplete user information');
+    }
+
     const multi = db.multi();
     multi.hmset('user:' + user.id, user);
     multi.set('userId:' + user.email, user.id);
@@ -21,6 +25,10 @@ module.exports.createUser = (db, user, cb) => {
 
 module.exports.readUserId = (db, usernameOrEmail, cb) => {
 
+    if (!(usernameOrEmail && typeof usernameOrEmail === 'string')) {
+        return cb('invalid username or email');
+    }
+
     db.get('userId:' + usernameOrEmail, (err, dbUserId) => {
 
         if (err) {
@@ -32,6 +40,10 @@ module.exports.readUserId = (db, usernameOrEmail, cb) => {
 };
 
 module.exports.readUsername = (db, userId, cb) => {
+
+    if (!(userId && typeof userId === 'string')) {
+        return cb('invalid user id');
+    }
 
     db.hget('user:' + userId, 'username', (err, dbUsername) => {
 
@@ -45,6 +57,10 @@ module.exports.readUsername = (db, userId, cb) => {
 
 module.exports.readUserHashAndRealm = (db, userId, cb) => {
 
+    if (!(userId && typeof userId === 'string')) {
+        return cb('invalid user id');
+    }
+
     db.hmget(['user:' + userId, 'hashedPw', 'realm'], (err, dbHashAndRealm) => {
 
         if (err) {
@@ -52,41 +68,5 @@ module.exports.readUserHashAndRealm = (db, userId, cb) => {
         }
 
         return cb(null, dbHashAndRealm);
-    });
-};
-
-module.exports.readUser = (db, username, cb) => {
-
-    db.hgetall('user:' + username, (err, user) => {
-
-        if (err) {
-            return cb(err);
-        }
-
-        return cb(null, user);
-    });
-};
-
-module.exports.updateUser = (db, user, cb) => {
-
-    db.hmset('username:' + user.username, user, (err, result) => {
-
-        if (err) {
-            return cb(err);
-        }
-
-        return cb(null, result);
-    });
-};
-
-module.exports.deleteUser = (db, username, cb) => {
-
-    db.del('username:' + username, (err, result) => {
-
-        if (err) {
-            return cb(err);
-        }
-
-        return cb(null, result);
     });
 };

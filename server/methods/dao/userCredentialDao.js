@@ -5,6 +5,13 @@
 
 module.exports.createUserCredential = (db, tokenId, credentials, cb) => {
 
+    if (!(tokenId && (typeof tokenId === 'string'))) {
+        return cb('invalid token');
+    }
+    if (!(credentials && (typeof credentials === 'object')) || Object.keys(credentials).length === 0) {
+        return cb('invalid credentials');
+    }
+
     db.hmset('userCredential:' + tokenId, credentials, (err, results) => {
 
         if (err) {
@@ -16,6 +23,10 @@ module.exports.createUserCredential = (db, tokenId, credentials, cb) => {
 };
 
 module.exports.readUserCredential = (db, tokenId, cb) => {
+
+    if (!(tokenId && typeof tokenId === 'string')) {
+        return cb('invalid token');
+    }
 
     db.hgetall('userCredential:' + tokenId, (err, credentials) => {
 
@@ -30,6 +41,10 @@ module.exports.readUserCredential = (db, tokenId, cb) => {
 module.exports.updateUserCredential = module.exports.createUserCredential;
 
 module.exports.deleteUserCredential = (db, tokenId, cb) => {
+
+    if (!(tokenId && typeof tokenId === 'string')) {
+        return cb('invalid token');
+    }
 
     db.del('userCredential:' + tokenId, (err, results) => {
 
