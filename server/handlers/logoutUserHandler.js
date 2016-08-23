@@ -15,6 +15,10 @@ module.exports = () => {
         const userCredentialDao = dao.userCredentialDao;
         const cookieSession = request.state['Hawk-Session-Token'];
 
+        if (!(cookieSession && cookieSession.hawkSessionToken)) {
+            server.log([], 'session cookie not found');
+            return reply.redirect('/login');
+        }
 
         const ikm = cookieSession.hawkSessionToken;
         const info = request.info.host + '/hawkSessionToken';
@@ -28,12 +32,11 @@ module.exports = () => {
             userCredentialDao.deleteUserCredential(redis, sessionId, (err) => {
 
                 if (err) {
-                    server.log(err);
+                    server.log(['error', 'database', 'delete'], err);
                 }
 
-                return reply.redirect('/')
-                    .unstate('Hawk-Session-Token')
-                    .header('X-Permitted-Cross-Domain-Policies', 'master-only');
+                return reply.redirect('/login')
+                    .unstate('Hawk-Session-Token');
             });
         });
     };
