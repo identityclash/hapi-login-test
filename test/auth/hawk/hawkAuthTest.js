@@ -10,8 +10,8 @@ const Lab = require('lab');
 const Sinon = require('sinon');
 
 const HawkAuth = require(process.cwd() + '/server/auth/hawk/hawkAuth');
-const TestServer = require('../../testServer');
 const UserCredentialDao = require(process.cwd() + '/server/methods/dao/userCredentialDao');
+const TestServer = require(process.cwd() + '/test/testServer');
 
 const expect = Code.expect;
 const lab = exports.lab = Lab.script();

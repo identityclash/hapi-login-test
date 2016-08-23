@@ -7,9 +7,9 @@ const Code = require('code');
 const Lab = require('lab');
 const Sinon = require('sinon');
 
-const TestServer = require('../testServer');
 const LogoutUserHandler = require(process.cwd() + '/server/handlers/logoutUserHandler');
 const UserCredentialDao = require(process.cwd() + '/server/methods/dao/userCredentialDao');
+const TestServer = require(process.cwd() + '/test/testServer');
 
 const expect = Code.expect;
 const lab = exports.lab = Lab.script();

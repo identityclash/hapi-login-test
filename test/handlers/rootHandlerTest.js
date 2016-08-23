@@ -6,8 +6,8 @@
 const Code = require('code');
 const Lab = require('lab');
 
-const TestServer = require('../testServer');
 const RootHandler = require(process.cwd() + '/server/handlers/rootHandler');
+const TestServer = require(process.cwd() + '/test/testServer');
 
 const expect = Code.expect;
 const lab = exports.lab = Lab.script();

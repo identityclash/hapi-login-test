@@ -10,9 +10,9 @@ const Lab = require('lab');
 const Sinon = require('sinon');
 
 const BasicValidation = require(process.cwd() + '/server/auth/basic/basicValidation');
-const TestServer = require('../../testServer');
 const UserDao = require(process.cwd() + '/server/methods/dao/userDao');
 const UserCredentialDao = require(process.cwd() + '/server/methods/dao/userCredentialDao');
+const TestServer = require(process.cwd() + '/test/testServer');
 
 const expect = Code.expect;
 const lab = exports.lab = Lab.script();
