@@ -3,8 +3,6 @@
  */
 'use strict';
 
-const Boom = require('boom');
-
 module.exports = (route, options) => {
 
     options.type = options.type || 'notfound';
@@ -12,11 +10,16 @@ module.exports = (route, options) => {
     return (request, reply) => {
 
         if (options.type === 'index') {
-            return reply.redirect('/login')
-                .header('X-Permitted-Cross-Domain-Policies', 'master-only');
+            return reply.redirect('/login');
         }
         if (options.type === 'notfound') {
-            return reply(Boom.notFound('Page Not Found'));
+            return reply.view('error', {
+                title: '404 - Page Not Found',
+                h1: '404 - Page Not Found',
+                message: 'The resource you are looking for does not exist.'
+            }).code(404);
         }
+
+        return reply.continue();
     };
 };
