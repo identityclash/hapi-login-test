@@ -13,8 +13,8 @@ composer((err, server) => {
     server.state('Hawk-Session-Token', {
         ttl: 24 * 60 * 60 * 1000,
         path: '/',
-        isSecure: false,
-        isHttpOnly: false,
+        isSecure: true,
+        isHttpOnly: true,
         encoding: 'base64json',
         clearInvalid: true
     });
