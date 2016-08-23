@@ -7,6 +7,9 @@ const Hapi = require('hapi');
 const HapiAuthBasic = require('hapi-auth-basic');
 const HapiAuthHawk = require('hapi-auth-hawk');
 const Inert = require('inert');
+const Handlebars = require('handlebars');
+const Vision = require('vision');
+const Visionary = require('visionary');
 
 
 module.exports = function () {
@@ -28,14 +31,22 @@ module.exports = function () {
     });
 
     server.register([
-        Inert,
         HapiAuthBasic,
-        HapiAuthHawk
+        HapiAuthHawk,
+        Inert,
+        Vision,
+        Visionary
     ], (err) => {
 
         if (err) {
             throw err;
         }
+    });
+
+    server.views({
+        path: 'views/layouts',
+        partialsPath: 'views/layouts/partials',
+        engines: {mustache: Handlebars}
     });
 
     return server;
