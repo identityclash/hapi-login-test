@@ -8,12 +8,10 @@ module.exports = () => {
     return (request, reply) => {
 
         const authCredentials = request.auth.credentials;
-        const userId = authCredentials.userId;
-
         const credentials = {
             hawkSessionToken: authCredentials.hawkSessionToken,
             algorithm: authCredentials.algorithm,
-            userId: userId
+            userId: authCredentials.userId
         };
 
         return reply('successful login')
