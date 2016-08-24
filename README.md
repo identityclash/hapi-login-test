@@ -1,5 +1,12 @@
-# hapi-login-test
-<a href="https://hapi-login-test.herokuapp.com">Demo</a> login functionality using <a href="https://github.com/hapijs/hapi">Hapi</a>, basic authentication and Hawk authentication schemes. The interface is taken from <a href="https://getbootstrap.com/examples/signin/">Bootstrap</a>'s sign-in sample form. The Hawk implementation used here is based on Mozilla Services' Hawk authentication <a href="https://github.com/mozilla-services/express-hawkauth">middleware</a> for <a href="https://github.com/expressjs/express">Express</a>.
+# Hapi-Login-Test
+<a href="https://hapi-login-test.herokuapp.com">Demo</a> login functionality using <a href="https://github.com/hapijs/hapi">Hapi</a>, basic authentication and Hawk authentication schemes, and <a href="https://github.com/antirez/redis">Redis</a> for persistence. The interface is taken from <a href="https://getbootstrap.com/examples/signin/">Bootstrap</a>'s sign-in sample form. The Hawk implementation used here is based on Mozilla Services' Hawk authentication <a href="https://github.com/mozilla-services/express-hawkauth">middleware</a> for <a href="https://github.com/expressjs/express">Express</a>.
+
+```
+$ git clone https://github.com/identityclash/hapi-login-test.git && cd hapi-login-test
+$ npm install            # download dependencies
+$ npm start              # run server
+$ npm test               # run test script
+```
 
 ## Tools (in Alphabetical Order)
 ### <a href="https://github.com/hapijs/hapi">Hapi</a>-Specific
@@ -10,7 +17,7 @@
 <li><a href="https://github.com/hapijs/confidence">Confidence</a> - JSON-based configuration document format and API</li>
 <!--<li><a href="https://github.com/hapijs/crumb">Crumb</a> - Plugin for cross-site request forgery (CSRF) protection using random unique token (crumb)</li>-->
 <li><a href="https://github.com/hapijs/cryptiles">Cryptiles</a> - General utilities for cryptography</li>
-<li><a href="https://github.com/genediazjr/Disinfect">disinfect</a> - Plugin for sanitizing request params, query, and payload</li>
+<li><a href="https://github.com/genediazjr/Disinfect">Disinfect</a> - Plugin for sanitizing request params, query, and payload</li>
 <li><a href="https://github.com/hapijs/glue">Glue</a> - Configuration based composition of the server</li>
 <li><a href="https://github.com/hapijs/good">Good</a> - Plugin for process monitoring</li>
 <li><a href="https://github.com/hapijs/good-console">Good-Console</a> - Console reporting for Good server events</li>
@@ -20,7 +27,7 @@
 <li><a href="https://github.com/hapijs/hapi-auth-hawk">Hapi-Auth-Hawk</a> - Hawk authentication plugin</li>
 <li><a href="https://github.com/cilindrox/hapi-ioredis">Hapi-Ioredis</a> - <a href="https://github.com/luin/ioredis">Ioredis</a> plugin</li>
 <li><a href="https://github.com/hapijs/hoek">Hoek</a> - Utility methods</li>
-<li><a href="https://github.com/hapijs/inert">Inert</a> -Static file and directory handlers</li>
+<li><a href="https://github.com/hapijs/inert">Inert</a> - Static file and directory handlers</li>
 <li><a href="https://github.com/hapijs/scooter">Scooter</a> - User-agent information plugin</li>
 <li><a href="https://github.com/hapijs/vision">Vision</a> - Templates rendering support</li>
 <li><a href="https://github.com/hapijs/visionary">Visionary</a> - Views loader plugin</li>
@@ -36,6 +43,7 @@
 <li><a href="https://github.com/hueniverse/iron">Iron</a> - cryptographic utility for sealing a JSON object using symmetric key encryption with message integrity verification</li>
 <li><a href="https://github.com/isaacs/json-stringify-safe">JSON-Stringify-Safe</a> - JSON.stringify but silently protects against circular references</li>
 <li><a href="https://github.com/lodash/lodash">Lodash</a> - Utility library for JavaScript working with iterating arrays, objects, & strings; manipulating & testing values; and creating composite functions</li>
+<a href="https://github.com/antirez/redis">Redis</a> - Key-value in-memory database that persists on disk
 <li><a href="https://github.com/request/request">Request</a> - Simplified HTTP request client</li>
 <li><a href="https://github.com/defunctzombie/node-uuid">UUID</a> - Generate RFC-compliant UUIDs in JavaScript; a forked implementation from <a href="https://github.com/broofa/node-uuid">Node UUID</a></li>
 </ul>
