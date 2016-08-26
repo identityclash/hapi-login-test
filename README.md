@@ -37,10 +37,11 @@ $ npm test               # run test script
 <ul>
 <li><a href="https://github.com/caolan/async">Async</a> - Utilities on asynchronous functions in JavaScript</li>
 <li><a href="https://github.com/dcodeIO/bcrypt.js">BcryptJS</a> - Utilities for hashing in JavaScript</li>
+<li><a href="https://github.com/substack/node-browserify">Browserify</a> - Allows require('modules') in the browser by bundling up all dependencies
 <li><a href="https://github.com/hdachev/fakeredis">Fakeredis</a> - Fake implementation of Redis for testing purposes</li>
 <li><a href="https://github.com/benadida/node-hkdf">HKDF</a> - HKDF key-derivation function implementation based on <a href="https://tools.ietf.org/html/rfc5869">RFC 5869</a> for NodeJS</li>
 <li><a href="https://github.com/hueniverse/hawk">Hawk</a> - HTTP Holder-Of-Key Authentication Scheme</li>
-<li><a href="https://github.com/hueniverse/iron">Iron</a> - cryptographic utility for sealing a JSON object using symmetric key encryption with message integrity verification</li>
+<li><a href="https://github.com/hueniverse/iron">Iron</a> - Cryptographic utility for sealing a JSON object using symmetric key encryption with message integrity verification</li>
 <li><a href="https://github.com/isaacs/json-stringify-safe">JSON-Stringify-Safe</a> - JSON.stringify but silently protects against circular references</li>
 <li><a href="https://github.com/lodash/lodash">Lodash</a> - Utility library for JavaScript working with iterating arrays, objects, & strings; manipulating & testing values; and creating composite functions</li>
 <a href="https://github.com/antirez/redis">Redis</a> - Key-value in-memory database that persists on disk
