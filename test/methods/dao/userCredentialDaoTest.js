@@ -4,9 +4,10 @@
 'use strict';
 
 const Code = require('code');
-const Ioredis = require('ioredis');
+// const Ioredis = require('ioredis');
 const Lab = require('lab');
 
+const IoredisMock = require(process.cwd() + '/test/ioredisMock');
 const UserCredentialDao = require(process.cwd() + '/server/methods/dao/userCredentialDao');
 
 const expect = Code.expect;
@@ -25,7 +26,7 @@ const userCredential = {
     algorithm: 'sha256'
 };
 
-const REDIS_DB = 8;
+// const REDIS_DB = 8;
 
 let redis;
 
@@ -33,11 +34,13 @@ describe('server/methods/dao/userCredentialDao', () => {
 
     before((done) => {
 
-        redis = new Ioredis('redis://127.0.0.1:6379', {
-            showFriendlyErrorStack: true
-        });
+        // redis = new Ioredis('redis://127.0.0.1:6379', {
+        //     showFriendlyErrorStack: true
+        // });
 
-        redis.select(REDIS_DB);
+        // redis.select(REDIS_DB);
+
+        redis = new IoredisMock();
 
         return done();
     });
@@ -64,7 +67,7 @@ describe('server/methods/dao/userCredentialDao', () => {
         /* ensure reconnection after certain intentional disconnections in tests */
         redis.connect(() => {
 
-            redis.select(REDIS_DB);
+            // redis.select(REDIS_DB);
             return done();
         });
     });

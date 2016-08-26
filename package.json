@@ -40,7 +40,6 @@
     "hkdf": "0.0.2",
     "hoek": "4.0.x",
     "inert": "4.0.x",
-    "ioredis": "^2.3.0",
     "iron": "4.0.x",
     "joi": "8.4.x",
     "json-stringify-safe": "5.0.x",

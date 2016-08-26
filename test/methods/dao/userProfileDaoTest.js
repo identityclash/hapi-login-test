@@ -4,9 +4,10 @@
 'use strict';
 
 const Code = require('code');
-const Ioredis = require('ioredis');
+// const Ioredis = require('ioredis');
 const Lab = require('lab');
 
+const IoredisMock = require(process.cwd() + '/test/ioredisMock');
 const UserProfileDao = require(process.cwd() + '/server/methods/dao/userProfileDao');
 
 const expect = Code.expect;
@@ -23,7 +24,7 @@ const userProfile = {
     surname: 'Doe'
 };
 
-const REDIS_DB = 8;
+// const REDIS_DB = 8;
 
 let redis;
 
@@ -31,11 +32,13 @@ describe('server/methods/dao/userProfileDao', () => {
 
     before((done) => {
 
-        redis = new Ioredis('redis://127.0.0.1:6379', {
-            showFriendlyErrorStack: true
-        });
+        // redis = new Ioredis('redis://127.0.0.1:6379', {
+        //     showFriendlyErrorStack: true
+        // });
 
-        redis.select(REDIS_DB);
+        // redis.select(REDIS_DB);
+
+        redis = new IoredisMock();
 
         return done();
     });
@@ -62,7 +65,7 @@ describe('server/methods/dao/userProfileDao', () => {
         /* ensure reconnection after certain intentional disconnections in tests */
         redis.connect(() => {
 
-            redis.select(REDIS_DB);
+            // redis.select(REDIS_DB);
             return done();
         });
     });
