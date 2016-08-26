@@ -297,34 +297,3 @@ IoredisMock.prototype.hgetall = function () {
 if (module.exports) {
     module.exports = IoredisMock;
 }
-
-// const redis = new IoredisMock();
-// const multi = redis.multi();
-// const user = {
-//     id: 12,
-//     email: 'johndoe@gmail.com',
-//     username: 'johndoe',
-//     realm: 'realmz',
-//     hashedPw: 'heresthepassword',
-// }
-// multi.hmset('user:' + user.id, user);
-// multi.set('userId:' + user.email, user.id);
-// multi.set('userId:' + user.username, user.id);
-// multi.exec((err, result) => {
-//
-//     if (err) {
-//         console.log(err);
-//     }
-//
-//     console.log(result);
-// });
-//
-// redis.hmget(['user:' + user.id, 'hashedPw', 'realm'], (err, result) => {
-//
-//     console.log(result);
-// });
-//
-// redis.hget('user:' + user.id, 'username', (err, result) => {
-//
-//     console.log(result);
-// });

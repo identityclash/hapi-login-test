@@ -17,13 +17,6 @@ function IoredisMultiMock(client) {
 
 IoredisMultiMock.prototype.set = function () {
 
-    // if (arguments.length === 0) {
-    //     throw new Error('invalid arguments length');
-    // }
-    // if (!this.client.status || this.client.status === 'end') {
-    //     throw new Error('database closed');
-    // }
-
     if (Array.isArray(this.queue)) {
         this.queue.push({
             set: [...arguments]
@@ -35,13 +28,6 @@ IoredisMultiMock.prototype.set = function () {
 
 IoredisMultiMock.prototype.get = function () {
 
-    // if (arguments.length === 0 || arguments.length > 1) {
-    //     throw new Error('invalid arguments length');
-    // }
-    // if (!this.client.status || this.client.status === 'end') {
-    //     throw new Error('database closed');
-    // }
-
     if (Array.isArray(this.queue)) {
         this.queue.push({
             get: [...arguments]
@@ -52,13 +38,6 @@ IoredisMultiMock.prototype.get = function () {
 };
 
 IoredisMultiMock.prototype.hmset = function () {
-
-    // if (arguments.length === 0 || arguments.length > 2) {
-    //     throw new Error('invalid arguments length');
-    // }
-    // if (!this.client.status || this.client.status === 'end') {
-    //     throw new Error('database closed');
-    // }
 
     if (Array.isArray(this.queue)) {
         this.queue.push({
