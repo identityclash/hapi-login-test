@@ -23,6 +23,7 @@
     "blankie": "1.2.x",
     "boom": "^4.0.0",
     "confidence": "3.0.x",
+    "crumb": "^6.0.3",
     "cryptiles": "3.x",
     "disinfect": "0.x",
     "eslint": "^3.4.0",

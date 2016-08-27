@@ -37,14 +37,24 @@ const submitForm = () => {
         url: '/user/registration',
         contentType: 'application/json; charset=utf-8',
         processData: false,
+        beforeSend: (xhr) => {
+            const crumbz = MyUtils.getCookie('Crumbz');
+            xhr.setRequestHeader('X-CSRF-Token', crumbz);
+        },
         data: JSON.stringify(payload),
-        success: function (data, textStatus, jQxhr) {
+        success: function (data, textStatus, xhr) {
             if (data === 'registered') {
                 const protocol = location.protocol + '//';
                 window.location = protocol + location.host + '/login?registered=true';
             }
         },
         error: function (xhr, textStatus, errorThrown) {
+            const csrf = xhr.getResponseHeader('x-csrf-token');
+
+            if (csrf) {
+                document.cookie = 'Crumbz=' + csrf + '; path=/';
+            }
+
             if (xhr.status === 400 && textStatus === 'error') {
                 $('#alertInvalid').removeClass('hidden');
 

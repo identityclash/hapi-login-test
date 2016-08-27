@@ -59,25 +59,28 @@ const manifest = {
                 }
             }
         },
-        // {
-        //     plugin: {
-        //         register: 'crumb',
-        //         options: {
-        //             key: 'crumbz',
-        //             size: 43,
-        //             autoGenerate: true,
-        //             addToViewContext: true,
-        //             restful: false,
-        //             cookieOptions: {
-        //                 ttl: 24 * 60 * 60 * 1000,
-        //                 isSecure: false,
-        //                 isHttpOnly: true,
-        //                 clearInvalid: true,
-        //                 encoding: 'base64json'
-        //             }
-        //         }
-        //     }
-        // },
+        {
+            plugin: {
+                register: 'crumb',
+                options: {
+                    key: 'Crumbz',
+                    size: 43,
+                    autoGenerate: true,
+                    addToViewContext: true,
+                    restful: true,
+                    cookieOptions: {
+                        ttl: 24 * 60 * 60 * 1000,
+                        isSecure: true,
+                        isHttpOnly: false,
+                        path: '/',
+                        encoding: 'none',
+                        ignoreErrors: true,
+                        clearInvalid: true,
+                        strictHeader: true
+                    }
+                }
+            }
+        },
         {plugin: 'scooter'},
 
         // Routes, handlers, methods auto-injection-related
