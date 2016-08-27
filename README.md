@@ -15,7 +15,7 @@ $ npm test               # run test script
 <li><a href="https://github.com/nlf/blankie">Blankie</a> - Plugin for customization of Content Security Policies (CSP)</li>
 <li><a href="https://github.com/hapijs/boom">Boom</a> - HTTP-friendly error objects</li>
 <li><a href="https://github.com/hapijs/confidence">Confidence</a> - JSON-based configuration document format and API</li>
-<!--<li><a href="https://github.com/hapijs/crumb">Crumb</a> - Plugin for cross-site request forgery (CSRF) protection using random unique token (crumb)</li>-->
+<li><a href="https://github.com/hapijs/crumb">Crumb</a> - Plugin for cross-site request forgery (CSRF) protection using random unique token (crumb)</li>
 <li><a href="https://github.com/hapijs/cryptiles">Cryptiles</a> - General utilities for cryptography</li>
 <li><a href="https://github.com/genediazjr/Disinfect">Disinfect</a> - Plugin for sanitizing request params, query, and payload</li>
 <li><a href="https://github.com/hapijs/glue">Glue</a> - Configuration based composition of the server</li>
@@ -42,6 +42,7 @@ $ npm test               # run test script
 <li><a href="https://github.com/benadida/node-hkdf">HKDF</a> - HKDF key-derivation function implementation based on <a href="https://tools.ietf.org/html/rfc5869">RFC 5869</a> for NodeJS</li>
 <li><a href="https://github.com/hueniverse/hawk">Hawk</a> - HTTP Holder-Of-Key Authentication Scheme</li>
 <li><a href="https://github.com/hueniverse/iron">Iron</a> - Cryptographic utility for sealing a JSON object using symmetric key encryption with message integrity verification</li>
+<li><a href="https://github.com/jquery/jquery">jQuery</a> - Library for HTML document traversal and manipulation, event handling, animation, and AJAX
 <li><a href="https://github.com/isaacs/json-stringify-safe">JSON-Stringify-Safe</a> - JSON.stringify but silently protects against circular references</li>
 <li><a href="https://github.com/lodash/lodash">Lodash</a> - Utility library for JavaScript working with iterating arrays, objects, & strings; manipulating & testing values; and creating composite functions</li>
 <a href="https://github.com/antirez/redis">Redis</a> - Key-value in-memory database that persists on disk
