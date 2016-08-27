@@ -21,11 +21,11 @@
     "async": "2.0.x",
     "bcryptjs": "2.x",
     "blankie": "1.2.x",
-    "boom": "^3.2.2",
+    "boom": "^4.0.0",
     "confidence": "3.0.x",
     "cryptiles": "3.x",
-    "disinfect": "0.1.x",
-    "eslint": "^2.11.1",
+    "disinfect": "0.x",
+    "eslint": "^3.4.0",
     "fakeredis": "^1.x",
     "glue": "3.x",
     "good": "7.0.x",
@@ -41,18 +41,18 @@
     "hoek": "4.0.x",
     "inert": "4.0.x",
     "iron": "4.0.x",
-    "joi": "8.4.x",
+    "joi": "^9.0.4",
     "json-stringify-safe": "5.0.x",
-    "lodash": "4.13.x",
+    "lodash": "^4.15.0",
     "request": "2.x",
-    "scooter": "3.0.x",
+    "scooter": "4.x",
     "uuid": "^2.0.2",
     "vision": "4.1.x",
     "visionary": "6.0.x"
   },
   "devDependencies": {
     "code": "3.0.x",
-    "lab": "10.x",
+    "lab": "11.x",
     "sinon": "1.x"
   }
 }
