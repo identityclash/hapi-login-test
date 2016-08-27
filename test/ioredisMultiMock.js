@@ -62,7 +62,7 @@ IoredisMultiMock.prototype.exec = function (callback) {
 
     const client = this.client;
 
-    Async.mapSeries(this.queue, function (item, cb) {
+    Async.mapSeries(this.queue, (item, cb) => {
 
         const key = Object.keys(item)[0];
 
