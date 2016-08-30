@@ -3,6 +3,7 @@
  */
 'use strict';
 
+const HawkPreAuth = require('./preauth/hawkPreAuth');
 const Schema = require('./schemas/schema');
 
 const security = {
@@ -48,6 +49,11 @@ module.exports = [
         path: '/user/{userId}/profile',
         method: 'GET',
         config: {
+            ext: {
+                onPreAuth: {
+                    method: HawkPreAuth
+                }
+            },
             auth: 'hawk-login-auth-strategy',
             handler: {
                 retrieveUserProfileHandler: {

@@ -9,9 +9,16 @@ module.exports = (route, options) => {
 
     return (request, reply) => {
 
+        const clientToken = request.state['Hawk-Session-Token'];
+
+        if (clientToken && clientToken.hawkSessionToken) {
+            return reply.redirect(`/user/${clientToken.userId}/welcome`);
+        }
+
         if (options.type === 'index') {
             return reply.redirect('/login');
         }
+
         if (options.type === 'notfound') {
             return reply.view('error', {
                 title: '404 - Page Not Found',

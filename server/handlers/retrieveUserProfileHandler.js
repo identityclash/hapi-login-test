@@ -34,7 +34,12 @@ module.exports = () => {
                 algorithm: 'sha256'
             }, (err) => {
                 if (err) {
-                    return reply(err);
+                    return reply.view('error', {
+                        title: '500 - Server Error',
+                        h1: '500 - Server Error',
+                        message: 'Sorry, but the server has encountered an error.'
+                    }).code(500).state('Hawk-Session-Token')
+                        .header('X-Permitted-Cross-Domain-Policies', 'master-only');
                 }
 
                 const newCredentials = {
@@ -42,6 +47,15 @@ module.exports = () => {
                     algorithm: 'sha256',
                     userId: userId
                 };
+
+                if (request.params.userId !== credentials.userId) {
+                    return reply.view('error', {
+                        title: '403 - Forbidden',
+                        h1: '403 - Forbidden',
+                        message: 'You are forbidden from accessing the resources.'
+                    }).code(403).state('Hawk-Session-Token', newCredentials)
+                        .header('X-Permitted-Cross-Domain-Policies', 'master-only');
+                }
 
                 userProfileDao.readUserProfile(redis, userId, (err, userProfile) => {
                     if (err) {

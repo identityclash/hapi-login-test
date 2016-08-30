@@ -3,7 +3,6 @@
  */
 
 $(document).ready(function() {
-    const hawkSessionTokenCookie = MyUtils.getCookie('Hawk-Session-Token');
 
     $('#closeUnauthorized').click(function () {
         $('#alertUnauthorized').addClass('hidden');
@@ -20,10 +19,5 @@ $(document).ready(function() {
         submitForm();
     });
 
-    if (hawkSessionTokenCookie) {
-        const protocol = location.protocol + '//';
-        window.location = protocol + location.host + '/user/welcome';
-    } else {
-        $('body').show();
-    }
+    $('body').show();
 });

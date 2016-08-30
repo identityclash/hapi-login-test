@@ -22,13 +22,13 @@ module.exports = [
         path: '/html/{path*}',
         method: '*',
         config: {
+            cache: {
+                privacy: 'public'
+            },
             handler: {
                 directory: {
                     path: process.cwd() + '/views/html'
                 }
-            },
-            cache: {
-                privacy: 'public'
             },
             security
         }
@@ -37,14 +37,14 @@ module.exports = [
         path: '/css/{path*}',
         method: '*',
         config: {
+            cache: {
+                expiresIn: 30 * 1000,
+                privacy: 'public'
+            },
             handler: {
                 directory: {
                     path: process.cwd() + '/views/css'
                 }
-            },
-            cache: {
-                expiresIn: 30 * 1000,
-                privacy: 'public'
             },
             security
         }
@@ -53,14 +53,14 @@ module.exports = [
         path: '/js/{path*}',
         method: '*',
         config: {
+            cache: {
+                expiresIn: 30 * 1000,
+                privacy: 'public'
+            },
             handler: {
                 directory: {
                     path: process.cwd() + '/views/js'
                 }
-            },
-            cache: {
-                expiresIn: 30 * 1000,
-                privacy: 'public'
             },
             security
         }
@@ -76,7 +76,7 @@ module.exports = [
                 }
             },
             cache: {
-                expiresIn: 30 * 1000,
+                expiresIn: 0,
                 privacy: 'public'
             },
             security
@@ -86,22 +86,27 @@ module.exports = [
         path: '/registration',
         method: 'GET',
         config: {
+            cache: {
+                expiresIn: 30 * 1000,
+                privacy: 'public'
+            },
             handler: {
                 webHandler: {
                     type: 'registration'
                 }
             },
-            cache: {
-                expiresIn: 30 * 1000,
-                privacy: 'public'
-            },
             security
         }
     },
     {
-        path: '/user/welcome',
+        path: '/user/{userId}/welcome',
         method: 'GET',
         config: {
+            ext: {
+                onPreAuth: {
+                    method: HawkPreAuth
+                }
+            },
             auth: {
                 mode: 'required',
                 strategies: ['hawk-login-auth-strategy']
@@ -109,11 +114,6 @@ module.exports = [
             cache: {
                 expiresIn: 0,
                 privacy: 'private'
-            },
-            ext: {
-                onPreAuth: {
-                    method: HawkPreAuth
-                }
             },
             handler: {
                 welcomeUserHandler: {
@@ -127,14 +127,14 @@ module.exports = [
         path: '/user/logout',
         method: 'GET',
         config: {
+            cache: {
+                expiresIn: 0,
+                privacy: 'private'
+            },
             handler: {
                 logoutUserHandler: {
                     type: 'logout'
                 }
-            },
-            cache: {
-                expiresIn: 0,
-                privacy: 'private'
             },
             security
         }

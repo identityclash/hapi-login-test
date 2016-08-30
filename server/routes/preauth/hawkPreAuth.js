@@ -47,17 +47,17 @@ module.exports = (request, reply) => {
         };
 
         const protocol = request.connection.info.protocol;
-
         const url = protocol
             + '://'
-            + request.info.host + '/user/profile';
+            + request.info.host + request.path;
+        const method = request.method;
 
         server.log('hawkPreAuth url: ' + url);
 
         request.raw.req.url = url;
 
         const header = Hawk.client.header(url,
-            'GET',
+            method,
             {credentials: hawkCredentials, ext: 'some-app-data'});
 
         request.raw.req.headers.authorization = header.field;

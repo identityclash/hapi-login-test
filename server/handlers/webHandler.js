@@ -7,10 +7,17 @@ module.exports = (route, options) => {
 
     return (request, reply) => {
 
+        const clientToken = request.state['Hawk-Session-Token'];
+
+        if (clientToken && clientToken.hawkSessionToken) {
+            return reply.redirect(`/user/${clientToken.userId}/welcome`);
+        }
+
         if (options.type === 'registration') {
             return reply.view('registration')
                 .header('X-Permitted-Cross-Domain-Policies', 'master-only');
         }
+
         if (options.type === 'index') {
             return reply.view('login')
                 .header('X-Permitted-Cross-Domain-Policies', 'master-only');

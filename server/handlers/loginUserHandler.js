@@ -14,7 +14,7 @@ module.exports = () => {
             userId: authCredentials.userId
         };
 
-        return reply('successful login')
+        return reply({userId: authCredentials.userId})
             .state('Hawk-Session-Token', credentials)
             .header('X-Permitted-Cross-Domain-Policies', 'master-only');
     };

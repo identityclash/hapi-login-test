@@ -16,7 +16,9 @@ const submitForm = () => {
         url: '/auth/basic',
         processData: false,
         success: function(data, textStatus, jQxhr){
-            $('#formLogin').attr('action', '/user/welcome');
+            console.log(data);
+
+            $('#formLogin').attr('action', `/user/${data.userId}/welcome`);
             $('#formLogin').submit();
         },
         error: function (xhr, textStatus, errorThrown) {
