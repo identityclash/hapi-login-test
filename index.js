@@ -1,4 +1,6 @@
-/* jshint -W064 */
+/**
+ * Created by Omnius on 18/07/2016.
+ */
 'use strict';
 
 const composer = require('./server/composer');
@@ -14,7 +16,7 @@ composer((err, server) => {
         ttl: 24 * 60 * 60 * 1000,
         path: '/',
         isSecure: true,
-        isHttpOnly: false,
+        isHttpOnly: true,
         encoding: 'base64json',
         clearInvalid: true
     });
