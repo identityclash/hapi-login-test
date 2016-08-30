@@ -20,13 +20,13 @@ module.exports = [
         path: '/',
         method: 'GET',
         config: {
+            cache: {
+                privacy: 'public'
+            },
             handler: {
                 rootHandler: {
                     type: 'index'
                 }
-            },
-            cache: {
-                privacy: 'public'
             },
             security
         }
@@ -36,13 +36,13 @@ module.exports = [
         path: '/{path*}',
         method: '*',
         config: {
+            cache: {
+                privacy: 'public'
+            },
             handler: {
                 rootHandler: {
                     type: 'notfound'
                 }
-            },
-            cache: {
-                privacy: 'public'
             },
             security
         }
