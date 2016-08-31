@@ -3,6 +3,8 @@
  */
 'use strict';
 
+const errors = require(process.cwd() + '/server/helpers/errorPageContext');
+
 module.exports = (route, options) => {
 
     options.type = options.type || 'notfound';
@@ -20,11 +22,7 @@ module.exports = (route, options) => {
         }
 
         if (options.type === 'notfound') {
-            return reply.view('error', {
-                title: '404 - Page Not Found',
-                h1: '404 - Page Not Found',
-                message: 'The resource you are looking for does not exist.'
-            }).code(404);
+            return reply.view('error', errors[404]).code(404);
         }
 
         return reply.continue();

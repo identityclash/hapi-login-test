@@ -37,6 +37,7 @@ module.exports = () => {
             userDao.readUserId(redis, item, (err, userId) => {
 
                 if (err || userId) {
+                    server.log(['error', 'database', 'read'], err);
                     return cb(err || 'user_already_exists');
                 }
 
@@ -45,7 +46,6 @@ module.exports = () => {
         }, (err) => {
 
             if (err) {
-                server.log(err);
                 return reply(err === 'user_already_exists' ? Boom.badRequest(err) : Boom.internal());
             }
 
@@ -54,6 +54,7 @@ module.exports = () => {
 
                     Bcrypt.genSalt(10, (err, salt) => {
                         if (err) {
+                            server.log(['error', 'hash'], err);
                             return cb(err);
                         }
 
@@ -66,6 +67,7 @@ module.exports = () => {
 
                     Bcrypt.hash(password, salt, (err, hashedPw) => {
                         if (err) {
+                            server.log(['error', 'hash'], err);
                             return cb(err);
                         }
 
@@ -88,6 +90,7 @@ module.exports = () => {
 
                     userDao.createUser(redis, user, (err) => {
                         if (err) {
+                            server.log(['error', 'database', 'create'], err);
                             return cb(err);
                         }
 
@@ -106,6 +109,7 @@ module.exports = () => {
 
                     userProfileDao.createUserProfile(redis, userId, profile, (err) => {
                         if (err) {
+                            server.log(['error', 'database', 'create'], err);
                             return cb(err);
                         }
 
@@ -115,7 +119,6 @@ module.exports = () => {
             }, (err) => {
 
                 if (err) {
-                    server.log(err);
                     return reply(Boom.internal());
                 }
 

@@ -3,6 +3,8 @@
  */
 'use strict';
 
+const Boom = require('boom');
+
 const generateToken = require(process.cwd() + '/server/helpers/hkdfTokenGenerator').generateToken;
 
 module.exports = () => {
@@ -18,11 +20,17 @@ module.exports = () => {
         const userId = credentials.userId;
         const oldSessionId = credentials.id;
 
+        if (request.params.userId !== credentials.userId) {
+            return reply(Boom.forbidden().output.payload)
+                .code(Boom.forbidden().output.statusCode)
+                .header('X-Permitted-Cross-Domain-Policies', 'master-only');
+        }
+
         generateToken(request.info.host + '/hawkSessionToken', null, (newSessionId, newAuthKey, newToken) => {
 
             userCredentialDao.deleteUserCredential(redis, oldSessionId, (err) => {
                 if (err) {
-                    server.log(err);
+                    server.log(['error', 'database', 'delete'], err);
                 }
             });
 
@@ -34,11 +42,10 @@ module.exports = () => {
                 algorithm: 'sha256'
             }, (err) => {
                 if (err) {
-                    return reply.view('error', {
-                        title: '500 - Server Error',
-                        h1: '500 - Server Error',
-                        message: 'Sorry, but the server has encountered an error.'
-                    }).code(500).state('Hawk-Session-Token')
+                    server.log(['error', 'database', 'update'], err);
+                    return reply(Boom.internal().output.payload)
+                        .code(Boom.internal().output.statusCode)
+                        .unstate('Hawk-Session-Token')
                         .header('X-Permitted-Cross-Domain-Policies', 'master-only');
                 }
 
@@ -48,18 +55,13 @@ module.exports = () => {
                     userId: userId
                 };
 
-                if (request.params.userId !== credentials.userId) {
-                    return reply.view('error', {
-                        title: '403 - Forbidden',
-                        h1: '403 - Forbidden',
-                        message: 'You are forbidden from accessing the resources.'
-                    }).code(403).state('Hawk-Session-Token', newCredentials)
-                        .header('X-Permitted-Cross-Domain-Policies', 'master-only');
-                }
-
                 userProfileDao.readUserProfile(redis, userId, (err, userProfile) => {
                     if (err) {
-                        return reply(err);
+                        server.log(['error', 'database', 'read'], err);
+                        return reply(Boom.internal().output.payload)
+                            .code(Boom.internal().output.statusCode)
+                            .unstate('Hawk-Session-Token')
+                            .header('X-Permitted-Cross-Domain-Policies', 'master-only');
                     }
 
                     return reply(userProfile)

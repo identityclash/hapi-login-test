@@ -25,7 +25,7 @@ module.exports = () => {
         userDao.readUsername(redis, userId, (err, username) => {
 
             if (err) {
-                server.log(err);
+                server.log(['error', 'database', 'read'], err);
                 return reply(Boom.internal());
             }
 
