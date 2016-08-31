@@ -85,6 +85,4 @@ IoredisMultiMock.prototype.exec = function (callback) {
     });
 };
 
-if (module.exports) {
-    module.exports = IoredisMultiMock;
-}
+module.exports = IoredisMultiMock;

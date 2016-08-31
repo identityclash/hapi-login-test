@@ -294,6 +294,4 @@ IoredisMock.prototype.hgetall = function () {
     return callback.call(this, null, retval);
 };
 
-if (module.exports) {
-    module.exports = IoredisMock;
-}
+module.exports = IoredisMock;
