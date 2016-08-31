@@ -54,6 +54,30 @@ testServer.route([
 
 describe('server/handlers/rootHandler', () => {
 
+    it('redirects to user\'s welcome page when a session cookie exists', (done) => {
+
+        const cookie = {
+            hawkSessionToken: '8e2e01856b562009a76eaa5bfdac2a1e0c34656bee18f193f909ad83e984d6d4',
+            userId: '14f755c7-7fe5-44f9-a742-eb9c1bb37748',
+            algorithm: 'sha256'
+        };
+        const base64jsonCookie = new Buffer(JSON.stringify(cookie)).toString('base64');
+
+        testServer.inject({
+            method: 'GET',
+            url: '/',
+            headers: {
+                cookie: 'Hawk-Session-Token=' + base64jsonCookie
+            }
+        }, (res) => {
+
+            expect(res.statusCode).to.equal(302);
+            expect(res.headers.location).to.equal(`/user/${cookie.userId}/welcome`);
+
+            return done();
+        });
+    });
+
     it('redirects to login page on index', (done) => {
 
         testServer.inject({

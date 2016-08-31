@@ -16,17 +16,19 @@ const it = lab.it;
 
 const testServer = new TestServer();
 
+const userCredentials = {
+    userId: 'johndoe',
+    algorithm: 'sha256',
+    hawkSessionToken: 'abcdef1234567890'
+};
+
 const testScheme = () => {
 
     return {
         authenticate: (request, reply) => {
 
             return reply.continue({
-                credentials: {
-                    userId: 'johndoe',
-                    algorithm: 'sha256',
-                    hawkSessionToken: 'abcdef1234567890'
-                }
+                credentials: userCredentials
             });
         }
     };
@@ -72,7 +74,8 @@ describe('server/handlers/loginUserHandler', () => {
             }
 
             expect(cookie).to.contain('Hawk-Session-Token');
-            expect(res.result.toLowerCase()).to.contain('successful login');
+            expect(res.result.userId).to.contain(userCredentials.userId);
+            expect(res.headers['x-permitted-cross-domain-policies']).to.equal('master-only');
 
             return done();
         });
