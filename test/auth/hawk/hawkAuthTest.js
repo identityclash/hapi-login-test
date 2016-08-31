@@ -76,7 +76,7 @@ describe('server/auth/hawk/hawkAuth', () => {
         it('allows entry with valid credentials', (done) => {
 
             /* URL in testServer */
-            const url = 'http://127.0.0.1:9001/';
+            const url = 'https://127.0.0.1:443/';
             const header = Hawk.client.header(url, 'GET', {
                 credentials: testPersons[0].credentials,
                 ext: 'some-app-data'
@@ -103,7 +103,8 @@ describe('server/auth/hawk/hawkAuth', () => {
 
         it('denies entry with invalid credentials', (done) => {
 
-            const header = Hawk.client.header('http://127.0.0.1:9001/', 'GET', {
+            const url = 'https://127.0.0.1:443/';
+            const header = Hawk.client.header(url, 'GET', {
                 credentials: {
                     id: 'id1',
                     key: 'blabla',
@@ -130,7 +131,8 @@ describe('server/auth/hawk/hawkAuth', () => {
 
         it('denies entry with empty credentials', (done) => {
 
-            const header = Hawk.client.header('http://127.0.0.1:9001/', 'GET', {
+            const url = 'https://127.0.0.1:443/';
+            const header = Hawk.client.header(url, 'GET', {
                 credentials: {},
                 ext: 'some-app-data'
             });
@@ -174,7 +176,8 @@ describe('server/auth/hawk/hawkAuth', () => {
 
         it('denies entry when no credentials are retrieved from the database', (done) => {
 
-            const header = Hawk.client.header('http://127.0.0.1:9001/', 'GET', {
+            const url = 'https://127.0.0.1:443/';
+            const header = Hawk.client.header(url, 'GET', {
                 credentials: testPersons[0].credentials,
                 ext: 'some-app-data'
             });
@@ -218,7 +221,8 @@ describe('server/auth/hawk/hawkAuth', () => {
 
         it('returns server error when DB fails during retrieval of credentials', (done) => {
 
-            const header = Hawk.client.header('http://127.0.0.1:9001/', 'GET', {
+            const url = 'https://127.0.0.1:443/';
+            const header = Hawk.client.header(url, 'GET', {
                 credentials: testPersons[0].credentials,
                 ext: 'some-app-data'
             });
