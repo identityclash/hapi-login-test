@@ -67,11 +67,11 @@ const manifest = {
                     size: 43,
                     autoGenerate: true,
                     addToViewContext: true,
-                    restful: true,
+                    restful: false,
                     cookieOptions: {
                         ttl: 24 * 60 * 60 * 1000,
                         isSecure: true,
-                        isHttpOnly: false,
+                        isHttpOnly: true,
                         path: '/',
                         encoding: 'none',
                         ignoreErrors: true,
