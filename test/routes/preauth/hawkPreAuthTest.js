@@ -19,10 +19,9 @@ const it = lab.it;
 const testServer = new TestServer();
 
 const userCredentials = {
-    key: 'dbc14cb180a5719a90ec1edf2cb1e276a7e857f8b68e9276e83a9e082404e372',
-    id: '3ec2b9261714e317cef1b74e5338111070be5794021b9a8b0ff915f1a9efc4eb',
-    algorithm: 'sha256',
-    user: '14f755c7-7fe5-44f9-a742-eb9c1bb37748'
+    id: '16fc82ece361f931d22f84bb590e18f63728509936d922df97fe7284f57a9f48',
+    key: 'b97d869fa873f163bc489032a4e1fa1d848d141c3e966610f9b9b89869458571',
+    algorithm: 'sha256'
 };
 
 const testScheme = () => {
@@ -38,7 +37,7 @@ const testScheme = () => {
                     return callback(null, userCredentials);
                 }
 
-                return callback(null, {});
+                return callback();
             };
 
             Hawk.server.authenticate(req, credentialsFunc, {}, (err, credentials, artifacts) => {
@@ -82,7 +81,7 @@ describe('server/routes/preauth/hawkPreAuth', () => {
     it('successfully parses a session token and allows successful authentication', (done) => {
 
         const cookie = {
-            hawkSessionToken: '8e2e01856b562009a76eaa5bfdac2a1e0c34656bee18f193f909ad83e984d6d4',
+            hawkSessionToken: 'bbc2eccc8f7c4a5dc3d7762a8ce81ad061159847151cbbd9af3fa82a957f757f',
             algorithm: 'sha256'
         };
         const base64jsonCookie = new Buffer(JSON.stringify(cookie)).toString('base64');
@@ -143,7 +142,7 @@ describe('server/routes/preauth/hawkPreAuth', () => {
     it('fails authentication due to empty algorithm', (done) => {
 
         const cookie = {
-            hawkSessionToken: '8e2e01856b562009a76eaa5bfdac2a1e0c34656bee18f193f909ad83e984d6d4',
+            hawkSessionToken: 'bbc2eccc8f7c4a5dc3d7762a8ce81ad061159847151cbbd9af3fa82a957f757f',
             algorithm: ''
         };
         const base64jsonCookie = new Buffer(JSON.stringify(cookie)).toString('base64');
@@ -189,7 +188,7 @@ describe('server/routes/preauth/hawkPreAuth', () => {
     it('fails authentication due to an invalid session token length', (done) => {
 
         const cookie = {
-            hawkSessionToken: '8e2e01856b562009a76eaa5bfdac2a1e0c34656bee18f193f909ad83e984d6d45',
+            hawkSessionToken: 'bbc2eccc8f7c4a5dc3d7762a8ce81ad061159847151cbbd9af3fa82a957f757f5',
             algorithm: 'sha256'
         };
         const base64jsonCookie = new Buffer(JSON.stringify(cookie)).toString('base64');
@@ -225,8 +224,8 @@ describe('server/routes/preauth/hawkPreAuth', () => {
             }
         }, (res) => {
 
-            expect(res.statusCode).to.equal(500);
-            expect(res.result.error).to.equal(Boom.internal().message);
+            expect(res.statusCode).to.equal(401);
+            expect(res.result.error).to.equal(Boom.unauthorized().message);
 
             return done();
         });
