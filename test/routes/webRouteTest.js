@@ -9,7 +9,6 @@ const TestServer = require('../testServer');
 
 const expect = Code.expect;
 const lab = exports.lab = Lab.script();
-const beforeEach = lab.beforeEach;
 const afterEach = lab.afterEach;
 const describe = lab.describe;
 const it = lab.it;
@@ -55,11 +54,6 @@ Async.each(HANDLER_NAMES, (name, next) => {
 testServer.route(WebRoute);
 
 describe('server/routes/webRoute', () => {
-
-    beforeEach((done) => {
-
-        return done();
-    });
 
     afterEach((done) => {
 
@@ -128,11 +122,11 @@ describe('server/routes/webRoute', () => {
         });
     });
 
-    it('has GET path /user/welcome', (done) => {
+    it('has GET path /user/{userId}/welcome', (done) => {
 
         testServer.inject({
             method: 'GET',
-            url: '/user/welcome'
+            url: '/user/userId1234/welcome'
         }, (res) => {
 
             expect(testHandlerNameContainer).to.include(PASSED_THRU + 'welcomeUserHandler');
