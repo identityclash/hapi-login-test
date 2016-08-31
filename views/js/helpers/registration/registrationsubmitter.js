@@ -22,6 +22,7 @@ const submitForm = () => {
     const firstName = $('#inputFirstName').val();
     const surname = $('#inputSurname').val();
     const birthDate = $('#inputBirthDate').val();
+    const crumbz = $('#inputCrumbz').val();
 
     const payload = {
         username: username,
@@ -29,7 +30,8 @@ const submitForm = () => {
         password: password,
         firstname: firstName,
         surname: surname,
-        birthdate: birthDate
+        birthdate: birthDate,
+        Crumbz: crumbz
     };
 
     $.ajax({
@@ -38,8 +40,8 @@ const submitForm = () => {
         contentType: 'application/json; charset=utf-8',
         processData: false,
         beforeSend: (xhr) => {
-            const crumbz = MyUtils.getCookie('Crumbz');
-            xhr.setRequestHeader('X-CSRF-Token', crumbz);
+            // const crumbz = MyUtils.getCookie('Crumbz');
+            // xhr.setRequestHeader('X-CSRF-Token', crumbz);
         },
         data: JSON.stringify(payload),
         success: function (data, textStatus, xhr) {
@@ -49,11 +51,11 @@ const submitForm = () => {
             }
         },
         error: function (xhr, textStatus, errorThrown) {
-            const csrf = xhr.getResponseHeader('x-csrf-token');
-
-            if (csrf) {
-                document.cookie = 'Crumbz=' + csrf + '; path=/';
-            }
+            // const csrf = xhr.getResponseHeader('x-csrf-token');
+            //
+            // if (csrf) {
+            //     document.cookie = 'Crumbz=' + csrf + '; path=/';
+            // }
 
             if (xhr.status === 400 && textStatus === 'error') {
                 $('#alertInvalid').removeClass('hidden');
