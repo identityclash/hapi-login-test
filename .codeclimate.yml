@@ -42,3 +42,4 @@ ratings:
 exclude_paths:
 - test/
 - node_modules/
+- views/js/std/
