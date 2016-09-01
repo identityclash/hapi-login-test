@@ -5,7 +5,6 @@
 
 const Boom = require('boom');
 const Code = require('code');
-const Hoek = require('hoek');
 const Lab = require('lab');
 const Sinon = require('sinon');
 
