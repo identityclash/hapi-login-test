@@ -2,7 +2,7 @@
 
 [Demo](https://hapi-login-test.herokuapp.com) login functionality using [Hapi](https://github.com/hapijs/hapi), basic authentication and Hawk authentication schemes, and [Redis](https://github.com/antirez/redis) for persistence. The interface is taken from [Bootstrap](https://getbootstrap.com/examples/signin/)'s sign-in sample form. The Hawk implementation used here is based on Mozilla Services' Hawk authentication [middleware](https://github.com/mozilla-services/express-hawkauth) for [Express](https://github.com/expressjs/express).
 
-[![Build Status](https://travis-ci.org/identityclash/hapi-login-test.svg)](https://travis-ci.org/identityclash/hapi-login-test) [![Coverage Status](https://coveralls.io/repos/github/identityclash/hapi-login-test/badge.svg)](https://coveralls.io/github/identityclash/hapi-login-test)
+[![Build Status](https://travis-ci.org/identityclash/hapi-login-test.svg)](https://travis-ci.org/identityclash/hapi-login-test) [![Coverage Status](https://coveralls.io/repos/github/identityclash/hapi-login-test/badge.svg)](https://coveralls.io/github/identityclash/hapi-login-test) [![Code Climate](https://codeclimate.com/github/identityclash/hapi-login-test/badges/gpa.svg)](https://codeclimate.com/github/identityclash/hapi-login-test)
 
 ```bash
 $ git clone https://github.com/identityclash/hapi-login-test.git && cd hapi-login-test
