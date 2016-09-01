@@ -5,7 +5,7 @@
 
 module.exports.createUserCredential = (db, tokenId, credentials, cb) => {
 
-    if (!(tokenId && (typeof tokenId === 'string'))) {
+    if (typeof tokenId !== 'string') {
         return cb('invalid token');
     }
     if (!(credentials && (typeof credentials === 'object')) || Object.keys(credentials).length === 0) {
@@ -24,7 +24,7 @@ module.exports.createUserCredential = (db, tokenId, credentials, cb) => {
 
 module.exports.readUserCredential = (db, tokenId, cb) => {
 
-    if (!(tokenId && typeof tokenId === 'string')) {
+    if (typeof tokenId !== 'string') {
         return cb('invalid token');
     }
 
@@ -42,7 +42,7 @@ module.exports.updateUserCredential = module.exports.createUserCredential;
 
 module.exports.deleteUserCredential = (db, tokenId, cb) => {
 
-    if (!(tokenId && typeof tokenId === 'string')) {
+    if (typeof tokenId !== 'string') {
         return cb('invalid token');
     }
 
@@ -55,4 +55,3 @@ module.exports.deleteUserCredential = (db, tokenId, cb) => {
         return cb(null, results);
     });
 };
-

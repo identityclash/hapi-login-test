@@ -5,7 +5,7 @@
 
 module.exports.createUserProfile = (db, userId, userProfile, cb) => {
 
-    if (!(userId && (typeof userId === 'string'))) {
+    if (typeof userId !== 'string') {
         return cb('invalid user id');
     }
     if (!(userProfile && (typeof userProfile === 'object')) || Object.keys(userProfile).length === 0) {
@@ -24,7 +24,7 @@ module.exports.createUserProfile = (db, userId, userProfile, cb) => {
 
 module.exports.readUserProfile = (db, userId, cb) => {
 
-    if (!(userId && (typeof userId === 'string'))) {
+    if (typeof userId !== 'string') {
         return cb('invalid user id');
     }
 

@@ -39,10 +39,6 @@ const submitForm = () => {
         url: '/user/registration',
         contentType: 'application/json; charset=utf-8',
         processData: false,
-        beforeSend: (xhr) => {
-            // const crumbz = MyUtils.getCookie('Crumbz');
-            // xhr.setRequestHeader('X-CSRF-Token', crumbz);
-        },
         data: JSON.stringify(payload),
         success: function (data, textStatus, xhr) {
             if (data === 'registered') {
@@ -51,35 +47,44 @@ const submitForm = () => {
             }
         },
         error: function (xhr, textStatus, errorThrown) {
-            // const csrf = xhr.getResponseHeader('x-csrf-token');
-            //
-            // if (csrf) {
-            //     document.cookie = 'Crumbz=' + csrf + '; path=/';
-            // }
-
             if (xhr.status === 400 && textStatus === 'error') {
                 $('#alertInvalid').removeClass('hidden');
 
-                if (xhr.responseJSON.message.toLowerCase().indexOf('username') > -1) {
-                    $('#alertInvalidUsername').removeClass('hidden');
-                }
-                if (xhr.responseJSON.message.toLowerCase().indexOf('email') > -1) {
-                    $('#alertInvalidEmail').removeClass('hidden');
-                }
-                if (xhr.responseJSON.message.toLowerCase().indexOf('password') > -1) {
-                    $('#alertInvalidPassword').removeClass('hidden');
-                }
-                if (xhr.responseJSON.message.toLowerCase().indexOf('firstname') > -1) {
-                    $('#alertInvalidFirstName').removeClass('hidden');
-                }
-                if (xhr.responseJSON.message.toLowerCase().indexOf('surname') > -1) {
-                    $('#alertInvalidSurname').removeClass('hidden');
-                }
-                if (xhr.responseJSON.message.toLowerCase().indexOf('birthdate') > -1) {
-                    $('#alertInvalidBirthDate').removeClass('hidden');
-                }
-                if (xhr.responseJSON.message.toLowerCase().indexOf('user_already_exists') > -1) {
-                    $('#alertUserExists').removeClass('hidden');
+                const items = [
+                    {
+                        issue: 'username',
+                        id: 'alertInvalidUsername'
+                    },
+                    {
+                        issue: 'email',
+                        id: 'alertInvalidEmail'
+                    },
+                    {
+                        issue: 'password',
+                        id: 'alertInvalidPassword'
+                    },
+                    {
+                        issue: 'firstname',
+                        id: 'alertInvalidFirstName'
+                    },
+                    {
+                        issue: 'surname',
+                        id: 'alertInvalidSurname'
+                    },
+                    {
+                        issue: 'birthdate',
+                        id: 'alertInvalidBirthDate'
+                    },
+                    {
+                        issue: 'user_already_exists',
+                        id: 'alertUserExists'
+                    }
+                ];
+
+                for (let i = 0; i < items.length; i++) {
+                    if (xhr.responseJSON.message.toLowerCase().indexOf(items[i].issue) > -1) {
+                        $(`#${items[i].id}`).removeClass('hidden');
+                    }
                 }
             }
             if (xhr.status === 500) {

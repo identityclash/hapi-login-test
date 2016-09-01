@@ -25,7 +25,7 @@ module.exports.createUser = (db, user, cb) => {
 
 module.exports.readUserId = (db, usernameOrEmail, cb) => {
 
-    if (!(usernameOrEmail && typeof usernameOrEmail === 'string')) {
+    if (typeof usernameOrEmail !== 'string') {
         return cb('invalid username or email');
     }
 
@@ -41,7 +41,7 @@ module.exports.readUserId = (db, usernameOrEmail, cb) => {
 
 module.exports.readUsername = (db, userId, cb) => {
 
-    if (!(userId && typeof userId === 'string')) {
+    if (typeof userId !== 'string') {
         return cb('invalid user id');
     }
 
@@ -57,7 +57,7 @@ module.exports.readUsername = (db, userId, cb) => {
 
 module.exports.readUserHashAndRealm = (db, userId, cb) => {
 
-    if (!(userId && typeof userId === 'string')) {
+    if (typeof userId !== 'string') {
         return cb('invalid user id');
     }
 
