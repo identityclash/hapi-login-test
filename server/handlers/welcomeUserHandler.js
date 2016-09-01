@@ -7,7 +7,7 @@ const Boom = require('boom');
 
 module.exports = () => {
 
-    return (request, reply) => {
+    return function (request, reply) {
 
         const server = request.server;
         const redis = request.redis;

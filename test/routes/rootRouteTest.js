@@ -20,7 +20,7 @@ const testServer = new TestServer();
 
 testServer.handler('rootHandler', (route, options) => {
 
-    return (request, reply) => {
+    return function (request, reply) {
 
         if (options.type === 'index') {
             return reply.redirect('/login');

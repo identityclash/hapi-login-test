@@ -5,7 +5,7 @@
 
 module.exports = (route, options) => {
 
-    return (request, reply) => {
+    return function (request, reply) {
 
         const clientToken = request.state['Hawk-Session-Token'];
 

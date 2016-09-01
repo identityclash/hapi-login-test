@@ -9,7 +9,7 @@ module.exports = (route, options) => {
 
     options.type = options.type || 'notfound';
 
-    return (request, reply) => {
+    return function (request, reply) {
 
         const clientToken = request.state['Hawk-Session-Token'];
 

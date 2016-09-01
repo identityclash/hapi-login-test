@@ -29,7 +29,7 @@ testServer.route({
     method: 'GET',
     config: {
         auth: 'hawk-login-auth-strategy',
-        handler: (request, reply) => {
+        handler: function (request, reply) {
 
             const credentials = request.auth.credentials;
             return reply(credentials);

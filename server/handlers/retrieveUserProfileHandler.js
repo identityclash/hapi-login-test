@@ -9,7 +9,7 @@ const generateToken = require(process.cwd() + '/server/helpers/hkdfTokenGenerato
 
 module.exports = () => {
 
-    return (request, reply) => {
+    return function (request, reply) {
 
         const server = request.server;
         const redis = request.redis;

@@ -10,7 +10,7 @@ const Uuid = require('uuid');
 
 module.exports = () => {
 
-    return (request, reply) => {
+    return function (request, reply) {
 
         const payload = request.payload;
         const username = payload.username;

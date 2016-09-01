@@ -43,7 +43,7 @@ Async.each(HANDLER_NAMES, (name, next) => {
 
     testServer.handler(name, () => {
 
-        return (request, reply) => {
+        return function (request, reply) {
 
             if (HANDLER_NAMES.indexOf(name) >= 0 && testHandlerNameContainer.indexOf(name) < 0) {
                 testHandlerNameContainer.push(PASSED_THRU + name);

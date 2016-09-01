@@ -67,7 +67,7 @@ testServer.route({
                 method: HawkPreAuth
             }
         },
-        handler: (request, reply) => {
+        handler: function (request, reply) {
 
             const credentials = request.auth.credentials;
 

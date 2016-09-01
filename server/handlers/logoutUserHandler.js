@@ -7,7 +7,7 @@ const retrieveFromToken = require(process.cwd() + '/server/helpers/hkdfTokenGene
 
 module.exports = () => {
 
-    return (request, reply) => {
+    return function (request, reply) {
 
         const server = request.server;
         const redis = request.redis;

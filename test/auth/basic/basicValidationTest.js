@@ -39,7 +39,7 @@ testServer.route({
     method: 'POST',
     config: {
         auth: 'basic-login-auth-strategy',
-        handler: (request, reply) => {
+        handler: function (request, reply) {
 
             const credentials = request.auth.credentials;
 
