@@ -1,0 +1,44 @@
+---
+engines:
+  csslint:
+    enabled: true
+  duplication:
+    enabled: true
+    exclude_fingerprints:
+        - 71f526800cf31d2b27b6502fc4a94e94
+        - 514905b68b55e7822d573e260311826f
+        - 78c397d154d4ee41b3802d23cb7bd8f1
+        - 5697b4a24eb5fc293ddecec86adb9baa
+        - b43df6a0ebe29a151d4d4bdef9bc6ec6
+        - 723c8202c6f7773f2bfb4a88d06bf605
+        - 78d66b342561b55d9a0e9e043a117754
+        - 5a6d0d0b8d3090e31209cf1c7a27d340
+        - 6e8bd153da58e0ec383f2dd5e0cfd13e
+        - 196cb3132728f196f8bb4e9ded90c48d
+        - 6b19b2052eb762109817f3cad1b2f1e4
+        - 7bfa4a98c85463a17f430cd1459959c1
+        - e046821d4ba0edd87ceedfd92a37dbd1
+        - 6f5fef62ab388583d6b57afa6ebf124c
+        - 0fcebc4d5b0fd5543165f1f17097ea3a
+        - 71fb4c326b3a636595316dea2f60eb14
+        - 108a56908a33535c27b2493b22999564
+        - 62f3b1efd4f1f9cfa9847f34ec8fc915
+    config:
+      languages:
+      - javascript
+  eslint:
+    enabled: true
+  fixme:
+    enabled: true
+ratings:
+  paths:
+  - "**.css"
+  - "**.inc"
+  - "**.js"
+  - "**.jsx"
+  - "**.module"
+  - "**.py"
+  - "**.rb"
+exclude_paths:
+- test/
+- node_modules/
