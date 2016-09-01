@@ -3,9 +3,11 @@
  */
 'use strict';
 
+const _ = require('lodash/core');
+
 module.exports.createUser = (db, user, cb) => {
 
-    if (!(user && (typeof user === 'object') && user.id && user.email && user.username)) {
+    if (!(_.isObject(user) && user.id && user.email && user.username)) {
         return cb('invalid or incomplete user information');
     }
 
@@ -25,7 +27,7 @@ module.exports.createUser = (db, user, cb) => {
 
 module.exports.readUserId = (db, usernameOrEmail, cb) => {
 
-    if (typeof usernameOrEmail !== 'string') {
+    if (!_.isString(usernameOrEmail)) {
         return cb('invalid username or email');
     }
 
@@ -41,7 +43,7 @@ module.exports.readUserId = (db, usernameOrEmail, cb) => {
 
 module.exports.readUsername = (db, userId, cb) => {
 
-    if (typeof userId !== 'string') {
+    if (!_.isString(userId)) {
         return cb('invalid user id');
     }
 
@@ -57,7 +59,7 @@ module.exports.readUsername = (db, userId, cb) => {
 
 module.exports.readUserHashAndRealm = (db, userId, cb) => {
 
-    if (typeof userId !== 'string') {
+    if (!_.isString(userId)) {
         return cb('invalid user id');
     }
 

@@ -3,9 +3,11 @@
  */
 'use strict';
 
+const _ = require('lodash/core');
+
 module.exports.createUserProfile = (db, userId, userProfile, cb) => {
 
-    if (typeof userId !== 'string') {
+    if (!_.isString(userId)) {
         return cb('invalid user id');
     }
     if (!(userProfile && (typeof userProfile === 'object')) || Object.keys(userProfile).length === 0) {
@@ -24,7 +26,7 @@ module.exports.createUserProfile = (db, userId, userProfile, cb) => {
 
 module.exports.readUserProfile = (db, userId, cb) => {
 
-    if (typeof userId !== 'string') {
+    if (!_.isString(userId)) {
         return cb('invalid user id');
     }
 

@@ -3,12 +3,14 @@
  */
 'use strict';
 
+const _ = require('lodash/core');
+
 module.exports.createUserCredential = (db, tokenId, credentials, cb) => {
 
-    if (typeof tokenId !== 'string') {
+    if (!_.isString(tokenId)) {
         return cb('invalid token');
     }
-    if (!(credentials && (typeof credentials === 'object')) || Object.keys(credentials).length === 0) {
+    if (!_.isObject(credentials) || _.isEmpty(credentials)) {
         return cb('invalid credentials');
     }
 
@@ -24,7 +26,7 @@ module.exports.createUserCredential = (db, tokenId, credentials, cb) => {
 
 module.exports.readUserCredential = (db, tokenId, cb) => {
 
-    if (typeof tokenId !== 'string') {
+    if (!_.isString(tokenId)) {
         return cb('invalid token');
     }
 
@@ -42,7 +44,7 @@ module.exports.updateUserCredential = module.exports.createUserCredential;
 
 module.exports.deleteUserCredential = (db, tokenId, cb) => {
 
-    if (typeof tokenId !== 'string') {
+    if (!_.isString(tokenId)) {
         return cb('invalid token');
     }
 
