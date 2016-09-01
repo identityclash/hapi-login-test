@@ -1,5 +1,8 @@
 # Hapi-Login-Test
-<a href="https://hapi-login-test.herokuapp.com">Demo</a> login functionality using <a href="https://github.com/hapijs/hapi">Hapi</a>, basic authentication and Hawk authentication schemes, and <a href="https://github.com/antirez/redis">Redis</a> for persistence. The interface is taken from <a href="https://getbootstrap.com/examples/signin/">Bootstrap</a>'s sign-in sample form. The Hawk implementation used here is based on Mozilla Services' Hawk authentication <a href="https://github.com/mozilla-services/express-hawkauth">middleware</a> for <a href="https://github.com/expressjs/express">Express</a>.
+
+[Demo](https://hapi-login-test.herokuapp.com) login functionality using [Hapi](https://github.com/hapijs/hapi), basic authentication and Hawk authentication schemes, and [Redis](https://github.com/antirez/redis) for persistence. The interface is taken from [Bootstrap](https://getbootstrap.com/examples/signin/)'s sign-in sample form. The Hawk implementation used here is based on Mozilla Services' Hawk authentication [middleware](https://github.com/mozilla-services/express-hawkauth) for [Express](https://github.com/expressjs/express).
+
+[![Build Status](https://travis-ci.org/identityclash/hapi-login-test.svg?branch=master)](https://travis-ci.org/identityclash/hapi-login-test)
 
 ```
 $ git clone https://github.com/identityclash/hapi-login-test.git && cd hapi-login-test
@@ -9,43 +12,39 @@ $ npm test               # run test script
 ```
 
 ## Tools (in Alphabetical Order)
-### <a href="https://github.com/hapijs/hapi">Hapi</a>-Specific
-<ul>
-<li><a href="https://github.com/genediazjr/acquaint">Acquaint</a> - Routes, handlers, and methods auto-loader</li>
-<li><a href="https://github.com/nlf/blankie">Blankie</a> - Plugin for customization of Content Security Policies (CSP)</li>
-<li><a href="https://github.com/hapijs/boom">Boom</a> - HTTP-friendly error objects</li>
-<li><a href="https://github.com/hapijs/confidence">Confidence</a> - JSON-based configuration document format and API</li>
-<li><a href="https://github.com/hapijs/crumb">Crumb</a> - Plugin for cross-site request forgery (CSRF) protection using random unique token (crumb)</li>
-<li><a href="https://github.com/hapijs/cryptiles">Cryptiles</a> - General utilities for cryptography</li>
-<li><a href="https://github.com/genediazjr/Disinfect">Disinfect</a> - Plugin for sanitizing request params, query, and payload</li>
-<li><a href="https://github.com/hapijs/glue">Glue</a> - Configuration based composition of the server</li>
-<li><a href="https://github.com/hapijs/good">Good</a> - Plugin for process monitoring</li>
-<li><a href="https://github.com/hapijs/good-console">Good-Console</a> - Console reporting for Good server events</li>
-<li><a href="https://github.com/hapijs/good-squeeze">Good-Squeeze</a> - Simple transform streams useful in creating Good data pipelines</li>
-<li><a href="https://github.com/wycats/handlebars.js">Handlerbars</a> - Semantic templating for view; an extension of <a href="https://github.com/mustache/mustache.github.com">Mustache</a></li>
-<li><a href="https://github.com/identityclash/hapi-auth-basic">Hapi-Auth-Basic</a> - Plugin for HTTP basic authentication scheme based on <a href="https://www.ietf.org/rfc/rfc2617.txt">RFC 2617</a>; a forked implementation of <a href="https://github.com/hapijs/hapi-auth-basic">Hapi-Auth-Basic</a> for supporting custom "Authenticate" header response to prevent auth. challenge popup in browser</li>
-<li><a href="https://github.com/hapijs/hapi-auth-hawk">Hapi-Auth-Hawk</a> - Hawk authentication plugin</li>
-<li><a href="https://github.com/cilindrox/hapi-ioredis">Hapi-Ioredis</a> - <a href="https://github.com/luin/ioredis">Ioredis</a> plugin</li>
-<li><a href="https://github.com/hapijs/hoek">Hoek</a> - Utility methods</li>
-<li><a href="https://github.com/hapijs/inert">Inert</a> - Static file and directory handlers</li>
-<li><a href="https://github.com/hapijs/scooter">Scooter</a> - User-agent information plugin</li>
-<li><a href="https://github.com/hapijs/vision">Vision</a> - Templates rendering support</li>
-<li><a href="https://github.com/hapijs/visionary">Visionary</a> - Views loader plugin</li>
-</ul>
+### [Hapi](https://github.com/hapijs/hapi)-Specific
+* [Acquaint](https://github.com/genediazjr/acquaint) - Routes, handlers, and methods auto-loader
+* [Blankie](https://github.com/nlf/blankie) - Plugin for customization of Content Security Policies (CSP)
+* [Boom](https://github.com/hapijs/boom) - HTTP-friendly error objects
+* [Confidence](https://github.com/hapijs/confidence) - JSON-based configuration document format and API
+* [Crumb](https://github.com/hapijs/crumb) - Plugin for cross-site request forgery (CSRF) protection using random unique token (crumb)
+* [Cryptiles](https://github.com/hapijs/cryptiles) - General utilities for cryptography
+* [Disinfect](https://github.com/genediazjr/Disinfect) - Plugin for sanitizing request params, query, and payload
+* [Glue](https://github.com/hapijs/glue) - Configuration based composition of the server
+* [Good](https://github.com/hapijs/good) - Plugin for process monitoring
+* [Good-Console](https://github.com/hapijs/good-console) - Console reporting for Good server events
+* [Good-Squeeze](https://github.com/hapijs/good-squeeze) - Simple transform streams useful in creating Good data pipelines
+* [Handlerbars](https://github.com/wycats/handlebars.js) - Semantic templating for view; an extension of [Mustache](https://github.com/mustache/mustache.github.com)
+* [Hapi-Auth-Basic](https://github.com/identityclash/hapi-auth-basic) - Plugin for HTTP basic authentication scheme based on [RFC 2617](https://www.ietf.org/rfc/rfc2617.txt); a forked implementation of [Hapi-Auth-Basic](https://github.com/hapijs/hapi-auth-basic) for supporting custom "Authenticate" header response to prevent auth. challenge popup in browser
+* [Hapi-Auth-Hawk](https://github.com/hapijs/hapi-auth-hawk) - Hawk authentication plugin
+* [Hapi-Ioredis](https://github.com/cilindrox/hapi-ioredis) - [Ioredis](https://github.com/luin/ioredis) plugin
+* [Hoek](https://github.com/hapijs/hoek) - Utility methods
+* [Inert](https://github.com/hapijs/inert) - Static file and directory handlers
+* [Scooter](https://github.com/hapijs/scooter) - User-agent information plugin
+* [Vision](https://github.com/hapijs/vision) - Templates rendering support
+* [Visionary](https://github.com/hapijs/visionary) - Views loader plugin
 
 ### General JavaScript
-<ul>
-<li><a href="https://github.com/caolan/async">Async</a> - Utilities on asynchronous functions in JavaScript</li>
-<li><a href="https://github.com/dcodeIO/bcrypt.js">BcryptJS</a> - Utilities for hashing in JavaScript</li>
-<li><a href="https://github.com/substack/node-browserify">Browserify</a> - Allows require('modules') in the browser by bundling up all dependencies
-<li><a href="https://github.com/hdachev/fakeredis">Fakeredis</a> - Fake implementation of Redis for testing purposes</li>
-<li><a href="https://github.com/benadida/node-hkdf">HKDF</a> - HKDF key-derivation function implementation based on <a href="https://tools.ietf.org/html/rfc5869">RFC 5869</a> for NodeJS</li>
-<li><a href="https://github.com/hueniverse/hawk">Hawk</a> - HTTP Holder-Of-Key Authentication Scheme</li>
-<li><a href="https://github.com/hueniverse/iron">Iron</a> - Cryptographic utility for sealing a JSON object using symmetric key encryption with message integrity verification</li>
-<li><a href="https://github.com/jquery/jquery">jQuery</a> - Library for HTML document traversal and manipulation, event handling, animation, and AJAX
-<li><a href="https://github.com/isaacs/json-stringify-safe">JSON-Stringify-Safe</a> - JSON.stringify but silently protects against circular references</li>
-<li><a href="https://github.com/lodash/lodash">Lodash</a> - Utility library for JavaScript working with iterating arrays, objects, & strings; manipulating & testing values; and creating composite functions</li>
-<a href="https://github.com/antirez/redis">Redis</a> - Key-value in-memory database that persists on disk
-<li><a href="https://github.com/request/request">Request</a> - Simplified HTTP request client</li>
-<li><a href="https://github.com/defunctzombie/node-uuid">UUID</a> - Generate RFC-compliant UUIDs in JavaScript; a forked implementation from <a href="https://github.com/broofa/node-uuid">Node UUID</a></li>
-</ul>
+* [Async](https://github.com/caolan/async) - Utilities on asynchronous functions in JavaScript
+* [BcryptJS](https://github.com/dcodeIO/bcrypt.js) - Utilities for hashing in JavaScript
+* [Browserify](https://github.com/substack/node-browserify) - Allows require('modules') in the browser by bundling up all dependencies
+* [Fakeredis](https://github.com/hdachev/fakeredis) - Fake implementation of Redis for testing purposes
+* [HKDF](https://github.com/benadida/node-hkdf) - HKDF key-derivation function implementation based on [RFC 5869](https://tools.ietf.org/html/rfc5869) for NodeJS
+* [Hawk](https://github.com/hueniverse/hawk) - HTTP Holder-Of-Key Authentication Scheme
+* [Iron](https://github.com/hueniverse/iron) - Cryptographic utility for sealing a JSON object using symmetric key encryption with message integrity verification
+* [jQuery](https://github.com/jquery/jquery) - Library for HTML document traversal and manipulation, event handling, animation, and AJAX
+* [JSON-Stringify-Safe](https://github.com/isaacs/json-stringify-safe) - JSON.stringify but silently protects against circular references
+* [Lodash](https://github.com/lodash/lodash) - Utility library for JavaScript working with iterating arrays, objects, & strings; manipulating & testing values; and creating composite functions
+* [Redis](https://github.com/antirez/redis) - Key-value in-memory database that persists on disk
+* [Request](https://github.com/request/request) - Simplified HTTP request client
+* [UUID](https://github.com/defunctzombie/node-uuid) - Generate RFC-compliant UUIDs in JavaScript; a forked implementation of [Node UUID](https://github.com/broofa/node-uuid)
