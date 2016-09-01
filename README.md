@@ -4,7 +4,7 @@
 
 [![Build Status](https://travis-ci.org/identityclash/hapi-login-test.svg)](https://travis-ci.org/identityclash/hapi-login-test) [![Coverage Status](https://coveralls.io/repos/github/identityclash/hapi-login-test/badge.svg)](https://coveralls.io/github/identityclash/hapi-login-test)
 
-```
+```bash
 $ git clone https://github.com/identityclash/hapi-login-test.git && cd hapi-login-test
 $ npm install            # download dependencies
 $ npm start              # run server
