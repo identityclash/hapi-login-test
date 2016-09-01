@@ -14,7 +14,7 @@
   "scripts": {
     "start": "node index.js",
     "test": "lab -v -L -a code -c",
-    "test-cover": "lab --coverage-exclude static -v -L -a code -c -r html -o ./coverage.html -L && open ./coverage.html"
+    "test-cover": "lab --coverage-exclude views -v -L -a code -c -r html -o ./coverage.html -L && open ./coverage.html"
   },
   "dependencies": {
     "acquaint": "1.x",
