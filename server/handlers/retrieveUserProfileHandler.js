@@ -29,6 +29,7 @@ module.exports = () => {
         generateToken(request.info.host + '/hawkSessionToken', null, (newSessionId, newAuthKey, newToken) => {
 
             userCredentialDao.deleteUserCredential(redis, oldSessionId, (err) => {
+
                 if (err) {
                     server.log(['error', 'database', 'delete'], err);
                 }
@@ -41,6 +42,7 @@ module.exports = () => {
                 key: newAuthKey,
                 algorithm: 'sha256'
             }, (err) => {
+
                 if (err) {
                     server.log(['error', 'database', 'update'], err);
                     return reply(Boom.internal().output.payload)
@@ -56,6 +58,7 @@ module.exports = () => {
                 };
 
                 userProfileDao.readUserProfile(redis, userId, (err, userProfile) => {
+
                     if (err) {
                         server.log(['error', 'database', 'read'], err);
                         return reply(Boom.internal().output.payload)

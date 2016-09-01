@@ -16,6 +16,7 @@ exports.register = (server, options, next) => {
             const userCredentialDao = dao.userCredentialDao;
 
             userCredentialDao.readUserCredential(redis, sessionId, (err, dbCredentials) => {
+
                 if (err) {
                     server.log(err);
 

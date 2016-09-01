@@ -100,7 +100,6 @@ module.exports = () => {
                 createUserProfile: (createUser, cb) => {
 
                     const userId = createUser;
-
                     const profile = {
                         firstname: firstname,
                         surname: surname,
@@ -108,6 +107,7 @@ module.exports = () => {
                     };
 
                     userProfileDao.createUserProfile(redis, userId, profile, (err) => {
+
                         if (err) {
                             server.log(['error', 'database', 'create'], err);
                             return cb(err);
