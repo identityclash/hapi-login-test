@@ -43,7 +43,7 @@
     "hapi-auth-basic": "git+https://github.com/identityclash/hapi-auth-basic.git",
     "hapi-auth-hawk": "3.x",
     "hapi-ioredis": "2.2.x",
-    "hawk": "5.1.x",
+    "hawk": "^6.0.x",
     "hkdf": "0.0.2",
     "hoek": "4.0.x",
     "inert": "4.0.x",
