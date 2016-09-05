@@ -91,6 +91,11 @@ module.exports = [
                 expiresIn: 0,
                 privacy: 'public'
             },
+            ext: {
+                onPreResponse: {
+                    method: ErrorPreResponse
+                }
+            },
             handler: {
                 webHandler: {
                     type: 'error'

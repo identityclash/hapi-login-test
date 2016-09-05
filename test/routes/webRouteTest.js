@@ -106,6 +106,24 @@ describe('server/routes/webRoute', () => {
         });
     });
 
+    it('has GET path /error/{statusCode}', (done) => {
+
+        const statusCode = 404;
+
+        testServer.inject({
+            method: 'GET',
+            url: `/error/${statusCode}`
+        }, (res) => {
+
+            expect(testHandlerNameContainer).to.include(PASSED_THRU + 'webHandler');
+            expect(res.headers['content-type']).to.include('application/json');
+            expect(res.statusCode).to.equal(200);
+            expect(res.result).to.be.true();
+
+            return done();
+        });
+    });
+
     it('has GET path /registration', (done) => {
 
         testServer.inject({
