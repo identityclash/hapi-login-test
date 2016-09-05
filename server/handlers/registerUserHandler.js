@@ -53,6 +53,7 @@ module.exports = () => {
                 addSalt: (cb) => {
 
                     Bcrypt.genSalt(10, (err, salt) => {
+
                         if (err) {
                             server.log(['error', 'hash'], err);
                             return cb(err);
@@ -66,6 +67,7 @@ module.exports = () => {
                     const salt = addSalt;
 
                     Bcrypt.hash(password, salt, (err, hashedPw) => {
+
                         if (err) {
                             server.log(['error', 'hash'], err);
                             return cb(err);
@@ -89,6 +91,7 @@ module.exports = () => {
                     };
 
                     userDao.createUser(redis, user, (err) => {
+
                         if (err) {
                             server.log(['error', 'database', 'create'], err);
                             return cb(err);

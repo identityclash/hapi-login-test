@@ -16,7 +16,7 @@ module.exports = () => {
         const cookieSession = request.state['Hawk-Session-Token'];
 
         if (!(cookieSession && cookieSession.hawkSessionToken)) {
-            server.log([], 'session cookie not found');
+            server.log(['security', 'session', 'cookie'], 'session cookie not found');
             return reply.redirect('/login');
         }
 

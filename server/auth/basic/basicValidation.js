@@ -22,6 +22,7 @@ exports.validate = (request, usernameOrEmail, password, callback) => {
 
             userDao.readUserId(redis, usernameOrEmail, (err, userId) => {
                 if (err || !userId) {
+                    server.log(['error', 'database', 'read'], err);
                     return cb(err || 'invalid');
                 }
 
@@ -58,7 +59,6 @@ exports.validate = (request, usernameOrEmail, password, callback) => {
     }, (err, results) => {
 
         if (err) {
-            server.log(err);
             return callback(err === 'invalid' ? null : Boom.internal(), false, null);
         }
 
@@ -76,6 +76,7 @@ internals.compareHashAndRealm = (request, userId, password, cb) => {
     userDao.readUserHashAndRealm(redis, userId, (err, dbHashAndRealm) => {
 
         if (err || !dbHashAndRealm) {
+            server.log(['error', 'database', 'read'], err);
             return cb(err, false);
         }
 
@@ -112,6 +113,7 @@ internals.generateCredentials = (request, userId, cb) => {
         }, (err) => {
 
             if (err) {
+                server.log(['error', 'database', 'create'], err);
                 return cb(err);
             }
 
