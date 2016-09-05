@@ -3,6 +3,7 @@
  */
 'use strict';
 
+const ErrorPreResponse = require('./preresponse/errorPreResponse');
 const HawkPreAuth = require('./preauth/hawkPreAuth');
 
 const security = {
@@ -70,14 +71,30 @@ module.exports = [
         path: '/login',
         method: 'GET',
         config: {
+            cache: {
+                expiresIn: 0,
+                privacy: 'public'
+            },
             handler: {
                 webHandler: {
                     type: 'index'
                 }
             },
+            security
+        }
+    },
+    {
+        path: '/error/{statusCode}',
+        method: 'GET',
+        config: {
             cache: {
                 expiresIn: 0,
                 privacy: 'public'
+            },
+            handler: {
+                webHandler: {
+                    type: 'error'
+                }
             },
             security
         }
@@ -102,11 +119,6 @@ module.exports = [
         path: '/user/{userId}/welcome',
         method: 'GET',
         config: {
-            ext: {
-                onPreAuth: {
-                    method: HawkPreAuth
-                }
-            },
             auth: {
                 mode: 'required',
                 strategies: ['hawk-login-auth-strategy']
@@ -114,6 +126,14 @@ module.exports = [
             cache: {
                 expiresIn: 0,
                 privacy: 'private'
+            },
+            ext: {
+                onPreAuth: {
+                    method: HawkPreAuth
+                },
+                onPreResponse: {
+                    method: ErrorPreResponse
+                }
             },
             handler: {
                 welcomeUserHandler: {
@@ -130,6 +150,11 @@ module.exports = [
             cache: {
                 expiresIn: 0,
                 privacy: 'private'
+            },
+            ext: {
+                onPreResponse: {
+                    method: ErrorPreResponse
+                }
             },
             handler: {
                 logoutUserHandler: {

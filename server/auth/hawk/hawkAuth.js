@@ -18,9 +18,8 @@ exports.register = (server, options, next) => {
             userCredentialDao.readUserCredential(redis, sessionId, (err, dbCredentials) => {
 
                 if (err) {
-                    server.log(err);
-
-                    return callback(Boom.serverUnavailable(err));
+                    server.log(['error', 'database', 'read'], err);
+                    return callback(Boom.serverUnavailable());
                 }
 
                 if (!Object.keys(dbCredentials).length) {

@@ -14,15 +14,20 @@ module.exports = () => {
         const dao = server.methods.dao;
         const userDao = dao.userDao;
         const authCredentials = request.auth.credentials;
-        const userId = authCredentials.userId;
+        const credentialUserId = authCredentials.userId;
+        const paramUserId = request.params.userId;
 
         const credentials = {
             hawkSessionToken: authCredentials.hawkSessionToken,
             algorithm: authCredentials.algorithm,
-            userId: userId
+            userId: credentialUserId
         };
 
-        userDao.readUsername(redis, userId, (err, username) => {
+        if (credentialUserId !== paramUserId) {
+            return reply(Boom.forbidden());
+        }
+
+        userDao.readUsername(redis, credentialUserId, (err, username) => {
 
             if (err) {
                 server.log(['error', 'database', 'read'], err);
@@ -30,7 +35,7 @@ module.exports = () => {
             }
 
             const details = {
-                userId: userId,
+                userId: credentialUserId,
                 username: username
             };
 

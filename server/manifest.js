@@ -91,7 +91,11 @@ const manifest = {
                     routes: [
                         {
                             includes: ['server/routes/**/*.js'],
-                            ignores: ['server/routes/preauth/*.js', 'server/routes/schemas/*.js']
+                            ignores: [
+                                'server/routes/preauth/*.js',
+                                'server/routes/preresponse/*.js',
+                                'server/routes/schemas/*.js'
+                            ]
                         }
                     ],
                     handlers: [

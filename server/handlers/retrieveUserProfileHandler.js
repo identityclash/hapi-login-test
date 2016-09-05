@@ -21,9 +21,7 @@ module.exports = () => {
         const oldSessionId = credentials.id;
 
         if (request.params.userId !== credentials.userId) {
-            return reply(Boom.forbidden().output.payload)
-                .code(Boom.forbidden().output.statusCode)
-                .header('X-Permitted-Cross-Domain-Policies', 'master-only');
+            return reply(Boom.forbidden());
         }
 
         generateToken(request.info.host + '/hawkSessionToken', null, (newSessionId, newAuthKey, newToken) => {
@@ -45,10 +43,7 @@ module.exports = () => {
 
                 if (err) {
                     server.log(['error', 'database', 'update'], err);
-                    return reply(Boom.internal().output.payload)
-                        .code(Boom.internal().output.statusCode)
-                        .unstate('Hawk-Session-Token')
-                        .header('X-Permitted-Cross-Domain-Policies', 'master-only');
+                    return reply(Boom.internal());
                 }
 
                 const newCredentials = {
@@ -61,10 +56,7 @@ module.exports = () => {
 
                     if (err) {
                         server.log(['error', 'database', 'read'], err);
-                        return reply(Boom.internal().output.payload)
-                            .code(Boom.internal().output.statusCode)
-                            .unstate('Hawk-Session-Token')
-                            .header('X-Permitted-Cross-Domain-Policies', 'master-only');
+                        return reply(Boom.internal());
                     }
 
                     return reply(userProfile)

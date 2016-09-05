@@ -3,6 +3,7 @@
  */
 'use strict';
 
+const ErrorPreResponse = require('./preresponse/errorPreResponse');
 const HawkPreAuth = require('./preauth/hawkPreAuth');
 const Schema = require('./schemas/schema');
 
@@ -22,14 +23,14 @@ module.exports = [
         path: '/user/registration',
         method: 'POST',
         config: {
+            cache: {
+                expiresIn: 0,
+                privacy: 'private'
+            },
             handler: {
                 registerUserHandler: {
                     type: 'register'
                 }
-            },
-            cache: {
-                expiresIn: 0,
-                privacy: 'private'
             },
             validate: {
                 payload: {
@@ -49,20 +50,23 @@ module.exports = [
         path: '/user/{userId}/profile',
         method: 'GET',
         config: {
+            auth: 'hawk-login-auth-strategy',
+            cache: {
+                expiresIn: 1 * 1000,
+                privacy: 'private'
+            },
             ext: {
                 onPreAuth: {
                     method: HawkPreAuth
+                },
+                onPreResponse: {
+                    method: ErrorPreResponse
                 }
             },
-            auth: 'hawk-login-auth-strategy',
             handler: {
                 retrieveUserProfileHandler: {
                     type: 'profile'
                 }
-            },
-            cache: {
-                expiresIn: 1 * 1000,
-                privacy: 'private'
             },
             security
         }
@@ -78,6 +82,11 @@ module.exports = [
             cache: {
                 expiresIn: 0,
                 privacy: 'private'
+            },
+            ext: {
+                onPreResponse: {
+                    method: ErrorPreResponse
+                }
             },
             handler: {
                 loginUserHandler: {

@@ -3,7 +3,7 @@
  */
 'use strict';
 
-const errors = require(process.cwd() + '/server/helpers/errorPageContext');
+const Boom = require('boom');
 
 module.exports = (route, options) => {
 
@@ -22,7 +22,7 @@ module.exports = (route, options) => {
         }
 
         if (options.type === 'notfound') {
-            return reply.view('error', errors[404]).code(404);
+            return reply(Boom.notFound());
         }
 
         return reply.continue();
