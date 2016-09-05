@@ -1,10 +1,9 @@
 /**
  * Created by Omnius on 6/27/16.
  */
+
 const submitForm = () => {
 
-    // TODO: Supposedly needs sanitation using ESAPI.encoder().encodeForJavascript() or some other sanitation
-    // mechanism on inputUsername and inputPassword
     const username = $('#inputUsername').val();
     const password = $('#inputPassword').val();
 
@@ -16,8 +15,6 @@ const submitForm = () => {
         url: '/auth/basic',
         processData: false,
         success: function(data, textStatus, jQxhr){
-            console.log(data);
-
             $('#formLogin').attr('action', `/user/${data.userId}/welcome`);
             $('#formLogin').submit();
         },

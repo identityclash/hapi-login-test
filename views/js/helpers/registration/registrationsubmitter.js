@@ -14,8 +14,6 @@ const submitForm = () => {
     $('#alertInvalidBirthDate').addClass('hidden');
     $('#alertUserExists').addClass('hidden');
 
-    // TODO: Supposedly needs sanitation using ESAPI.encoder().encodeForJavascript() or some other sanitation
-    // mechanism on input fields
     const username = $('#inputUsername').val();
     const email = $('#inputEmail').val();
     const password = $('#inputPassword').val();
@@ -81,7 +79,7 @@ const submitForm = () => {
                     }
                 ];
 
-                for (let i = 0; i < items.length; i++) {
+                for (let i = 0; i < items.length; ++i) {
                     if (xhr.responseJSON.message.toLowerCase().indexOf(items[i].issue) > -1) {
                         $(`#${items[i].id}`).removeClass('hidden');
                     }
@@ -89,7 +87,7 @@ const submitForm = () => {
             }
             if (xhr.status === 500) {
                 const protocol = location.protocol + '//';
-                window.location = protocol + location.host + '/html/500.html';
+                window.location = protocol + location.host + '/error/500';
             }
         }
     });

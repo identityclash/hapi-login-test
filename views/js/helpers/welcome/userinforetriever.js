@@ -11,7 +11,7 @@ const retrieveUserInfo = function () {
     if (pathnameArray[1] === 'user') {
         userId = pathnameArray[2];
     } else {
-        // TODO: redirect to error page - 404 resource not found
+        $('#alertForbidden').removeClass('hidden');
     }
 
     const requestUrl = requestProtocol + location.host + '/user/' + userId + '/profile';
@@ -19,10 +19,8 @@ const retrieveUserInfo = function () {
     $.ajax({
         type: 'GET',
         url: requestUrl,
-        data: {},
         crossDomain: false,
         success: function (data, textStatus, xhr) {
-            console.log('status: ' + textStatus);
 
             $('.profile-info').css('visibility', 'visible');
 
@@ -30,8 +28,10 @@ const retrieveUserInfo = function () {
             $('#profile-surname').text(data.surname);
             $('#profile-birthdate').text(data.birthdate);
         },
-        error: function (jqXHR, textStatus, errorThrown) {
+        error: function (xhr, textStatus, errorThrown) {
             console.log('error: ' + textStatus + ' ' + errorThrown);
+
+            $('#alertForbidden').removeClass('hidden');
         }
     });
 };

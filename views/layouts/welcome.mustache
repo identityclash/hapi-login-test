@@ -9,6 +9,9 @@
     <h3 class="profile-welcome">Welcome, {{username}}!</h3>
     <button type="button" id="btnRetrieve" class="btn btn-primary">View User Details</button>
     <div class="profile-info">
+        <div id="alertForbidden" class="alert alert-danger hidden">
+            <strong>Error</strong> You are forbidden from accessing the resource.
+        </div>
         <table class="table">
             <tr class="info">
                 <td>First Name:</td><td id="profile-firstname"></td>
