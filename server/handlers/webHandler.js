@@ -27,6 +27,7 @@ module.exports = (route, options) => {
 
         if (type === 'index') {
             return reply.view('login')
+                .header('Cache-Control', 'no-cache, no-store, must-revalidate')
                 .header('X-Permitted-Cross-Domain-Policies', 'master-only');
         }
 

@@ -3,6 +3,8 @@
  */
 'use strict';
 
+const ErrorPreResponse = require('./preresponse/errorPreResponse');
+
 const security = {
     xframe: {
         rule: 'sameorigin'
@@ -38,6 +40,11 @@ module.exports = [
         config: {
             cache: {
                 privacy: 'public'
+            },
+            ext: {
+                onPreResponse: {
+                    method: ErrorPreResponse
+                }
             },
             handler: {
                 rootHandler: {
