@@ -3,6 +3,7 @@
  */
 'use strict';
 
+const Boom = require('boom');
 const Code = require('code');
 const Lab = require('lab');
 
@@ -48,6 +49,17 @@ testServer.route([
             handler: {
                 webHandler: {
                     type: 'somethingelse'
+                }
+            }
+        }
+    },
+    {
+        path: '/error/{statusCode}',
+        method: '*',
+        config: {
+            handler: {
+                webHandler: {
+                    type: 'error'
                 }
             }
         }
@@ -118,6 +130,115 @@ describe('server/handlers/webHandler', () => {
 
             expect(res.statusCode).to.equal(200);
             expect(res.result).to.be.null();
+
+            return done();
+        });
+    });
+
+    it('returns error 400', (done) => {
+
+        const statusCode = 400;
+
+        testServer.inject({
+            method: 'GET',
+            url: `/error/${statusCode}`
+        }, (res) => {
+
+            expect(res.headers['content-type']).to.include('application/json');
+            expect(res.statusCode).to.equal(statusCode);
+            expect(res.result).to.be.an.object();
+            expect(res.result.error).to.equal(Boom.badRequest().message);
+
+            return done();
+        });
+    });
+
+    it('returns error 401', (done) => {
+
+        const statusCode = 401;
+
+        testServer.inject({
+            method: 'GET',
+            url: `/error/${statusCode}`
+        }, (res) => {
+
+            expect(res.headers['content-type']).to.include('application/json');
+            expect(res.statusCode).to.equal(statusCode);
+            expect(res.result).to.be.an.object();
+            expect(res.result.error).to.equal(Boom.unauthorized().message);
+
+            return done();
+        });
+    });
+
+    it('returns error 403', (done) => {
+
+        const statusCode = 403;
+
+        testServer.inject({
+            method: 'GET',
+            url: `/error/${statusCode}`
+        }, (res) => {
+
+            expect(res.headers['content-type']).to.include('application/json');
+            expect(res.statusCode).to.equal(statusCode);
+            expect(res.result).to.be.an.object();
+            expect(res.result.error).to.equal(Boom.forbidden().message);
+
+            return done();
+        });
+    });
+
+    it('returns error 404', (done) => {
+
+        const statusCode = 404;
+
+        testServer.inject({
+            method: 'GET',
+            url: `/error/${statusCode}`
+        }, (res) => {
+
+            expect(res.headers['content-type']).to.include('application/json');
+            expect(res.statusCode).to.equal(statusCode);
+            expect(res.result).to.be.an.object();
+            expect(res.result.error).to.equal(Boom.notFound().message);
+
+            return done();
+        });
+    });
+
+    it('returns error 500', (done) => {
+
+        const statusCode = 500;
+
+        testServer.inject({
+            method: 'GET',
+            url: `/error/${statusCode}`
+        }, (res) => {
+
+            expect(res.headers['content-type']).to.include('application/json');
+            expect(res.statusCode).to.equal(statusCode);
+            expect(res.result).to.be.an.object();
+            expect(res.result.error).to.equal(Boom.internal().message);
+
+            return done();
+        });
+    });
+
+    it('returns error 600', (done) => {
+
+        const statusCode = 600;
+
+        testServer.inject({
+            method: 'GET',
+            url: `/error/${statusCode}`
+        }, (res) => {
+
+            expect(res.headers['content-type']).to.include('application/json');
+            // will intentionally throw internal server error
+            expect(res.statusCode).to.equal(500);
+            expect(res.result).to.be.an.object();
+            expect(res.result.error).to.equal(Boom.internal().message);
 
             return done();
         });

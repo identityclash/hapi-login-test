@@ -163,7 +163,6 @@ describe('server/handlers/retrieveUserProfileHandler', () => {
                 expect(res.result).to.be.object();
                 expect(res.result.error).to.equal(Boom.forbidden().message);
                 expect(clonedTestCredentials['userCredential:4745418325d782929193e5636bba34ebe728114171b72cb62b74dbcee0bff0b4']).to.exist();
-                expect(res.headers['x-permitted-cross-domain-policies']).to.equal('master-only');
 
                 return done();
             });
@@ -269,30 +268,7 @@ describe('server/handlers/retrieveUserProfileHandler', () => {
                 expect(res.result).to.be.object();
                 expect(res.result.error).to.equal(Boom.internal().message);
                 expect(clonedTestCredentials['userCredential:4745418325d782929193e5636bba34ebe728114171b72cb62b74dbcee0bff0b4']).to.not.exist();
-
-                let cookie;
-
-                for (let i = 0; i < res.headers['set-cookie'].length; i++) {
-                    if (res.headers['set-cookie'][i].indexOf('Hawk-Session-Token') > -1) {
-                        cookie = res.headers['set-cookie'][i];
-                        break;
-                    }
-                }
-
-                const cookieFields = cookie.split(';');
-
-                let hawkSessionValue;
-
-                for (const idx in cookieFields) {
-                    if (cookieFields[idx].indexOf('Hawk-Session-Token') > -1) {
-                        /* Get token value for testing */
-                        hawkSessionValue = cookieFields[idx].split('=')[1];
-                        break;
-                    }
-                }
-
-                expect(hawkSessionValue).to.be.empty();
-                expect(res.headers['x-permitted-cross-domain-policies']).to.equal('master-only');
+                expect(res.headers['set-cookie']).to.not.exist();
 
                 return done();
             });
@@ -331,30 +307,7 @@ describe('server/handlers/retrieveUserProfileHandler', () => {
                 expect(res.result).to.be.object();
                 expect(res.result.error).to.equal(Boom.internal().message);
                 expect(clonedTestCredentials['userCredential:4745418325d782929193e5636bba34ebe728114171b72cb62b74dbcee0bff0b4']).to.not.exist();
-
-                let cookie;
-
-                for (let i = 0; i < res.headers['set-cookie'].length; i++) {
-                    if (res.headers['set-cookie'][i].indexOf('Hawk-Session-Token') > -1) {
-                        cookie = res.headers['set-cookie'][i];
-                        break;
-                    }
-                }
-
-                const cookieFields = cookie.split(';');
-
-                let hawkSessionValue;
-
-                for (const idx in cookieFields) {
-                    if (cookieFields[idx].indexOf('Hawk-Session-Token') > -1) {
-                        /* Get token value for testing */
-                        hawkSessionValue = cookieFields[idx].split('=')[1];
-                        break;
-                    }
-                }
-
-                expect(hawkSessionValue).to.be.empty();
-                expect(res.headers['x-permitted-cross-domain-policies']).to.equal('master-only');
+                expect(res.headers['set-cookie']).to.not.exist();
 
                 return done();
             });

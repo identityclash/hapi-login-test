@@ -103,7 +103,7 @@ describe('server/handlers/welcomeUserHandler', () => {
 
                 let cookie;
 
-                for (let i = 0; i < res.headers['set-cookie'].length; i++) {
+                for (let i = 0; i < res.headers['set-cookie'].length; ++i) {
                     if (res.headers['set-cookie'][i].indexOf('Hawk-Session-Token') > -1) {
                         cookie = res.headers['set-cookie'][i];
                         break;
@@ -125,6 +125,23 @@ describe('server/handlers/welcomeUserHandler', () => {
                 expect(hawkSessionValue).to.be.not.empty();
                 expect(res.headers['x-permitted-cross-domain-policies']).to.equal('master-only');
                 expect(res.headers['cache-control']).to.equal('no-cache, no-store, must-revalidate');
+
+                return done();
+            });
+        });
+
+        it('returns 401', (done) => {
+
+            testServer.inject({
+                method: 'GET',
+                url: '/user/e/welcome'
+            }, (res) => {
+
+                expect(res.headers['set-cookie']).to.not.exist();
+                expect(res.statusCode).to.equal(Boom.forbidden().output.statusCode);
+                expect(res.result).to.be.object();
+                expect(res.result.error).to.equal(Boom.forbidden().message);
+                expect(res.headers['content-type']).to.include('application/json');
 
                 return done();
             });

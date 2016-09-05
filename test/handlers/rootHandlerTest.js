@@ -3,6 +3,7 @@
  */
 'use strict';
 
+const Boom = require('boom');
 const Code = require('code');
 const Lab = require('lab');
 
@@ -99,9 +100,9 @@ describe('server/handlers/rootHandler', () => {
             url: '/hello'
         }, (res) => {
 
-            expect(res.statusCode).to.equal(404);
-            expect(res.result).to.contain('<!doctype html>');
-            expect(res.result.toLowerCase()).to.contain('page not found');
+            expect(res.statusCode).to.equal(Boom.notFound().output.statusCode);
+            expect(res.result).to.be.object();
+            expect(res.result.error).to.equal(Boom.notFound().message);
 
             return done();
         });
