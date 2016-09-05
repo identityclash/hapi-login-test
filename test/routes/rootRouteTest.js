@@ -8,6 +8,7 @@ const Boom = require('boom');
 const Code = require('code');
 const Lab = require('lab');
 
+const ErrorContext = require(process.cwd() + '/server/helpers/errorContext');
 const RootRoute = require(process.cwd() + '/server/routes/rootRoute');
 const TestServer = require('../testServer');
 
@@ -67,6 +68,7 @@ describe('server/routes/rootRoute', () => {
     it('has GET, POST, PUT, and DELETE path /hello-world', (done) => {
 
         const methodNames = ['GET', 'POST', 'PUT', 'DELETE'];
+        const statusCode = 404;
 
         Async.each(methodNames, (name, next) => {
 
@@ -75,8 +77,9 @@ describe('server/routes/rootRoute', () => {
                 url: '/hello-world'
             }, (res) => {
 
-                expect(res.statusCode).to.equal(404);
-                expect(res.result.error).to.equal(Boom.notFound().message);
+                expect(res.statusCode).to.equal(statusCode);
+                expect(res.headers['content-type']).to.include('text/html');
+                expect(res.result.toString()).to.contain(ErrorContext[statusCode].custom);
 
                 return next();
             });
