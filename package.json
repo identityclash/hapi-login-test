@@ -37,7 +37,7 @@
     "glue": "4.x",
     "good": "7.0.x",
     "good-console": "6.1.x",
-    "good-squeeze": "4.x",
+    "good-squeeze": "^5.0.0",
     "handlebars": "4.0.x",
     "hapi": "^15.0.3",
     "hapi-auth-basic": "^4.2.0",
@@ -45,7 +45,7 @@
     "hapi-ioredis": "2.2.x",
     "hawk": "^6.0.x",
     "hkdf": "0.0.2",
-    "hoek": "4.0.x",
+    "hoek": "^4.0.0",
     "inert": "4.0.x",
     "iron": "4.0.x",
     "joi": "^9.0.4",
@@ -58,7 +58,7 @@
     "visionary": "6.0.x"
   },
   "devDependencies": {
-    "code": "3.0.x",
+    "code": "^4.0.0",
     "coveralls": "^2.11.12",
     "lab": "11.x",
     "sinon": "1.x"
