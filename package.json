@@ -24,9 +24,9 @@
   },
   "dependencies": {
     "acquaint": "1.x",
-    "async": "2.0.x",
+    "async": "^2.1.2",
     "bcryptjs": "2.x",
-    "blankie": "1.2.x",
+    "blankie": "^2.0.0",
     "boom": "^4.0.0",
     "confidence": "3.0.x",
     "crumb": "^6.0.3",
