@@ -36,7 +36,7 @@
     "fakeredis": "^1.x",
     "glue": "4.x",
     "good": "7.0.x",
-    "good-console": "6.1.x",
+    "good-console": "^6.3.0",
     "good-squeeze": "^5.0.0",
     "handlebars": "4.0.x",
     "hapi": "^15.0.3",
