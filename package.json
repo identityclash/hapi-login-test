@@ -49,6 +49,7 @@
     "inert": "4.0.x",
     "iron": "4.0.x",
     "joi": "^10.0.2",
+    "joi-date-extensions": "^1.0.1",
     "json-stringify-safe": "5.0.x",
     "lodash": "^4.15.0",
     "request": "2.x",

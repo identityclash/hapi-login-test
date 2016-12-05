@@ -3,7 +3,10 @@
  */
 'use strict';
 
-const Joi = require('joi');
+const Extension = require('joi-date-extensions');
+const BaseJoi = require('joi');
+
+const Joi = BaseJoi.extend(Extension);
 
 module.exports = {
     username: Joi.string().required().min(3).max(20).regex(/^([a-zA-Z0-9]{3,20})$/),
