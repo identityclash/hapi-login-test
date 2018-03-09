@@ -31,7 +31,7 @@
     "confidence": "3.0.x",
     "crumb": "^6.0.3",
     "cryptiles": "3.x",
-    "disinfect": "0.x",
+    "disinfect": "1.0.0",
     "eslint": "^3.4.0",
     "fakeredis": "^1.x",
     "glue": "4.x",
