@@ -32,7 +32,7 @@
     "crumb": "^6.0.3",
     "cryptiles": "3.x",
     "disinfect": "0.x",
-    "eslint": "^3.4.0",
+    "eslint": "^4.18.2",
     "fakeredis": "^1.x",
     "glue": "4.x",
     "good": "^7.0.0",
