@@ -28,7 +28,7 @@
     "bcryptjs": "2.x",
     "blankie": "^2.0.0",
     "boom": "^4.0.0",
-    "confidence": "3.0.x",
+    "confidence": "5.0.1",
     "crumb": "^6.0.3",
     "cryptiles": "3.x",
     "disinfect": "0.x",
