@@ -42,7 +42,7 @@
     "hapi": "^16.0.1",
     "hapi-auth-basic": "^4.2.0",
     "hapi-auth-hawk": "3.x",
-    "hapi-ioredis": "2.2.x",
+    "hapi-ioredis": "2.3.0",
     "hawk": "^6.0.x",
     "hkdf": "0.0.2",
     "hoek": "^4.0.0",
